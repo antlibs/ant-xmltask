@@ -7,7 +7,7 @@
 # The script below handles all of that, but should be re-written
 # as a data-set-driven test suite
 
-my @tests = (1..39,41..87);
+my @tests = (1..39,41..88);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -24,9 +24,14 @@ if (-e $xmlcatalog) {
 
 foreach $i ( @tests ) {
   my $nofile = 0;
+  my $args = "";
   if ($i == 62 || $i == 75 || $i == 81 || $i == 87) {
     # which tests shouldn't return results ?
     $nofile = 1;
+    print "No output expected for #" . $i . "\n";
+  }
+  if ($i == 88) {
+    $args = "test test";
   }
   my $build = "build-$i.xml";
   if (`grep "JIS" $build` && $jv =~ /1.3/) {
@@ -34,7 +39,7 @@ foreach $i ( @tests ) {
   }
   else {
     print "Running $build\n";
-    `ant -buildfile $build`;
+    `ant -buildfile $build $args`;
     my $res = $i."-out.xml";
     my $cmp = "results/".$res;
     if ($jv =~ /1.5/ && -e "results/".$i."-1.5-out.xml") {

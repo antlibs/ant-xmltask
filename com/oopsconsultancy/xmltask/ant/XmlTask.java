@@ -575,6 +575,9 @@ public class XmlTask extends Task {
       }
       processDoc(document, destfile);
     }
+
+    // and clear the doc list for the next invocation
+    docs.clear();
   }
 
   /**
