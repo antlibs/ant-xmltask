@@ -383,11 +383,6 @@ public class XmlTask extends Task {
   public void execute() throws BuildException {
     log("Executing xmltask " + getVersion(), Project.MSG_VERBOSE);
 
-    // first clear any buffers requested
-    for (int b = 0; b < buffers.length; b++) {
-      BufferStore.clear(buffers[b], this);
-    }
-
     if (docs.size() == 0 && todir) {
       throw new BuildException("No input documents");
     }
@@ -417,6 +412,12 @@ public class XmlTask extends Task {
         doc = fspec.name;
       }
       log("Processing " + (doc == null ? "" : doc) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
+
+      // first clear any buffers requested
+      for (int b = 0; b < buffers.length; b++) {
+        BufferStore.clear(buffers[b], this);
+      }
+
       Document document = null;
       try {
         if (doc != null) {

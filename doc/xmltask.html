@@ -144,7 +144,7 @@ To use this task, make sure:
 </tr><tr>
   <td>outputter</td><td>determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.</td><td align="centre">no</td>
 </tr><tr>
-  <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
+  <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are cleared after every input file is processed. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
 </tr>
 </table>
 <p>
@@ -550,9 +550,9 @@ Some examples of common usage:
     &lt;copy path="//div[@id='1']/@id" attrValue="true" property="value"/&gt;
   </pre>
   <p>
-  <li>Copying multiple values into one buffer. Note the clearing of buffers <code>a</code>, <code>b</code> and <code>c</code> prior to appending:
+  <li>Copying multiple values into one buffer. Note the clearing of buffers <code>a</code>, <code>b</code> and <code>c</code> prior to appending. Buffer <code>b</code> contains all the <code>div</code> elements for each input file :
   <pre>
-    &lt;xmltask source="web.xml" clearBuffers="a,b,c"&gt; 
+    &lt;xmltask source="*.xml" clearBuffers="a,b,c"&gt; 
       &lt;copy path="//div" buffer="b" append="true"/&gt;
       ...
   </pre>
