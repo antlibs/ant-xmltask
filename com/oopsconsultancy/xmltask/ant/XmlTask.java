@@ -83,10 +83,8 @@ public class XmlTask extends Task {
     doctype_system = s;
   }
 
-  public void setPreserveType(String p) {
-    if ("on".equals(p) || "true".equals(p)) {
-      preservetype = true;
-    }
+  public void setPreserveType(boolean p) {
+    this.preservetype = p;
   }
 
   private String getPathPrefix() {
@@ -325,10 +323,8 @@ public class XmlTask extends Task {
    *
    * @param report
    */
-  public void setReport(String report) {
-    if ("on".equals(report) || "true".equals(report)) {
-      reporting = true;
-    }
+  public void setReport(boolean report) {
+    this.reporting = report;
   }
 
   /**
@@ -338,13 +334,8 @@ public class XmlTask extends Task {
    *
    * @param norm
    */
-  public void setNormalize(String norm) {
-    if ("on".equals(norm) || "true".equals(norm)) {
-      normalize = true;
-    }
-    if ("off".equals(norm) || "false".equals(norm)) {
-      normalize = false;
-    }
+  public void setNormalize(boolean norm) {
+    this.normalize = norm;
   }
 
   /**
@@ -353,13 +344,8 @@ public class XmlTask extends Task {
    *
    * @param i
    */
-  public void setIndent(String in) {
-    if ("on".equals(in) || "true".equals(in)) {
-      indent = true;
-    }
-    if ("off".equals(in) || "false".equals(in)) {
-      indent = false;
-    }
+  public void setIndent(boolean in) {
+    this.indent = in;
   }
 
   /**
@@ -640,10 +626,8 @@ public class XmlTask extends Task {
     resolver.registerEntity(this, remote, local);
   }
 
-  public void setFailWithoutMatch(String f) {
-    if ("on".equals(f) || "true".equals(f)) {
-      failWithoutMatch = true;
-    }
+  public void setFailWithoutMatch(boolean f) {
+    this.failWithoutMatch = f;
   }
 
   public boolean isFailWithoutMatch() {
