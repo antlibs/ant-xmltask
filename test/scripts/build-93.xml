@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $Id$ -->
+<project name="" default="main">
+<!-- this test checks that the call task resets parameters
+     (particularly XPath parameters) between calls. The second
+     node in the resultant XML should be 'unset' -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <target name="main">
+  <xmltask dest="93-out.xml">
+    <insert path="/">
+      <![CDATA[
+        <root/>
+      ]]>
+    </insert>
+  </xmltask>
+    <xmltask source="93.xml">
+      <call target="echo" path="/test/tes" >
+        <param name='number' path='@number'/>
+        <param name='value' path='@value'/>
+      </call>
+    </xmltask>
+  </target> 
+
+  <target name="echo">
+    <echo>number : ${number}, value : ${value} </echo>
+    <xmltask source="93-out.xml" dest="93-out.xml">
+<insert path="/root">
+      <![CDATA[
+      <number>
+        ${number} = ${value}
+      </number>
+      ]]>
+      </insert>
+
+    </xmltask>
+  </target>
+</project>

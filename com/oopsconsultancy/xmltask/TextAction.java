@@ -1,13 +1,13 @@
 package com.oopsconsultancy.xmltask;
- 
+
 import org.w3c.dom.*;
 
-/** 
+/**
  * modifies the text nodes nominated. If the node
  * is a text node then it's modified, otherwise
  * it is removed and a text node inserted in its
  * place
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -18,7 +18,7 @@ public class TextAction extends Action {
   public TextAction(String str) {
     if (str == null) {
       throw new IllegalArgumentException("TextAction replacement can't be null");
-    }  
+    }
     this.str = str;
   }
 
@@ -28,6 +28,7 @@ public class TextAction extends Action {
       n.setNodeValue(str);
     }
     else {
+      // TODO - handle attributes...
       remove(n);
 
       Node nn = doc.createTextNode(str);
@@ -39,7 +40,7 @@ public class TextAction extends Action {
   private boolean isTextNode(Node n) {
     if (n == null) {
       return false;
-    }  
+    }
     short nodeType = n.getNodeType();
     return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
   }

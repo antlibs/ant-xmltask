@@ -28,7 +28,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
 
   private Ant callee;
 
-  public CallAction(String target, XmlTask task, boolean inheritAll, boolean inheritRefs, String buffer, List params) {
+  public CallAction(final String target, final XmlTask task, final boolean inheritAll, final boolean inheritRefs, final String buffer, final List params) {
     this.target = target;
     this.task = task;
     this.inheritAll = inheritAll;
@@ -47,6 +47,19 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.setTaskName(task.getTaskName());
     callee.setLocation(task.getLocation());
     callee.init();
+    }
+
+  /**
+   * reset the set of parameters. We only reset XPath settings
+   * since properties will remain the same between invocations
+   */
+  private void resetParams() {
+    for (Iterator i = params.iterator(); i.hasNext(); ) {
+      Param param = (Param)i.next();
+      if (param.getPath() != null) {
+        param.setValue(null);
+      }
+    }
   }
 
   public void applyNode(Node n, Object callback) {
@@ -60,9 +73,11 @@ public class CallAction extends Action implements XPathAnalyserClient {
   }
 
   public boolean apply(Node node) throws Exception {
-    if (callee == null) {
-      init();
-    }
+     if (callee == null) {
+    init();
+     }
+     resetParams();
+
     log("Calling target " + target + " for " + node + (buffer != null ? " (in buffer "+buffer:""), Project.MSG_VERBOSE);
 
     if (buffer != null) {
@@ -82,14 +97,18 @@ public class CallAction extends Action implements XPathAnalyserClient {
 
         // now set the values
         String val = param.getValue();
+        Property p = callee.createProperty();
+        p.setName(param.getName());
         if (val != null) {
-          Property p = callee.createProperty();
-          p.setName(param.getName());
           p.setValue(param.getValue());
+        }
+        else {
+          p.setValue("${" +param.getName() + "}");
         }
       }
     }
-    // record the path in special named properties
+    // record the path in special named properties. These are currently
+    // undocumented and may disappear!
     String nodeStr = getNodePath(node, false);
     String fqnodeStr = getNodePath(node, true);
     Property p = callee.createProperty();

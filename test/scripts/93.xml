@@ -1,0 +1,5 @@
+<!-- $Id$ -->
+<test>
+        <tes number="1" value="avalue"/>
+        <tes number="2" />
+</test> 

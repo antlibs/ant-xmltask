@@ -50,6 +50,6 @@ public class Param {
   }
 
   public String toString() {
-    return getName() + " (" + getPath() + ")";
+    return getName() + " = " + value + (path != null ? " [path=" + path + "]" : "");
   }
 }

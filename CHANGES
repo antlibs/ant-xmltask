@@ -1,6 +1,10 @@
 $Id$
 
-1.10.5 --/--/--
+1.10.6 23/03/2005
+
+Added a fix for properties being reset inbetween <call>s. See test/scripts/build-93.xml
+
+1.10.5 29/10/2004
 
 Added xmltask.path and xmltask.fqpath properties to the property set when
 calling stuff via <call>
