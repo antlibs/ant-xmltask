@@ -516,14 +516,15 @@ public class XmlTask extends Task {
       }
     }
 
+    // first clear any buffers requested
+    for (int b = 0; b < buffers.length; b++) {
+      BufferStore.clear(buffers[b], this);
+    }
+
+    // now process each document
     for (int d = 0; d < docs.size(); d++) {
       InputSpec spec = (InputSpec)docs.get(d);
       log("Processing " + (spec == null ? "" : spec.getName()) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
-
-      // first clear any buffers requested
-      for (int b = 0; b < buffers.length; b++) {
-        BufferStore.clear(buffers[b], this);
-      }
 
       Document document = null;
       try {
