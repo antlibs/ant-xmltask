@@ -89,6 +89,16 @@ public class CallAction extends Action implements XPathAnalyserClient {
         }
       }
     }
+    // record the path in special named properties
+    String nodeStr = getNodePath(node, false);
+    String fqnodeStr = getNodePath(node, true);
+    Property p = callee.createProperty();
+    p.setName("xmltask.path");
+    p.setValue(nodeStr);
+    p = callee.createProperty();
+    p.setName("xmltask.fqpath");
+    p.setValue(fqnodeStr);
+
 
     callee.setAntfile(task.getProject().getProperty("ant.file"));
     callee.setTarget(target);
@@ -97,6 +107,25 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.execute();
 
     return true;
+  }
+
+  /**
+   * builds a representation of the node hierarchy
+   *
+   * @param node
+   * @param qualified
+   * @return the local or fully-qualified name
+   */
+  private String getNodePath(Node node, final boolean qualified) {
+    // stringbuffer not good for appending, so...
+    String op = "";
+    while (node != null && node.getParentNode() != null) {
+      if (node.getNodeType() != Node.TEXT_NODE) {
+        op = "/" + (qualified ? node.getLocalName() : node.getNodeName()) + op;
+      }
+      node = node.getParentNode();
+    }
+    return op.toString();
   }
 
   public String toString() {
