@@ -47,7 +47,9 @@ Uses include:
 <a href="#top">Top</a>
 <hr>
 <h4><a name="changes">Recent Changes</a></h4>
-You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<p>
+You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<br>
+XmlTask will require re-compiling to work with JDK 1.5.  See <a href="#issues">Known Issues</a> for more info.<p>
+
 Current version @VERSION@<p>
 Since v1.8
 <ul>
@@ -671,7 +673,8 @@ Some examples of common usage:
 </ul>
 <hr>
 <h4><a name="issues">Known Issues</a></h4>
-The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:
+<ul>
+<li>The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:
 <pre>
 /root/branch/
 </pre>
@@ -681,6 +684,11 @@ and should be replaced with
 </pre>
 Some of the <code>xmltask</code> examples and documentation have used the incorrect syntax. This is now rectified.
 <p>
+<li>Due to JAXP package name changes between earlier versions of the JDK and the new 1.5 release, <code>xmltask</code> will require re-compiling to change package names.<p>
+This is a straightforward change. Simply change the <code>import</code> statements in the files <code>XmlReplace.java</code> and <code>CallAction.java</code>. The appropriate <code>import</code> statements are commented such they can be simply enabled or disabled as required. 
+<p>
+An improved fix will be available shortly.
+</ul>
 <a href="#top">Top</a>
 
 <hr>

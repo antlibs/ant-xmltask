@@ -1,13 +1,19 @@
 package com.oopsconsultancy.xmltask;
 
+import java.util.*;
 import org.w3c.dom.*;
 import com.oopsconsultancy.xmltask.ant.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.taskdefs.*;
-import java.util.*;
+import org.w3c.dom.traversal.*;
+
+// enable the below for JDK 1.3, 1.4
 import org.apache.xpath.objects.*;
 import org.apache.xpath.*;
-import org.w3c.dom.traversal.*;
+
+// enable the below for JDK 1.5
+//import com.sun.org.apache.xpath.internal.*;
+//import com.sun.org.apache.xpath.internal.objects.*;
 
 /**
  * The nominated target is called for

@@ -3,9 +3,15 @@ package com.oopsconsultancy.xmltask;
 import java.util.*;
 import org.w3c.dom.*;
 import org.w3c.dom.traversal.*;
-import org.apache.xpath.*;
 import org.apache.tools.ant.*;
+
+// enable the below for JDK 1.3, 1.4
+import org.apache.xpath.*;
 import org.apache.xpath.objects.*;
+
+// enable the below for JDK 1.5
+//import com.sun.org.apache.xpath.internal.objects.*;
+//import com.sun.org.apache.xpath.internal.*;
 
 /**
  * performs the basic task of identifying the qualifying
