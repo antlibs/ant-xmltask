@@ -1,5 +1,9 @@
 $Id$
 
+1.10.2 (no version change) 19/08/2004
+
+Doc changes and enabled mailing list info. MD5 checksums on the web page
+
 1.10.2 11/06/2004
 
 <call> params can now take properties or static strings rather than just XPath expressions

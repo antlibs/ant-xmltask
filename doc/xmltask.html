@@ -14,6 +14,7 @@
 <li><a href="#intro">Introduction</a>
 <li><a href="#changes">Recent Changes</a>
 <li><a href="#download">Download</a>
+<li><a href="#support">Support</a>
 <li><a href="#usage">Usage</a>
 <li><a href="#buffers">Buffers</a>
 <li><a href="#formatting">Formatting</a>
@@ -44,8 +45,7 @@ Uses include:
 <a href="#top">Top</a>
 <hr>
 <h4><a name="changes">Recent Changes</a></h4>
-You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<p>
-
+A mailing list now exists for &lt;xmltask&gt;. See <a href="#support">Support</a> for more info.
 Current version @VERSION@<p>
 Since v1.9
 <ul>
@@ -77,6 +77,15 @@ See the <code>CHANGES</code> file in the download for a comprehensive list of ch
 <p>
 <b><a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@.tar.gz?download">xmltask.tar.gz</a></b> - the source code and tests 
 <p>
+<font size="-1">
+Checksums:
+<br>
+xmltask.jar - MD5 @JAR_MD5@<br>
+xmltask.jar for Ant 1.4 - MD5 @JAR_14_MD5@<br>
+xmltask.tar.gz - MD5 @GZ_MD5@<br>
+
+</font>
+<p>
 Additional Requirements:<br>
 &nbsp;&nbsp;<i>JDK 1.3</i> - <a href="http://xml.apache.org/xerces-j/index.html">Xerces 1.4.1+</a>, <a href="http://xml.apache.org/xalan-j/index.html">Xalan</a><br>
 &nbsp;&nbsp;<i>JDK 1.4</i> - none
@@ -100,6 +109,13 @@ To use this task, make sure:
     ...
 </pre>    
 </ol>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="support">Support</a></h4>
+&lt;xmltask&gt; now has a support mailing list. 
+<p>Email <a href="mailto:xmltask-users@lists.sourceforge.net">xmltask-users@lists.sourceforge.net</a>
+<p>To subscribe, or view the archives, visit the <a href="http://lists.sourceforge.net/lists/listinfo/xmltask-users">Xmltask-users mail page</a>
+<p>
 <a href="#top">Top</a>
 <hr>
 <h4><a name="usage">Usage</a></h4>
@@ -326,7 +342,7 @@ You can create a new document by not specifying a source file, and making the fi
   </pre>
   Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
   <p>
-  <li> The &lt;attr&gt; section allows you to specify an XML node and how to change or remove its attributes
+  <li> The &lt;attr&gt; section allows you to specify an XML node and how to add, change or remove its attributes
 <!-- attr attributes -->
   <p><b>Parameters</b><p>
   <table border="1" cellpadding="2" cellspacing="0">
@@ -351,6 +367,8 @@ You can create a new document by not specifying a source file, and making the fi
       &lt;attr path="web/servlet/context[@id='4']/" attr="id" value="test"/&gt;
       &lt;attr path="web/servlet/context[@id='4']/" attr="id" remove="true"/&gt;
   </pre>
+  Note that in the first example, if the attribute <code>id</code> doesn't exist, it will be added.
+  <p>
   <li> The &lt;remove&gt; section allows you to specify an XML section to remove
 <!-- remove attributes -->
   <p><b>Parameters</b><p>
@@ -511,7 +529,7 @@ Buffers exist for the duration of the Ant process and consequently can be used a
 <h4><a name="formatting">Formatting</a></h4>
 The formatting of the output document is controlled by the attribute 'outputter'. There are three options:
 <ul>
-  <li><code>&lt;xmltask outputter="default"...</code><p> outputs the document <i>as is</i>. That is to say, all whitespace etc. is preserved. This is the default option.
+  <li><code>&lt;xmltask outputter="default"...</code><p> outputs the document <i>as is</i>. That is to say, all whitespace etc. is preserved. This is the default option. Note that attribute ordering <i>may</i> change and elements containing attributes may be split over several lines etc. ie. the document remains the same <i>semantically</i>.
   <p>
   <li><code>&lt;xmltask outputter="simple"...</code><p> outputs the document with a degree of formatting. Elements are indented and given new lines wherever possible to make a more readable document. This is not suitable for all applications since some XML consumers will be whitespace sensitive.
   <p>
@@ -733,7 +751,7 @@ The following books are invaluable for XPath issues:<p>
 <a href="#top">Top</a>
 <hr>
 <h4><a name="contact">Contact</a></h4>
-<code>xmltask</code> is written and maintained by <a target="_top" href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd.</a>. Enquiries to <a href="mailto:xmltask@oopsconsultancy.com">xmltask@oopsconsultancy.com</a>.
+<code>xmltask</code> is written and maintained by <a target="_top" href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd.</a>. For enquiries see the <a href="#support">support info</a>.
 <p>
 <center>Now hosted on</center>
 <center><A href="http://sourceforge.net"> <IMG src="http://sourceforge.net/sflogo.php?group_id=27398&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A></center>
