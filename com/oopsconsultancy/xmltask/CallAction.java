@@ -73,9 +73,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
   }
 
   public boolean apply(Node node) throws Exception {
-     if (callee == null) {
     init();
-     }
      resetParams();
 
     log("Calling target " + target + " for " + node + (buffer != null ? " (in buffer "+buffer:""), Project.MSG_VERBOSE);
@@ -96,14 +94,10 @@ public class CallAction extends Action implements XPathAnalyserClient {
         }
 
         // now set the values
-        String val = param.getValue();
-        Property p = callee.createProperty();
-        p.setName(param.getName());
-        if (val != null) {
+        if (param.getValue() != null) {
+          Property p = callee.createProperty();
+          p.setName(param.getName());
           p.setValue(param.getValue());
-        }
-        else {
-          p.setValue("${" +param.getName() + "}");
         }
       }
     }

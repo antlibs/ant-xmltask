@@ -14,7 +14,7 @@
     </insert>
   </xmltask>
     <xmltask source="93.xml">
-      <call target="echo" path="/test/tes" >
+      <call target="echo" path="/test/tes" inheritAll="false" >
         <param name='number' path='@number'/>
         <param name='value' path='@value'/>
       </call>
