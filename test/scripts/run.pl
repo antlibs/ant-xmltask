@@ -8,6 +8,13 @@ if (@ARGV > 0) {
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
 print "Java version = $jv\n";
 
+if (! -e "../../xmltask.jar") {
+  # .jar doesn't exist, so we may pick up
+  # the wrong XMLCatalog.class
+  print STDERR ".jar not built. Possible XMLCatalog confusion\n";
+  exit(1);
+}
+
 foreach $i ( @tests ) {
   my $nofile = 0;
   if ($i == 62 || $i == 75) {
