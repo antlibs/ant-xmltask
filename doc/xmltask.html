@@ -120,7 +120,7 @@ To use this task, make sure:
   <td>source</td><td>the source XML file to load. Can take the form of a wildcarded pattern eg. **/*.xml</td><td align="centre">no</td>
 </tr>
 <tr>
-  <td>buffer</td><td>the source <a href="#buffers">buffer</a> containing XML from a previous &lt;xmltask&gt; invocation. The buffer must contain a <i>single</i> root node (i.e be <i>well-formed</i>). If the buffer is empty, then this has the effect of starting with a blank document.</td><td align="centre">no</td>
+  <td>sourcebuffer</td><td>the source <a href="#buffers">buffer</a> containing XML from a previous &lt;xmltask&gt; invocation. The buffer must contain a <i>single</i> root node (i.e be <i>well-formed</i>). If the buffer is empty, then this has the effect of starting with a blank document.</td><td align="centre">no</td>
 </tr>
 <tr>
   <td>dest</td><td>the output XML file to write to</td><td align="centre">no</td>
@@ -159,7 +159,7 @@ reads from <code>input.xml</code> and writes to <code>output.xml</code>.
 </pre>
 reads from the XML files in the <code>input</code> dir and writes to the same filenames in the <code>output</code> dir.
 <pre>
-  &lt;xmltask buffer="servlet" output="servlet.xml"&gt;
+  &lt;xmltask sourcebuffer="servlet" output="servlet.xml"&gt;
 </pre>
 reads from the previously populated buffer <code>servlet</code> and writes to <code>output.xml</code>.
 <p>

@@ -106,7 +106,7 @@ public class XmlTask extends Task {
    * @param buffer
    * @throws Exception
    */
-  public void setBuffer(String buffer) throws Exception {
+  public void setSourceBuffer(String buffer) throws Exception {
     docs.add(new InputBuffer(buffer));
   }
 

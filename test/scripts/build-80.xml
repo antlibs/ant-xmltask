@@ -13,7 +13,7 @@
 
   <target name="b">
     <!-- tst should not be populated -->
-    <xmltask buffer="tst" dest="80-out.xml">
+    <xmltask sourcebuffer="tst" dest="80-out.xml">
       <insert path="/">
         <![CDATA[
           <d/>

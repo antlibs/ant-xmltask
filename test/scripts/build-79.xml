@@ -14,7 +14,7 @@
   </target>
 
   <target name="b">
-    <xmltask buffer="tst" dest="79-out.xml">
+    <xmltask sourcebuffer="tst" dest="79-out.xml">
       <insert path="/b/c">
         <![CDATA[
           <d/>

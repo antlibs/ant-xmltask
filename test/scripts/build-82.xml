@@ -15,7 +15,7 @@
   </target>
 
   <target name="b">
-    <xmltask buffer="tst" dest="82-out.xml">
+    <xmltask sourcebuffer="tst" dest="82-out.xml">
     </xmltask>  
   </target>
 
