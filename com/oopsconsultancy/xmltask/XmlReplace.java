@@ -12,7 +12,7 @@ import org.apache.tools.ant.*;
  * (e.g. replacement, removal, insertion) on that node
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public class XmlReplace {
 

@@ -10,7 +10,7 @@ import org.xml.sax.*;
  * usage
  * 
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public interface Outputter extends ContentHandler {
 

@@ -3,6 +3,7 @@
  * running in Ant prior to version 1.5
  * OOPS Consultancy 2003
  * xmltask@oopsconsultancy.com
+ * @version $Id$
  */
 package org.apache.tools.ant.types;
 

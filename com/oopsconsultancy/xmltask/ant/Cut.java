@@ -6,6 +6,7 @@ import com.oopsconsultancy.xmltask.*;
  * the Ant cut task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
+ * @version $Id$
  */
 public class Cut extends Copy {
 

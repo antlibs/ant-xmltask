@@ -8,7 +8,7 @@ import org.apache.tools.ant.*;
  * selected nodes
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public class AttrAction extends Action {
 

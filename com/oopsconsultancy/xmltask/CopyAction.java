@@ -7,6 +7,7 @@ import org.apache.tools.ant.*;
  * copies the nominated node and its children
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
+ * @version $Id$
  */
 public class CopyAction extends Action {
 

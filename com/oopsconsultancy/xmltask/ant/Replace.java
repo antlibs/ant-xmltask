@@ -8,7 +8,7 @@ import java.io.*;
  * the Ant replacement task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public class Replace {
 

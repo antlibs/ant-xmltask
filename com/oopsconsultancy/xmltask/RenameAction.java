@@ -6,7 +6,7 @@ import org.w3c.dom.*;
  * renames the given node (whether it's an attribute or an element)
  * 
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public class RenameAction extends Action {
 

@@ -14,6 +14,7 @@ import org.apache.tools.ant.*;
  * as the root node
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
+ * @version $Id$
  */
 public class InsertAction extends Action {
 

@@ -10,6 +10,7 @@ import org.apache.tools.ant.*;
  * only insert the stored nodes once into a document)
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
+ * @version $Id$
  */
 public class BufferStore {
 

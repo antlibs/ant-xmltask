@@ -37,6 +37,7 @@ import org.xml.sax.ext.*;
  * optionally indented if an indent step is provided (by default, there
  * is no indentation).  If an element contains other elements, the end
  * tag will also appear on a new line with leading indentation.
+ * @version $Id$
  */
 public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Outputter {
 
@@ -55,7 +56,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
 
   public void setWriter(Writer w) {
     init(w);
-  }  
+  }
 
   ////////////////////////////////////////////////////////////////////
   // Accessors and setters.
@@ -95,7 +96,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
   private Transformer transformer = null;
   public void setTransformer(Transformer transformer) {
     this.transformer = transformer;
-  }  
+  }
 
   ////////////////////////////////////////////////////////////////////
   // Override methods from XMLWriter.
@@ -254,7 +255,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
         while ((ch[start] == ' '|| ch[start] == '\t' || ch[start] == 10) && start < end) {
           start++;
           length--;
-        }  
+        }
         while (length > 0 && (ch[end] == ' '|| ch[end] == '\t' || ch[end] == 10)) {
           end--;
           length--;
@@ -266,11 +267,11 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
              }
              System.out.println("");
            */
-        }  
+        }
 
         if (length > 0) {
           state = SEEN_DATA;
-        }  
+        }
 
         /*
            System.out.print("NW->");

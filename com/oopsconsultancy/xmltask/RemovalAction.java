@@ -6,7 +6,7 @@ import org.w3c.dom.*;
  * removes the nominated node and its children
  * 
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version 1.0
+ * @version $Id$
  */
 public class RemovalAction extends Action {
 
