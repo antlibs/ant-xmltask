@@ -115,6 +115,7 @@
     <delete file="/tmp/xmltask.html"/>
     <copy todir="${webdir}">
       <fileset dir="doc/" includes="*.gif"/>
+      <fileset dir="doc/" includes="*.jpg"/>
     </copy>
 
     <!-- generate versioned files for Sourceforge dispatch -->
