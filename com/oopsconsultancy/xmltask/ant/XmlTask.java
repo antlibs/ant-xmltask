@@ -29,6 +29,8 @@ public class XmlTask extends Task {
   private final static String FMT_NONE = "default";
   private final static String FMT_SIMPLE = "simple";
 
+  private boolean settingVersion = false;
+  private String xmlVersion = "1.0";
   private boolean settingStandalone = false;
   private boolean standalone = false;
   private boolean omitHeader = false;
@@ -456,6 +458,26 @@ public class XmlTask extends Task {
     this.standalone = standalone;
     settingStandalone = true;
   }
+  /**
+   * determines the document version
+   *
+   * From the javadoc for OutputKeys
+   * <pre>
+   * When the output method is "xml", the version value specifies the version of
+   * XML to be used for outputting the result tree. The default value for the xml
+   * output method is 1.0. When the output method is "html", the version value
+   * indicates the version of the HTML. The default value for the html output
+   * method is 4.0, which specifies that the result should be output as HTML
+   * conforming to the HTML 4.0 Recommendation [HTML]. If the output method is
+   * "text", the version property is ignored.
+   * </pre>
+   * @param version
+   */
+  private void setVersion(final String xmlVersion) {
+    this.xmlVersion = xmlVersion;
+    settingVersion = true;
+  }
+
 
 
   /**
@@ -638,7 +660,10 @@ public class XmlTask extends Task {
         Transformer serializer = TransformerFactory.newInstance().newTransformer();
         serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (omitHeader ? "yes":"no"));
         if (settingStandalone) {
-        serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
+          serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
+        }
+        if (settingVersion) {
+          serializer.setOutputProperty(OutputKeys.VERSION, xmlVersion);
         }
 
         if (preservetype) {
