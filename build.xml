@@ -8,7 +8,6 @@
     <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
     <property name="tarfile"              value="xmltask.tar"/>
     <property name="webdir"               value="/home/brian/oops/software/"/>
-    <property name="path"                 value="com/oopsconsultancy/xmltask"/>
 
     <!-- prepare dirs -->
     <mkdir dir="classes"/>
@@ -17,7 +16,7 @@
   <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
-    <javac srcdir="." destdir="classes" debug="on">
+    <javac srcdir="." destdir="classes" debug="on" nowarn="true">
       <include name="**/*.java"/>
     </javac>
     <copy file="xmltask.properties" todir="classes"/>
