@@ -6,18 +6,41 @@
   <!-- tests calling ant targets for nodes identified by xmltask -->
   <target name="main">
     <property name="inheritable" value="true"/>
+
+    <!-- first create an output file -->
+    <xmltask dest="77-out.xml">
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+    </xmltask>
+
+    <!-- then call subtargets using 77.xml as the driver -->
     <xmltask source="77.xml">
-      <call path="/a/b" target="ab" inheritAll="true"/>
-      <call path="/a/c" target="ac" inheritAll="false"/>
+      <call path="/a/b" target="ab" inheritAll="true" buffer="b_ab"/>
+      <call path="/a/c" target="ac" inheritAll="false" buffer="b_ac"/>
     </xmltask>
   </target>
 
   <target name="ab">
     <echo>Called AB ok ${inheritable}</echo>
+    <xmltask source="77-out.xml" dest="77-out.xml">
+      <insert path="/root" buffer="b_ab"/>
+      <insert path="/root">
+        ${inheritable}
+      </insert>
+    </xmltask>
   </target>
 
   <target name="ac">
     <echo>Called AC ok ${inheritable}</echo>
+    <xmltask source="77-out.xml" dest="77-out.xml">
+      <insert path="/root" buffer="b_ac"/>
+      <insert path="/root">
+        ${inheritable}
+      </insert>
+    </xmltask>
   </target>
 
 </project>

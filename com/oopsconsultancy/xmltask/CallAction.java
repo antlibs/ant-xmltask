@@ -21,14 +21,16 @@ public class CallAction extends Action {
   private final XmlTask task;
   private final boolean inheritAll;
   private final boolean inheritRefs;
+  private final String buffer;
 
   private Ant callee;
 
-  public CallAction(String target, XmlTask task, boolean inheritAll, boolean inheritRefs) {
+  public CallAction(String target, XmlTask task, boolean inheritAll, boolean inheritRefs, String buffer) {
     this.target = target;
     this.task = task;
     this.inheritAll = inheritAll;
     this.inheritRefs = inheritRefs;
+    this.buffer = buffer;
   }
 
   /**
@@ -47,7 +49,11 @@ public class CallAction extends Action {
     if (callee == null) {
       init();
     }
-    log("Calling target " + target + " for " + node, Project.MSG_VERBOSE);
+    log("Calling target " + target + " for " + node + (buffer != null ? " (in buffer "+buffer:""), Project.MSG_VERBOSE);
+
+    if (buffer != null) {
+      BufferStore.set(buffer, node, false, task);
+    }
 
     callee.setAntfile(task.getProject().getProperty("ant.file"));
     callee.setTarget(target);

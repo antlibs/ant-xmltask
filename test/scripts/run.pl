@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # $Id$
 
-my @tests = (1..39,41..76);
+my @tests = (1..39,41..77);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }

@@ -12,6 +12,7 @@ public class Call {
 
   private String path = null;
   private String target = null;
+  private String buffer = null;
   private boolean inheritAll = true;
   private boolean inheritRefs = false;
 
@@ -23,6 +24,10 @@ public class Call {
 
   public void setPath(String path) {
     this.path = path;
+  }
+
+  public void setBuffer(String buffer) {
+    this.buffer = buffer;
   }
 
   public void setTarget(String target) {
@@ -39,7 +44,7 @@ public class Call {
 
   protected void process(XmlTask task) {
     if (path != null && target != null) {
-      task.add(new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs)));
+      task.add(new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs, buffer)));
     }
   }
 }

@@ -48,6 +48,10 @@ Uses include:
 <h4><a name="changes">Recent Changes</a></h4>
 You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<p>
 Current version @VERSION@<p>
+Since v1.8
+<ul>
+<li>&gt;call&lt; operation to call Ant targets for XML nodes identified by &gt;xmltask&lt;
+</ul>
 Since v1.7
 <ul>
 <li>Various minor bug fixes
@@ -62,15 +66,6 @@ Since v1.6
 <li>&lt;copy&gt; and &lt;cut&gt; operations can now store multiple nodesets
 <li>&lt;copy&gt; and &lt;cut&gt; operations can now record attribute <i>values</i>
 <li>Enabled copy/paste of attribute nodes
-</ul>
-Since v1.5
-<ul>
-<li>Added &lt;rename&gt; instruction to rename elements and attributes
-<li>Added 'preserveType' attribute to allow transformed documented to preserve their original DTD ids
-<li>Added new formatting options
-<li>Creation of new documents allowed - no requirement for a <i>source</i> file
-<li>Compatibility issues with Ant 1.4 resolved
-<li>Added 'encoding' attribute to enable selectable character encodings for the output
 </ul>
 See the <code>CHANGES</code> file in the download for a comprehensive list of changes for each version<p>
 <a href="#top">Top</a>
@@ -229,9 +224,6 @@ To use this task, make sure:
     <td>buffer</td><td>the buffer to paste</td><td>no</td>
   </tr>
   <tr>  
-    <td>property</td><td>the property to paste</td><td>no</td>
-  </tr>
-  <tr>  
     <td>file</td><td>the file to paste</td><td>no</td>
   </tr>
   <tr>  
@@ -267,7 +259,7 @@ To use this task, make sure:
       ]]&gt;
       &lt;/insert&gt;
   </pre>
-  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
+  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections. Insert a property using this body test method.
 <p>
 You can create a new document by not specifying a source file, and making the first instruction for &lt;xmltask&gt; an &lt;insert&gt; or &lt;paste&gt; with the appropriate root node (and any subnodes).
 <p>
@@ -376,6 +368,38 @@ You can create a new document by not specifying a source file, and making the fi
     &lt;rename path="a/b/@c" to="d"/&gt;
     </pre>
     <p>
+
+<!-- call documentation -->
+  <li> The &lt;call&gt; section allows you to call Ant targets in the same <code>build.xml</code> file for nodes identified by an XPath.
+  <p><b>Parameters</b><p>
+  <table border="1" cellpadding="2" cellspacing="0">
+  <tr>
+  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
+  </tr>
+  <tr>
+    <td>path</td><td>the XPath reference of the element(s) to be identified</td><td>yes</td>
+  </tr>
+  <tr>
+    <td>target</td><td>the Ant target to call for each identified node</td><td>yes</td>
+  </tr>
+  <tr>
+    <td>buffer</td><td>the buffer to use to store each identified node (for the duration of the target call)</td><td>no</td>
+  </tr>
+  <tr>
+    <td>inheritAll</td><td>boolean indicating if the target being called inherits all properties</td><td>no</td>
+  </tr>
+  <tr>
+    <td>inheritRefs</td><td>boolean indicating if the target being called inherits all references</td><td>no</td>
+  </tr>
+  </table>
+
+  <p>e.g. in the below example, the Ant target <code>CNode</code> is called for <i>each</i> occurrence of the <code>C</code> node in the given XPath expression. For each call to <code>CNode</code> the buffer <code>abc</code> is populated with the node identified (plus any subnodes).
+    <pre>
+    &lt;call path="a/b/c" target="CNode" buffer="abc"/&gt;
+    </pre>
+    This mechanism can be used to drive Ant builds from existing XML resources such as <code>web.xml</code> or <code>struts.xml</code>, or to provide a <code>meta-build</code> facility for Ant, by driving the <code>build.xml</code> from a higher level proprietary XML config.
+    <p>
+
 
 <!-- xmltask xmlcatalog settings -->
   <li><code>xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like).
@@ -606,6 +630,14 @@ Some examples of common usage:
         ...
   </pre>
   <p>
+  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file.
+  <pre>
+    &lt;xmltask source="web.xml"&gt;
+      &lt;call path="web/servlet" target="deploy" buffer="servletDef"/&gt;
+        ...
+  </pre>
+  <p>
+
 </ul>
 <hr>
 <h4><a name="issues">Known Issues</a></h4>
