@@ -1,5 +1,10 @@
 $Id$
 
+1.10.5 --/--/--
+
+Added xmltask.path and xmltask.fqpath properties to the property set when
+calling stuff via <call>
+
 1.10.4 29/10/2004
 
 Reduced default log output
