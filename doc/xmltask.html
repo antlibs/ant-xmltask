@@ -169,6 +169,9 @@ To use this task, make sure:
   <tr>  
     <td>append</td><td>when set to <code>true</code>, <i>appends</i> to the given buffer or property</td><td>no</td>
   </tr>
+  <tr>  
+    <td>attrValue</td><td>Cutting an attribute will result in the <i>whole</i> attribute plus value being cut. When <code>attrValue</code> is set to true then only the attribute's <i>value</i> is cut</td><td>no</td>
+  </tr>
   </table>
   <p>e.g.
   <pre>
@@ -194,6 +197,9 @@ To use this task, make sure:
   </tr>
   <tr>  
     <td>append</td><td>when set to <code>true</code>, <i>appends</i> to the given buffer or property</td><td>no</td>
+  </tr>
+  <tr>  
+    <td>attrValue</td><td>Copying an attribute will result in the <i>whole</i> attribute plus value being cut. When <code>attrValue</code> is set to true then only the attribute's <i>value</i> is copied</td><td>no</td>
   </tr>
   </table>
   <p>e.g.
@@ -535,6 +541,11 @@ Some examples of common usage:
   <li>Removing an attribute (another way):
   <pre>
     &lt;attr path="//div[@id='1']" attr="id" remove="true"/&gt;
+  </pre>
+  <p>
+  <li>Copying an attribute's value
+  <pre>
+    &lt;copy path="//div[@id='1']/@id" attrValue="true" property="value"/&gt;
   </pre>
   <p>
   <li>Removing all comments:
