@@ -4,8 +4,17 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <!-- tests calling ant targets for nodes identified by xmltask. This
-       checks the param mechanism for the call instruction -->
+       checks the param mechanism for the call instruction and
+       interaction with the standard antcall task -->
   <target name="main">
+    <echo>Using standard antcall with params</echo>
+    <antcall target="test">
+      <param name="p1" value="1"/>
+      <param name="p2" value="2"/>
+    </antcall>
+  </target>
+
+  <target name="test">
     <!-- first create an output file -->
     <xmltask dest="78-out.xml">
       <insert path="/">
