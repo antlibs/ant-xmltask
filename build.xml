@@ -73,7 +73,11 @@
 
     <!-- create a web page with the correct version -->
     <copy file="doc/xmltask.html" todir="/tmp"/>
+    <tstamp>
+      <format property="TODAY" pattern="dd-MMM-yyyy"/>
+    </tstamp>
     <replace file="/tmp/xmltask.html" token="@VERSION@" value="${com.oopsconsultancy.xmltask.version}"/>
+    <replace file="/tmp/xmltask.html" token="@TODAY@" value="${TODAY}"/>
     <echo>Created version stamped documentation page</echo>
     <echo>Copying .tar.gz</echo>
     <copy file="${tarfile}.gz" todir="${webdir}"/>
