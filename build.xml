@@ -9,7 +9,7 @@
     <property name="jarfile"              value="xmltask.jar"/>
     <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
     <property name="tarfile"              value="xmltask.tar"/>
-    <property name="webdir"               value="/home/brian/oops/software/"/>
+    <property name="webdir"               value="/home/brian/oops/software/xmltask/"/>
 
     <!-- prepare dirs -->
     <mkdir dir="classes"/>
@@ -111,15 +111,17 @@
     <copy file="${jarfile}"       tofile="${webdir}/${v_jarfile}"/>
     <copy file="${jarfile.1.4}"   tofile="${webdir}/${v_jarfile.1.4}"/>
     <echo>Copying documentation</echo>
-    <copy file="/tmp/xmltask.html" todir="${webdir}"/>
+    <copy file="/tmp/xmltask.html" tofile="${webdir}/index.html"/>
     <delete file="/tmp/xmltask.html"/>
     <copy todir="${webdir}">
       <fileset dir="doc/" includes="*.gif"/>
       <fileset dir="doc/" includes="*.jpg"/>
     </copy>
 
-    <!-- generate versioned files for Sourceforge dispatch -->
+    <!--
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
+    -->
+    <!-- generate versioned files for Sourceforge dispatch -->
     <copy file="${jarfile}"       tofile="${v_jarfile}"/>
     <copy file="${jarfile.1.4}"   tofile="${v_jarfile.1.4}"/>
     <copy file="${tarfile}.gz"    tofile="${v_tarfile}.gz"/>
