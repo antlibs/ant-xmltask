@@ -85,6 +85,11 @@
     </condition>
     <fail if="do.abort"/>
 
+
+    <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
+    <property name="v_jarfile.1.4"          value="xmltask-v${com.oopsconsultancy.xmltask.version}-ant1.4.jar"/>
+    <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
+
     <!-- create a web page with the correct version -->
     <copy file="doc/xmltask.html" todir="/tmp"/>
     <tstamp>
@@ -99,8 +104,8 @@
     <copy file="${jarfile}"       todir="${webdir}"/>
     <copy file="${jarfile.1.4}"    todir="${webdir}"/>
     <echo>Copying version-stamped .jar and 1.4 .jar</echo>
-    <copy file="${jarfile}"       tofile="${webdir}/${jarfile}-${com.oopsconsultancy.xmltask.version}"/>
-    <copy file="${jarfile.1.4}"   tofile="${webdir}/${jarfile.1.4}-${com.oopsconsultancy.xmltask.version}"/>
+    <copy file="${jarfile}"       tofile="${webdir}/${v_jarfile}"/>
+    <copy file="${jarfile.1.4}"   tofile="${webdir}/${v_jarfile.1.4}"/>
     <echo>Copying documentation</echo>
     <copy file="/tmp/xmltask.html" todir="${webdir}"/>
     <delete file="/tmp/xmltask.html"/>
@@ -108,7 +113,15 @@
       <fileset dir="doc/" includes="*.gif"/>
     </copy>
 
+    <!-- generate versioned files for Sourceforge dispatch -->
+    <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
+    <copy file="${jarfile}"       tofile="${v_jarfile}"/>
+    <copy file="${jarfile.1.4}"   tofile="${v_jarfile.1.4}"/>
+    <copy file="${tarfile}.gz"    tofile="${v_tarfile}.gz"/>
+    <echo>Created ${v_jarfile}, ${v_jarfile.1.4}, ${v_tarfile}.gz</echo>
+
     <!-- sends the files to Sourceforge.net -->
+    <!--
     <echo>FTPing to upload.sorceforge.net</echo>
     <ftp server="upload.sourceforge.net"
      password="xmltask@oopsconsultancy.com"
@@ -117,9 +130,11 @@
      remotedir="/incoming"
      depends="yes">
       <fileset dir=".">
-        <include name="**/*.jar"/>
-        <include name="**/*.tar.gz"/>
+        <include name="${v_jarfile}"/>
+        <include name="${v_jarfile.1.4}"/>
+        <include name="${v_tarfile}.gz"/>
       </fileset>
     </ftp>
+    -->
   </target>
 </project>
