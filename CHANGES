@@ -1,5 +1,9 @@
 $Id$
 
+1.10.3 26/08/2004
+
+Cut/copy to properties now works with comment text
+
 1.10.2 (no version change) 19/08/2004
 
 Doc changes and enabled mailing list info. MD5 checksums on the web page

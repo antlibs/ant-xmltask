@@ -42,12 +42,12 @@ public class CopyAction extends Action {
       BufferStore.set(buffer, node, append, task);
     }
     else {
-      // this currently supports only text nodes
-      if (node instanceof Text) {
+      // this currently supports only text and comment nodes
+      if (node instanceof Text || node instanceof Comment) {
         task.getProject().setNewProperty(buffer, node.getNodeValue());
       }
       else {
-        task.log("Can only copy text() nodes and attribute values to properties", Project.MSG_WARN);
+        task.log("Can only copy/cut text() nodes and attribute values to properties", Project.MSG_WARN);
       }
     }
   }
