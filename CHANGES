@@ -4,6 +4,7 @@ $Id$
 
 <call> params can now take properties or static strings rather than just XPath expressions
 Subtargets failure (in targets called by <call>) is propogated through <xmltask>
+Filed fileset bug wrt. calling xmltask twice in the same build
 
 Fixed jdk 1.3 incompatibility
 1.10.1 18/05/2004
