@@ -13,6 +13,11 @@
 
     <!-- prepare dirs -->
     <mkdir dir="classes"/>
+
+    <property file="xmltask.properties"/>
+    <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
+    <property name="v_jarfile.1.4"          value="xmltask-v${com.oopsconsultancy.xmltask.version}-ant1.4.jar"/>
+    <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
   </target>
 
   <target name="javac" depends="init" description="Java source build">
@@ -40,8 +45,11 @@
     <delete file="tags"/>
     <delete file="${jarfile}"/>
     <delete file="${jarfile.1.4}"/>
+    <delete file="${v_jarfile}"/>
+    <delete file="${v_jarfile.1.4}"/>
     <delete file="${tarfile}"/>
     <delete file="${tarfile}.gz"/>
+    <delete file="${v_tarfile}.gz"/>
   </target>
 
   <target name="test" depends="init">
@@ -78,7 +86,6 @@
   <target name="deliver" depends="package" description="Delivers to the OOPS website dir">
     <!-- perform my local deployment for writing to the web page -->
     <!-- get and confirm the xmltask version -->
-    <property file="xmltask.properties"/>
     <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to the web dir " validargs="y,n" addproperty="distribute"/>
     <condition property="do.abort">
       <equals arg1="n" arg2="${distribute}"/>
@@ -86,9 +93,6 @@
     <fail if="do.abort"/>
 
 
-    <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
-    <property name="v_jarfile.1.4"          value="xmltask-v${com.oopsconsultancy.xmltask.version}-ant1.4.jar"/>
-    <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
 
     <!-- create a web page with the correct version -->
     <copy file="doc/xmltask.html" todir="/tmp"/>
@@ -121,7 +125,6 @@
     <echo>Created ${v_jarfile}, ${v_jarfile.1.4}, ${v_tarfile}.gz</echo>
 
     <!-- sends the files to Sourceforge.net -->
-    <!--
     <echo>FTPing to upload.sorceforge.net</echo>
     <ftp server="upload.sourceforge.net"
      password="xmltask@oopsconsultancy.com"
@@ -135,6 +138,5 @@
         <include name="${v_tarfile}.gz"/>
       </fileset>
     </ftp>
-    -->
   </target>
 </project>
