@@ -2,9 +2,7 @@
 <project name="XmlTask" default="main" basedir=".">
   <!-- $Id$ -->
   <target name="init">
-  <!--
-    <property name="build.compiler"       value="jikes"/>
-    -->
+
     <property name="build.compiler.emacs" value="true"/>
     <property name="jarfile"              value="xmltask.jar"/>
     <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
