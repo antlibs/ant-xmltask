@@ -1,5 +1,9 @@
 $Id$
 
+1.8.2 --/--/----
+
+Now handles multiple inputs with no output file/dir
+
 1.8.1 26/11/2003
 
 Doc upgrade

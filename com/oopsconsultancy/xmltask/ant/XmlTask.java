@@ -379,7 +379,7 @@ public class XmlTask extends Task {
       // no input document, so we'll create a dummy one...
       docs.add(null);
     }
-    if (docs.size() > 1 && !todir) {
+    if (docs.size() > 1 && !todir && dest != null) {
       throw new BuildException("Multiple inputs (" + docs.size() + ") but only one output file");
     }
     if (dest == null && todir) {
@@ -415,7 +415,9 @@ public class XmlTask extends Task {
         throw new BuildException(e.getMessage());
       }
       String destfile = doc;
-      log("Writing " + destfile + " to " + dest, Project.MSG_VERBOSE);
+      if (dest != null) {
+        log("Writing " + destfile + " to " + dest, Project.MSG_VERBOSE);
+      }
 
       if (fspec != null) {
         // we strip down to the original filename to write out

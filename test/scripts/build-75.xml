@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests creating a new document from
+       a set of .xml files -->
+  <target name="main">
+    <xmltask source="2*.xml" report="true">
+      <copy path="/a/b" buffer="count" append="true"/>
+    </xmltask>
+  </target>
+</project>

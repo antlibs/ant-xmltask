@@ -1,6 +1,7 @@
 #!/usr/bin/perl
+# $Id$
 
-my @tests = (1..39,41..74);
+my @tests = (1..39,41..75);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -9,7 +10,7 @@ print "Java version = $jv\n";
 
 foreach $i ( @tests ) {
   my $nofile = 0;
-  if ($i == 62) {
+  if ($i == 62 || $i == 75) {
     # which tests shouldn't return results ?
     $nofile = 1;
   }
@@ -23,9 +24,14 @@ foreach $i ( @tests ) {
     my $res = $i."-out.xml";
     if (($? >> 8) == 0) {
       if (! -e $res) {
-        print STDERR "ant -buildfile $build failed to create $res\n";
-        print STDERR "TESTS FAIL\n";
-        exit(1);
+        if ($nofile == 0) {
+          print STDERR "ant -buildfile $build failed to create $res\n";
+          print STDERR "TESTS FAIL\n";
+          exit(1);
+        }
+        else {
+          # no file produced, as expected
+        }
       }
       else {
         print "Comparing $res\n";
