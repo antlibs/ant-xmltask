@@ -37,6 +37,10 @@
   <target name="test" depends="init">
     <junit haltonfailure="true">
       <test name="com.oopsconsultancy.xmltask.test.TestXmlReplacement"/>
+      <classpath>
+        <pathelement location="${basedir}/classes"/>
+      </classpath>
+      <formatter type="plain"/>
     </junit>
     <echo>Tests succeed!</echo>
   </target>
@@ -54,7 +58,7 @@
           excludes="**/test/**/*,**/pre1.5/*"/>
     <tar tarfile="${tarfile}"
          basedir="." 
-         includes="**/*.java,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif"/>
+         includes="**/*.java,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties"/>
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
     <delete file="classes/org/apache/tools/ant/types/XMLCatalog.class"/>     
     <delete file="${tarfile}"/>
