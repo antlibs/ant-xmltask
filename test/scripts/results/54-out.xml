@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<a attr="1">
+<b id="0">TEST</b>
+<c>
+<d></d>
+</c>
+<c>
+<d></d>
+</c>
+<e>TEST</e>
+<f>TEST</f>
+<c>TEST
+<d>NEW TEST</d>
+</c>
+</a>
+
