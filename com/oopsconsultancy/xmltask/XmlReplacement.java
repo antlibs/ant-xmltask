@@ -60,7 +60,7 @@ public class XmlReplacement {
         int matches = xr.apply(doc);
         if (matches == 0) {
           failures++;
-          task.log(xr + " failed to match");
+          task.log(xr + " failed to match", Project.MSG_VERBOSE);
         }
         doc.getDocumentElement().normalize();
         if (report) {

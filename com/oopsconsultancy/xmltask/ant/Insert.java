@@ -34,10 +34,19 @@ public class Insert {
       position = InsertAction.Position.UNDER;
     }
     else {
-      System.err.println("Don't recognise position '" + pos + "'");
+      log("Don't recognise position '" + pos + "'", Project.MSG_WARN);
     }
     if (action != null) {
       action.setPosition(position);
+    }
+  }
+
+  private void log(String msg, int level) {
+    if (task != null) {
+      task.log(msg, level);
+    }
+    else {
+      System.out.println(msg);
     }
   }
 

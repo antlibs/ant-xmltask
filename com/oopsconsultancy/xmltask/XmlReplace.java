@@ -31,7 +31,7 @@ public class XmlReplace implements XPathAnalyserClient {
   private void log(String msg, int level) {
     // task may not be set sometimes (e.g. during unit tests)
     if (task != null) {
-      task.log(msg);
+      task.log(msg, level);
     }
     else {
       System.out.println(msg);

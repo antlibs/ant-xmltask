@@ -1,5 +1,9 @@
 $Id$
 
+1.10.4 29/10/2004
+
+Reduced default log output
+
 1.10.4 11/10/2004
 
 omitHeader capability
