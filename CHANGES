@@ -1,5 +1,9 @@
 $Id$
 
+1.7 06/09/2003
+properties file included in source distribution
+build.xml fixes for source distribution
+
 1.7b 17/08/2003
 setSource() fix for use with <script> tasks
 Source/absolute path fix
