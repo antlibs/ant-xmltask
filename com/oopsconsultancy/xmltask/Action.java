@@ -31,6 +31,10 @@ public abstract class Action {
     this.doc = doc;
   }
 
+  public Document getDocument() {
+    return doc;
+  }
+
   /**
    * records a node to remove once all modifications
    * have occurred

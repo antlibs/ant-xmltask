@@ -41,4 +41,8 @@ public class Param {
     this.value = value;
     task.getProject().setNewProperty(name, value);
   }
+
+  public String toString() {
+    return getName() + " (" + getPath() + ")";
+  }
 }

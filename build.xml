@@ -15,24 +15,6 @@
     <mkdir dir="classes"/>
   </target>
 
-  <target name="postjavac">
-    <echo>Version ${java.version}</echo>
-    <condition property="jdk15">
-      <contains string="${java.version}" substring="1.5"/>
-    </condition>
-    <antcall target="jdk1.5"/>
-    <antcall target="jdk1.4"/>
-  </target>
-
-  <target name="jdk1.5" if="jdk15">
-    <echo>JDK 1.5 BUILD</echo>
-    <delete dir="classes/com/sun"/>
-  </target>
-  <target name="jdk1.4" unless="jdk15">
-    <echo>JDK 1.4 BUILD</echo>
-    <delete dir="classes/org/apache"/>
-  </target>
-
   <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
@@ -40,7 +22,11 @@
       <include name="**/*.java"/>
     </javac>
     <copy file="xmltask.properties" todir="classes"/>
-    <antcall target="postjavac"/>
+    <!-- we've built against dummy XPathAPI classes so we
+         can compile pre/post JDK 1.5 classes in the absence
+         of one or the other. We then delete the dummy classes -->
+    <delete dir="classes/com/sun"/>
+    <delete dir="classes/org/apache"/>
   </target>
 
   <target name="clean" depends="init" description="Clean classes">

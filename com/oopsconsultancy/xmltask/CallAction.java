@@ -7,14 +7,6 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.taskdefs.*;
 import org.w3c.dom.traversal.*;
 
-// enable the below for JDK 1.3, 1.4
-//import org.apache.xpath.objects.*;
-//import org.apache.xpath.*;
-
-// enable the below for JDK 1.5
-//import com.sun.org.apache.xpath.internal.*;
-//import com.sun.org.apache.xpath.internal.objects.*;
-
 /**
  * The nominated target is called for
  * each matched node
@@ -25,7 +17,7 @@ import org.w3c.dom.traversal.*;
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class CallAction extends Action {
+public class CallAction extends Action implements XPathAnalyserClient {
 
   private final String target;
   private final XmlTask task;
@@ -57,6 +49,16 @@ public class CallAction extends Action {
     callee.init();
   }
 
+  public void applyNode(Node n, Object callback) {
+    Param param = (Param)callback;
+    param.set(task, n.getNodeValue());
+  }
+
+  public void applyNode(String str, Object callback) {
+    Param param = (Param)callback;
+    param.set(task, str);
+  }
+
   public boolean apply(Node node) throws Exception {
     if (callee == null) {
       init();
@@ -72,42 +74,9 @@ public class CallAction extends Action {
       for (Iterator i = params.iterator(); i.hasNext(); ) {
         Param param = (Param)i.next();
 
-    if (System.getProperty("java.vm.version").indexOf("1.5") != -1) {
-        com.sun.org.apache.xpath.internal.objects.XObject result = com.sun.org.apache.xpath.internal.XPathAPI.eval(node, param.getPath());
-
-        if (result instanceof com.sun.org.apache.xpath.internal.objects.XNodeSet) {
-          NodeIterator nl = result.nodeset();
-          Node n;
-          // we only make use of one node
-          while ((n = nl.nextNode()) != null) {
-            param.set(task, n.getNodeValue());
-          }
-        }
-        else if (result instanceof com.sun.org.apache.xpath.internal.objects.XBoolean ||
-            result instanceof com.sun.org.apache.xpath.internal.objects.XNumber ||
-            result instanceof com.sun.org.apache.xpath.internal.objects.XString) {
-          String str = result.str();
-          param.set(task, result.str());
-        }
-     }
-    else {
-      org.apache.xpath.objects.XObject result = org.apache.xpath.XPathAPI.eval(node, param.getPath());
-
-      if (result instanceof org.apache.xpath.objects.XNodeSet) {
-        NodeIterator nl = result.nodeset();
-        Node n;
-        // we only make use of one node
-        while ((n = nl.nextNode()) != null) {
-          param.set(task, n.getNodeValue());
-        }
-      }
-      else if (result instanceof org.apache.xpath.objects.XBoolean ||
-          result instanceof org.apache.xpath.objects.XNumber ||
-          result instanceof org.apache.xpath.objects.XString) {
-        String str = result.str();
-        param.set(task, result.str());
-      }
-    }
+        XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
+        xpa.registerClient(this, param);
+        xpa.analyse(node, param.getPath());
 
         // now set the values
         String val = param.getValue();

@@ -5,14 +5,6 @@ import org.w3c.dom.*;
 import org.w3c.dom.traversal.*;
 import org.apache.tools.ant.*;
 
-// enable the below for JDK 1.3, 1.4
-//import org.apache.xpath.*;
-//import org.apache.xpath.objects.*;
-
-// enable the below for JDK 1.5
-//import com.sun.org.apache.xpath.internal.objects.*;
-//import com.sun.org.apache.xpath.internal.*;
-
 /**
  * performs the basic task of identifying the qualifying
  * XML nodes via XPath, and then performing an action
@@ -21,7 +13,7 @@ import org.apache.tools.ant.*;
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class XmlReplace {
+public class XmlReplace implements XPathAnalyserClient {
 
   private String path = null;
   private Action action = null;
@@ -53,46 +45,9 @@ public class XmlReplace {
 
     List removals = new ArrayList();
 
-    int count = 0;
-
-    if (System.getProperty("java.vm.version").indexOf("1.5") != -1) {
-      // running jdk 1.5
-      com.sun.org.apache.xpath.internal.objects.XObject result = com.sun.org.apache.xpath.internal.XPathAPI.eval(doc, path);
-      if (result instanceof com.sun.org.apache.xpath.internal.objects.XNodeSet) {
-        NodeIterator nl = result.nodeset();
-        Node n;
-        while ((n = nl.nextNode()) != null) {
-          action.apply(n);
-          count++;
-        }
-      }
-      else if (result instanceof com.sun.org.apache.xpath.internal.objects.XBoolean ||
-          result instanceof com.sun.org.apache.xpath.internal.objects.XNumber ||
-          result instanceof com.sun.org.apache.xpath.internal.objects.XString) {
-        String str = result.str();
-        action.apply(doc.createTextNode(str));
-        count++;
-      }
-    }
-    else {
-      // running jdk 1.4.x and below
-      org.apache.xpath.objects.XObject result = org.apache.xpath.XPathAPI.eval(doc, path);
-      if (result instanceof org.apache.xpath.objects.XNodeSet) {
-        NodeIterator nl = result.nodeset();
-        Node n;
-        while ((n = nl.nextNode()) != null) {
-          action.apply(n);
-          count++;
-        }
-      }
-      else if (result instanceof org.apache.xpath.objects.XBoolean ||
-          result instanceof org.apache.xpath.objects.XNumber ||
-          result instanceof org.apache.xpath.objects.XString) {
-        String str = result.str();
-        action.apply(doc.createTextNode(str));
-        count++;
-      }
-    }
+    XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
+    xpa.registerClient(this, null);
+    int count = xpa.analyse(doc, path);
 
     log("Applied " + action + " - " + count + " match(es)", Project.MSG_VERBOSE);
     action.complete();
@@ -102,5 +57,24 @@ public class XmlReplace {
   public String toString() {
     return action.toString() + " (" + path + ")";
   }
+
+  /**
+   * called by the XPathAnalyser implementations
+   *
+   * @param n
+   */
+  public void applyNode(Node n, Object callback) throws Exception {
+    action.apply(n);
+  }
+
+  /**
+   * called by the XPathAnalyser implementations
+   *
+   * @param n
+   */
+  public void applyNode(String str, Object callback) throws Exception {
+    action.apply(action.getDocument().createTextNode(str));
+  }
+
 }
 
