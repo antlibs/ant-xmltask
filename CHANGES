@@ -1,9 +1,10 @@
 $Id$
 
-1.8.2 --/--/----
+1.8.2 14/12/2003
 
 Now handles multiple inputs with no output file/dir
 Warns when copying non-text nodes to properties
+clearBuffers direective
 
 1.8.1 26/11/2003
 
