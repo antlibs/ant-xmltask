@@ -1,7 +1,10 @@
+$Id$
+
 1.6.6b 01/08/2003 NOT RELEASED YET
 setSource() fix for use with <script> tasks
 Source/absolute path fix
 preserveType fix and blank DOCTYPE fixes. 
+Logging now performed via the Ant logging framework
 
 1.6.5 20/07/2003
 
