@@ -11,8 +11,8 @@ import org.apache.tools.ant.*;
  */
 public class CutAction extends CopyAction {
 
-  public CutAction(String buffer, boolean append, boolean attrValue, Task task) {
-    super(buffer, append, attrValue, task);
+  public CutAction(String buffer, boolean append, boolean attrValue, Task task, boolean isProperty) {
+    super(buffer, append, attrValue, task, isProperty);
   }
 
   public boolean apply(Node node) throws Exception {

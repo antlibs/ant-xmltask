@@ -1,5 +1,10 @@
 $Id$
 
+1.8b 13/10/2003
+
+Modified/simplified boolean setters on XmlTask
+Tested against Ant 1.6b
+
 1.8a 22/09/2003
 
 Added copying/cutting to properties

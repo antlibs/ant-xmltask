@@ -12,14 +12,23 @@ public class Copy {
 
   protected String path = null;
   protected String buffer = null;
+  protected String property = null;
   protected boolean append = false;
   protected boolean attrValue = false;
 
+  /**
+   * copies a nominated node to either a
+   * buffer or a property
+   */
   public Copy() {
   }
 
   public void setBuffer(String buffer) {
     this.buffer = buffer;
+  }
+
+  public void setProperty(String property) {
+    this.property = property;
   }
 
   public void setPath(String path) {
@@ -34,7 +43,10 @@ public class Copy {
 
   protected void process(XmlTask task) {
     if (path != null && buffer != null) {
-      task.add(new XmlReplace(path, new CopyAction(buffer, append, attrValue, task)));
+      task.add(new XmlReplace(path, new CopyAction(buffer, append, attrValue, task, false)));
+    }
+    else if (path != null && property != null) {
+      task.add(new XmlReplace(path, new CopyAction(property, append, attrValue, task, true)));
     }
   }
 

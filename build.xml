@@ -24,6 +24,10 @@
   </target>
 
   <target name="clean" depends="init" description="Clean classes">
+    <!-- clean the test files up -->
+    <delete>
+      <fileset dir="." includes="TEST-*.txt"/>
+    </delete>
     <delete>
       <fileset dir="classes" includes="**/*.class" excludes="**/pre1.5/*"/>
     </delete>

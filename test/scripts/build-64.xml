@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
+
+<!-- $Id$ -->
+
 <project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <!--
   <taskdef name="script"  classname="org.apache.tools.ant.taskdefs.optional.Script"/>
+  -->
 
   <!-- tests the script stuff -->
   <target name="main">
