@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests standalone -->
+  <target name="main">
+    <xmltask source="91.xml" dest="91-out.xml" report="true" omitHeader="false" standalone="true">
+      <cut path="/a/b/comment()" property="prop"/>
+    </xmltask>
+    <echo>Copied to '${prop}'</echo>
+  </target>
+</project>
