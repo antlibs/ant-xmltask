@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests copying to properties -->
+  <target name="main">
+    <xmltask source="70.xml" report="true">
+      <copy path="/a/b/text()" property="prop"/>
+      <copy path="/a/c/text()" property="prop"/>
+    </xmltask>
+    <xmltask dest="70-out.xml" report="true">
+      <paste path="/">
+        <![CDATA[
+          <root/>
+        ]]>  
+      </paste>
+      <paste path="/root" xml="${prop}"/>
+    </xmltask>
+    <echo>Copied to ${prop}</echo>
+  </target>
+</project>
