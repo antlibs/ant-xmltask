@@ -9,6 +9,9 @@
     <property name="tarfile"              value="xmltask.tar"/>
     <property name="webdir"               value="/home/brian/oops/software/"/>
     <property name="path"                 value="com/oopsconsultancy/xmltask"/>
+
+    <!-- prepare dirs -->
+    <mkdir dir="classes"/>
   </target>
 
   <target name="javac" depends="init" description="Java source build">
