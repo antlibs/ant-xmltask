@@ -10,7 +10,8 @@
     <copy file="85b.xml" tofile="/tmp/xmltask_b.xml"/>
     <xmltask report="true">
       <fileset dir="/tmp">
-        <include name="xmltask_*.xml"/>
+        <include name="xmltask_a.xml"/>
+        <include name="xmltask_b.xml"/>
       </fileset>
       <copy path="/a/b" buffer="count" append="true"/>
     </xmltask>
