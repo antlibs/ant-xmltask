@@ -89,5 +89,19 @@
     <copy todir="${webdir}">
       <fileset dir="doc/" includes="*.gif"/>
     </copy>
+
+    <!-- sends the files to Sourceforge.net -->
+    <echo>FTPing to upload.sorceforge.net</echo>
+    <ftp server="upload.sourceforge.net"
+     password="xmltask@oopsconsultancy.com"
+     userid="anonymous"
+     verbose="yes"
+     remotedir="/incoming"
+     depends="yes">
+      <fileset dir=".">
+        <include name="**/*.jar"/>
+        <include name="**/*.tar.gz"/>
+      </fileset>
+    </ftp>
   </target>
 </project>
