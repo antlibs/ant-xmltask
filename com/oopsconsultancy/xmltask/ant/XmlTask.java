@@ -627,6 +627,10 @@ public class XmlTask extends Task {
     copy.process(this);
   }
 
+  public void addConfiguredCall(Call call) {
+    call.process(this);
+  }
+
   public void addConfiguredCut(Cut cut) {
     cut.process(this);
   }

@@ -1,5 +1,10 @@
 $Id$
 
+1.9   --/--/----
+
+Tested against ant 1.6
+call subtarget implemented
+
 1.8.2 14/12/2003
 
 Now handles multiple inputs with no output file/dir

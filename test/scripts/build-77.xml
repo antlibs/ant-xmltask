@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests calling ant targets for nodes identified by xmltask -->
+  <target name="main">
+    <property name="inheritable" value="true"/>
+    <xmltask source="77.xml">
+      <call path="/a/b" target="ab" inheritAll="true"/>
+      <call path="/a/c" target="ac" inheritAll="false"/>
+    </xmltask>
+  </target>
+
+  <target name="ab">
+    <echo>Called AB ok ${inheritable}</echo>
+  </target>
+
+  <target name="ac">
+    <echo>Called AC ok ${inheritable}</echo>
+  </target>
+
+</project>
