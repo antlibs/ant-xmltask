@@ -46,6 +46,9 @@ public class CopyAction extends Action {
       if (node instanceof Text) {
         task.getProject().setNewProperty(buffer, node.getNodeValue());
       }
+      else {
+        task.log("Can only copy text() nodes and attribute values to properties", Project.MSG_WARN);
+      }
     }
   }
 

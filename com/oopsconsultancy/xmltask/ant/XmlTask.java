@@ -42,6 +42,7 @@ public class XmlTask extends Task {
   private String outputter = FMT_NONE;
   private boolean preservetype = false;
   private boolean failWithoutMatch = false;
+  private String[] buffers = new String[]{};
 
   /**
    * the file to output
@@ -339,6 +340,15 @@ public class XmlTask extends Task {
   }
 
   /**
+   * lists the set of buffers to be cleared
+   *
+   * @param bufferset
+   */
+  public void setClearBuffers(String bufferset) {
+    buffers = bufferset.split(",");
+  }
+
+  /**
    * determines whether the ouput document is indented
    * By default it is
    *
@@ -372,6 +382,12 @@ public class XmlTask extends Task {
    */
   public void execute() throws BuildException {
     log("Executing xmltask " + getVersion(), Project.MSG_VERBOSE);
+
+    // first clear any buffers requested
+    for (int b = 0; b < buffers.length; b++) {
+      BufferStore.clear(buffers[b], this);
+    }
+
     if (docs.size() == 0 && todir) {
       throw new BuildException("No input documents");
     }
@@ -495,7 +511,7 @@ public class XmlTask extends Task {
           }
         }
 
-        if (normalize) {
+        if (normalize && doc != null && doc.getDocumentElement() != null) {
           log("Normalizing resultant document", Project.MSG_VERBOSE);
           doc.getDocumentElement().normalize();
         }

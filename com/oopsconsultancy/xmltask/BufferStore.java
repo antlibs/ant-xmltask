@@ -72,6 +72,11 @@ public class BufferStore {
     list.add(newnode);
   }
 
+  public static void clear(String name, Task task) {
+    log("Clearing buffer (" + name + ")", task);
+    buffers.put(name, new ArrayList());
+  }
+
   public static void log(String msg, Task task) {
     if (task != null) {
       task.log(msg, Project.MSG_VERBOSE);

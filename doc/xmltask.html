@@ -143,6 +143,8 @@ To use this task, make sure:
   <td>encoding</td><td>determines the character encoding value for the output document</td><td align="centre">no</td>
 </tr><tr>
   <td>outputter</td><td>determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.</td><td align="centre">no</td>
+</tr><tr>
+  <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
 </tr>
 </table>
 <p>
@@ -543,9 +545,16 @@ Some examples of common usage:
     &lt;attr path="//div[@id='1']" attr="id" remove="true"/&gt;
   </pre>
   <p>
-  <li>Copying an attribute's value
+  <li>Copying an attribute's value into a property:
   <pre>
     &lt;copy path="//div[@id='1']/@id" attrValue="true" property="value"/&gt;
+  </pre>
+  <p>
+  <li>Copying multiple values into one buffer. Note the clearing of buffers <code>a</code>, <code>b</code> and <code>c</code> prior to appending:
+  <pre>
+    &lt;xmltask source="web.xml" clearBuffers="a,b,c"&gt; 
+      &lt;copy path="//div" buffer="b" append="true"/&gt;
+      ...
   </pre>
   <p>
   <li>Removing all comments:
