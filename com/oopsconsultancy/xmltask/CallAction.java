@@ -95,6 +95,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.setInheritAll(inheritAll);
     callee.setInheritRefs(inheritRefs);
     callee.execute();
+
     return true;
   }
 

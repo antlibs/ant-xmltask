@@ -7,7 +7,7 @@
 # The script below handles all of that, but should be re-written
 # as a data-set-driven test suite
 
-my @tests = (1..39,41..86);
+my @tests = (1..39,41..87);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -24,7 +24,7 @@ if (-e $xmlcatalog) {
 
 foreach $i ( @tests ) {
   my $nofile = 0;
-  if ($i == 62 || $i == 75 || $i == 81) {
+  if ($i == 62 || $i == 75 || $i == 81 || $i == 87) {
     # which tests shouldn't return results ?
     $nofile = 1;
   }

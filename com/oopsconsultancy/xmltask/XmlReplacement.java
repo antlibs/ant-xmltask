@@ -20,18 +20,18 @@ import org.apache.tools.ant.*;
  */
 public class XmlReplacement {
 
-  private List replacements = new ArrayList();
-  private Document doc = null;
+  private final List replacements = new ArrayList();
+  private final Task task;
+  private final Document doc;
   private boolean report = false;
   private int failures = 0;
-  private Task task = null;
 
   /**
    * records the document to work on
    *
    * @param doc
    */
-  public XmlReplacement(Document doc, Task task) {
+  public XmlReplacement(final Document doc, final Task task) {
     this.doc = doc;
     this.task = task;
   }
@@ -41,7 +41,7 @@ public class XmlReplacement {
    *
    * @param x
    */
-  public void add(XmlReplace x) {
+  public void add(final XmlReplace x) {
     replacements.add(x);
   }
 
@@ -66,6 +66,11 @@ public class XmlReplacement {
         if (report) {
           output();
         }
+      }
+      catch (BuildException e) {
+        // this catches build exceptions from subtasks called
+        // by <call>. We rethrow since the build has to fail
+        throw e;
       }
       catch (Exception e) {
         e.printStackTrace();
@@ -98,7 +103,7 @@ public class XmlReplacement {
    *
    * @param val
    */
-  public void setReport(boolean val) {
+  public void setReport(final boolean val) {
     report = val;
   }
 
