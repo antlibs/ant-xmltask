@@ -5,6 +5,7 @@ import org.w3c.dom.*;
 import org.w3c.dom.traversal.*;
 import org.apache.xpath.*;
 import org.apache.tools.ant.*;
+import org.apache.xpath.objects.*;
 
 /**
  * performs the basic task of identifying the qualifying
@@ -45,13 +46,26 @@ public class XmlReplace {
     action.setDocument(doc);
 
     List removals = new ArrayList();
-    NodeIterator nl = XPathAPI.selectNodeIterator(doc, path);
-    Node n;
+
     int count = 0;
-    while ((n = nl.nextNode()) != null) {
-      action.apply(n);
+    XObject result = XPathAPI.eval(doc, path);
+    if (result instanceof XNodeSet) {
+      NodeIterator nl = result.nodeset();
+      // NodeIterator nl = XPathAPI.selectNodeIterator(doc, path);
+      Node n;
+      while ((n = nl.nextNode()) != null) {
+        action.apply(n);
+        count++;
+      }
+    }
+    else if (result instanceof XBoolean ||
+             result instanceof XNumber ||
+             result instanceof XString) {
+      String str = result.str();
+      action.apply(doc.createTextNode(str));
       count++;
     }
+
     log("Applied " + action + " - " + count + " match(es)", Project.MSG_VERBOSE);
     action.complete();
     return count;

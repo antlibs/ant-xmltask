@@ -23,7 +23,6 @@
 <li><a href="#contact">Contact</a>
 </ol>
 
-
 <h4><a name="intro">Introduction</a></h4>
 <code>xmltask</code> provides the facility for automatically editing XML files as part of an <a target="_top" href="http://jakarta.apache.org/ant">Ant</a> build. Unlike the standard <code>filter</code> task provided with Ant, it is XML-sensitive, but doesn't require you to define XSLTs.<p>
 Uses include:
@@ -53,6 +52,7 @@ Since v1.7
 <ul>
 <li>Various minor bug fixes
 <li>Logging overhaul and reduction in verbose output
+<li>Enabling use of XPath functions such as <code>count()</code> etc.
 </ul>
 Since v1.6
 <ul>
@@ -578,8 +578,12 @@ Some examples of common usage:
       &lt;/insert&gt;
         ...
   </pre>
-  <p>
-
+  <li>Counting nodes and recording the result in a property
+  <pre>
+    &lt;xmltask source="multiple.xml"&gt;
+      &lt;copy path="count(/servlet)" property="count"/&gt;
+        ...
+  </pre>
   <p>
 </ul>
 <hr>

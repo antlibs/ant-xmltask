@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests recording the results of
+       an xpath expression resulting in a number etc. -->
+  <target name="main">
+    <xmltask source="74.xml" dest="74-out.xml" report="true">
+      <copy path="count(/a/b)" buffer="count"/>
+      <insert path="/a" buffer="count"/>
+    </xmltask>
+  </target>
+</project>

@@ -70,6 +70,7 @@ public class XmlReplacement {
       catch (Exception e) {
         e.printStackTrace();
         success = false;
+        failures++;
       }
     }
     return doc;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-my @tests = (1..39,41..72);
+my @tests = (1..39,41..74);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }

@@ -152,6 +152,9 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
         if (pub != null && sys != null) {
           write("<!DOCTYPE " + qName + " PUBLIC \"" + pub + "\" \"" + sys + "\">\n");
         }
+        else if (sys != null) {
+          write("<!DOCTYPE " + qName + " SYSTEM \"" + sys + "\">\n");
+        }
       }
       stateStack.push(SEEN_ELEMENT);
       state = SEEN_NOTHING;

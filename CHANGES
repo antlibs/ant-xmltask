@@ -1,9 +1,10 @@
 $Id$
 
-1.8.1 19/11/2003
+1.8.1 20/11/2003
 
 Doc upgrade
-Private external DTD outputter fix
+Private external DTD outputter fix - both standard and simple outputter
+Fix for node selections with results other than node iterators
 
 1.8 09/11/2003
 

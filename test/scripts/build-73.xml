@@ -3,9 +3,9 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <!-- tests output of private external dtds
-       using the standard outputter -->
+       using a simple outputter -->
   <target name="main">
-    <xmltask source="72.xml" dest="72-out.xml" report="true" preserveType="true">
+    <xmltask source="73.xml" dest="73-out.xml" report="true" outputter="simple" preserveType="true">
     </xmltask>
   </target>
 </project>
