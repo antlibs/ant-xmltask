@@ -452,7 +452,12 @@ public class XmlTask extends Task {
    * @param bufferset
    */
   public void setClearBuffers(final String bufferset) {
-    buffers = bufferset.split(",");
+    StringTokenizer st = new StringTokenizer(bufferset, ",");
+    List res = new ArrayList();
+    while (st.hasMoreTokens()) {
+      res.add(st.nextToken());
+    }
+    buffers = (String[])res.toArray(new String[]{});
   }
 
   /**

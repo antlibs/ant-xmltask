@@ -1,6 +1,5 @@
 package com.oopsconsultancy.xmltask.jdk14;
 
-import java.util.logging.*;
 import org.w3c.dom.*;
 import org.w3c.dom.traversal.*;
 import com.oopsconsultancy.xmltask.*;
@@ -16,8 +15,6 @@ import org.apache.xpath.*;
  * @version $Id$
  */
 public class XPathAnalyser14 implements XPathAnalyser {
-
-  private Logger logger = Logger.getLogger("com.oopsconsultancy.xmltask.jdk14.XPathAnalyser14");
 
   private XPathAnalyserClient client;
   private Object callback;

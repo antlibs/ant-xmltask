@@ -1,7 +1,5 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.logging.*;
-
 /**
  * builds a XPathAnalyser. The concrete type
  * is determined by the JDK in use
@@ -10,8 +8,6 @@ import java.util.logging.*;
  * @version $Id$
  */
 public class XPathAnalyserFactory {
-
-  private Logger logger = Logger.getLogger("com.oopsconsultancy.xmltask.XPathAnalyserFactory");
 
   public static XPathAnalyser getAnalyser() throws Exception {
     XPathAnalyser analyser;
