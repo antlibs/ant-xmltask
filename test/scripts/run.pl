@@ -1,6 +1,12 @@
 #!/usr/bin/perl
 # $Id$
 
+#
+# tests for xmltask. This swaps tests in/out depending on the
+# VM being run. Plus some tests give no output, some fail etc.
+# The script below handles all of that, but should be re-written
+# as a data-set-driven test suite
+
 my @tests = (1..39,41..82);
 if (@ARGV > 0) {
   @tests = @ARGV;
@@ -30,6 +36,11 @@ foreach $i ( @tests ) {
     print "Running $build\n";
     `ant -buildfile $build`;
     my $res = $i."-out.xml";
+    my $cmp = "results/".$res;
+    if ($jv =~ /1.5/ && -e "results/".$i."-1.5-out.xml") {
+      # swap in a 1.5 file if it exists
+      $cmp = "results/".$i."-1.5-out.xml";
+    }
     if (($? >> 8) == 0) {
       if (! -e $res) {
         if ($nofile == 0) {
@@ -42,15 +53,15 @@ foreach $i ( @tests ) {
         }
       }
       else {
-        print "Comparing $res\n";
-        if (! -e "results/$res") {
+        print "Comparing $res vs $cmp\n";
+        if (! -e $cmp) {
           print STDERR "Nothing to compare $res to\n";
           print STDERR "TESTS FAIL\n";
           exit(1);
         }
-        `diff $res results/$res`;
+        `diff $res $cmp`;
         if (($? >> 8) != 0) {
-          print STDERR "$res and results/$res differ!\n";
+          print STDERR "$res and $cmp differ!\n";
           print STDERR "TESTS FAIL\n";
           exit(1);
         }

@@ -139,8 +139,11 @@ public class XmlTask extends Task {
       boolean absolute = false;
       if ((new File(source)).isAbsolute()) {
         absolute = true;
-        basedir = source.substring(0, source.lastIndexOf(File.separator));
-        includes = source.substring(source.lastIndexOf(File.separator) + 1);
+        int wildcard = source.indexOf("*");
+        basedir = source.substring(0, source.lastIndexOf(File.separator, wildcard));
+        includes = source.substring(source.lastIndexOf(File.separator, wildcard) + 1);
+        System.out.println("SETTING INCLUDES = " + includes);
+        System.out.println("SETTING BASEDIR = " + basedir);
         ds.setIncludes(new String[]{includes});
       }
       else {
@@ -652,6 +655,7 @@ public class XmlTask extends Task {
         }
         else if (outputter.startsWith(FMT_SIMPLE)) {
           FormattedDataWriter dw = new FormattedDataWriter();
+
           dw.setWriter(w);
           dw.setIndentStep(2);
           if (outputter.indexOf(":") != -1) {
@@ -659,6 +663,13 @@ public class XmlTask extends Task {
             String fmt = outputter.substring(outputter.indexOf(":") + 1);
             dw.setIndentStep(Integer.parseInt(fmt));
           }
+
+          /*
+          System.out.println("SET PREFIX");
+          dw.forceNSDecl("http://exist.sourceforge.net/NS/exist", "exist");
+          dw.setPrefix("http://www.accountz.com/xmlbeans/model", "");
+          */
+
           dw.setTransformer(serializer);
           res = new SAXResult(dw);
         }

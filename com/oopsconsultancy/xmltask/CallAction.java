@@ -8,8 +8,8 @@ import org.apache.tools.ant.taskdefs.*;
 import org.w3c.dom.traversal.*;
 
 // enable the below for JDK 1.3, 1.4
-import org.apache.xpath.objects.*;
-import org.apache.xpath.*;
+//import org.apache.xpath.objects.*;
+//import org.apache.xpath.*;
 
 // enable the below for JDK 1.5
 //import com.sun.org.apache.xpath.internal.*;
@@ -71,9 +71,11 @@ public class CallAction extends Action {
     if (params != null) {
       for (Iterator i = params.iterator(); i.hasNext(); ) {
         Param param = (Param)i.next();
-        XObject result = XPathAPI.eval(node, param.getPath());
 
-        if (result instanceof XNodeSet) {
+    if (System.getProperty("java.vm.version").indexOf("1.5") != -1) {
+        com.sun.org.apache.xpath.internal.objects.XObject result = com.sun.org.apache.xpath.internal.XPathAPI.eval(node, param.getPath());
+
+        if (result instanceof com.sun.org.apache.xpath.internal.objects.XNodeSet) {
           NodeIterator nl = result.nodeset();
           Node n;
           // we only make use of one node
@@ -81,12 +83,31 @@ public class CallAction extends Action {
             param.set(task, n.getNodeValue());
           }
         }
-        else if (result instanceof XBoolean ||
-            result instanceof XNumber ||
-            result instanceof XString) {
+        else if (result instanceof com.sun.org.apache.xpath.internal.objects.XBoolean ||
+            result instanceof com.sun.org.apache.xpath.internal.objects.XNumber ||
+            result instanceof com.sun.org.apache.xpath.internal.objects.XString) {
           String str = result.str();
           param.set(task, result.str());
         }
+     }
+    else {
+      org.apache.xpath.objects.XObject result = org.apache.xpath.XPathAPI.eval(node, param.getPath());
+
+      if (result instanceof org.apache.xpath.objects.XNodeSet) {
+        NodeIterator nl = result.nodeset();
+        Node n;
+        // we only make use of one node
+        while ((n = nl.nextNode()) != null) {
+          param.set(task, n.getNodeValue());
+        }
+      }
+      else if (result instanceof org.apache.xpath.objects.XBoolean ||
+          result instanceof org.apache.xpath.objects.XNumber ||
+          result instanceof org.apache.xpath.objects.XString) {
+        String str = result.str();
+        param.set(task, result.str());
+      }
+    }
 
         // now set the values
         String val = param.getValue();
