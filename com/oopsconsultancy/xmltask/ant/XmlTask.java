@@ -35,7 +35,7 @@ public class XmlTask extends Task {
   private String doctype_system = null;
   private String dir = null;
   private LocalEntityResolver resolver = new LocalEntityResolver();
-  private XMLCatalog xmlCatalog = new XMLCatalog();
+  private final XMLCatalog xmlCatalog = new XMLCatalog();
   private boolean normalize = true;
   private boolean indent = true;
   private String encoding = null;
@@ -44,6 +44,8 @@ public class XmlTask extends Task {
   private boolean preservetype = false;
   private boolean failWithoutMatch = false;
   private String[] buffers = new String[]{};
+
+  private final List filesets = new ArrayList();
 
   /**
    * the file to output
@@ -77,7 +79,7 @@ public class XmlTask extends Task {
    */
   private List replacements = new ArrayList();
 
-  public void setPublic(String p) {
+  public void setPublic(final String p) {
     doctype_public = p;
   }
 
@@ -85,7 +87,7 @@ public class XmlTask extends Task {
     doctype_system = s;
   }
 
-  public void setPreserveType(boolean p) {
+  public void setPreserveType(final boolean p) {
     this.preservetype = p;
   }
 
@@ -106,7 +108,7 @@ public class XmlTask extends Task {
    * @param buffer
    * @throws Exception
    */
-  public void setSourceBuffer(String buffer) throws Exception {
+  public void setSourceBuffer(final String buffer) throws Exception {
     docs.add(new InputBuffer(buffer));
   }
 
@@ -129,21 +131,17 @@ public class XmlTask extends Task {
    * @param source
    * @throws Exception
    */
-  public void setSource(String source) throws Exception {
+  public void setSource(final String source) throws Exception {
 
     if (source.indexOf("*") != -1) {
-
+      log("Wildcarded source now deprecated in favour of <fileset> usage", Project.MSG_WARN);
       String basedir = null;
       DirectoryScanner ds = new DirectoryScanner();
       String includes = null;
-      boolean absolute = false;
       if ((new File(source)).isAbsolute()) {
-        absolute = true;
         int wildcard = source.indexOf("*");
         basedir = source.substring(0, source.lastIndexOf(File.separator, wildcard));
         includes = source.substring(source.lastIndexOf(File.separator, wildcard) + 1);
-        System.out.println("SETTING INCLUDES = " + includes);
-        System.out.println("SETTING BASEDIR = " + basedir);
         ds.setIncludes(new String[]{includes});
       }
       else {
@@ -164,10 +162,8 @@ public class XmlTask extends Task {
       File sf = new File(source);
       docs = new ArrayList();
       String file = source;
-      boolean absolute = true;
       if (!sf.isAbsolute()) {
         file = getPathPrefix() + source;
-        absolute = false;
         docs.add(new InputFile(file, getPathPrefix()));
       }
       else {
@@ -182,7 +178,7 @@ public class XmlTask extends Task {
    */
   public abstract class InputSpec {
     protected String name = null;
-    public InputSpec(String name) {
+    public InputSpec(final String name) {
       this.name = name;
     }
     public String toString() {
@@ -199,10 +195,10 @@ public class XmlTask extends Task {
    */
   public class InputFile extends InputSpec {
     protected String base = null;       // what to remove to make it relative again
-    public InputFile(String name) {
+    public InputFile(final String name) {
       super(name);
     }
-    public InputFile(String name, String base) {
+    public InputFile(final String name, final String base) {
       super(name);
       this.base = base;
     }
@@ -221,7 +217,7 @@ public class XmlTask extends Task {
    */
   public class InputProperty extends InputSpec {
     protected String base = null;       // what to remove to make it relative again
-    public InputProperty(String name) {
+    public InputProperty(final String name) {
       super(name);
     }
     public Document getDocument() throws Exception {
@@ -234,7 +230,7 @@ public class XmlTask extends Task {
    * defines the input as an xmltask buffer
    */
   public class InputBuffer extends InputSpec {
-    public InputBuffer(String name) {
+    public InputBuffer(final String name) {
       super(name);
     }
     public Document getDocument() throws Exception {
@@ -288,7 +284,7 @@ public class XmlTask extends Task {
       return null;
     }
 
-    public void registerEntity(XmlTask task, String remote, String local) {
+    public void registerEntity(final XmlTask task, final String remote, String local) {
       // I need to determine if abc is a url or an absolute path, and if not,
       // prepend the absolute directory
       if (!local.equals("")) {
@@ -309,7 +305,7 @@ public class XmlTask extends Task {
     }
   }
 
-  public void addConfiguredXMLCatalog(XMLCatalog catalog) {
+  public void addConfiguredXMLCatalog(final XMLCatalog catalog) {
     xmlCatalog.addConfiguredXMLCatalog(catalog);
   }
 
@@ -332,7 +328,7 @@ public class XmlTask extends Task {
    * @param stream
    * @throws Exception
    */
-  private Document documentFromStream(InputStream is) throws Exception {
+  private Document documentFromStream(final InputStream is) throws Exception {
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
     dfactory.setNamespaceAware(true);
@@ -365,7 +361,7 @@ public class XmlTask extends Task {
    * @param filename
    * @throws Exception
    */
-  private Document documentFromFile(String filename) throws Exception {
+  private Document documentFromFile(final String filename) throws Exception {
     return documentFromStream(new FileInputStream(filename));
   }
 
@@ -377,7 +373,7 @@ public class XmlTask extends Task {
    * @param str
    * @throws Exception
    */
-  private Document documentFromStr(String str) throws Exception {
+  private Document documentFromStr(final String str) throws Exception {
     return documentFromStream(new StringInputStream(str));
   }
 
@@ -386,7 +382,7 @@ public class XmlTask extends Task {
    *
    * @param dest
    */
-  public void setDest(String dest) {
+  public void setDest(final String dest) {
     this.dest = dest;
     todir = false;
   }
@@ -396,7 +392,7 @@ public class XmlTask extends Task {
    *
    * @param outputter
    */
-  public void setOutputter(String outputter) {
+  public void setOutputter(final String outputter) {
     this.outputter = outputter;
   }
 
@@ -405,7 +401,7 @@ public class XmlTask extends Task {
    *
    * @param dest
    */
-  public void setTodir(String dest) {
+  public void setTodir(final String dest) {
     this.dest = dest;
     todir = true;
   }
@@ -415,7 +411,7 @@ public class XmlTask extends Task {
    *
    * @param enc
    */
-  public void setEncoding(String enc) {
+  public void setEncoding(final String enc) {
     outputEncoding = enc;
   }
 
@@ -424,7 +420,7 @@ public class XmlTask extends Task {
    *
    * @param xmlr
    */
-  public void add(XmlReplace xmlr) {
+  public void add(final XmlReplace xmlr) {
     xmlr.setTask(this);
     replacements.add(xmlr);
   }
@@ -435,7 +431,7 @@ public class XmlTask extends Task {
    *
    * @param report
    */
-  public void setReport(boolean report) {
+  public void setReport(final boolean report) {
     this.reporting = report;
   }
 
@@ -446,7 +442,7 @@ public class XmlTask extends Task {
    *
    * @param norm
    */
-  public void setNormalize(boolean norm) {
+  public void setNormalize(final boolean norm) {
     this.normalize = norm;
   }
 
@@ -455,7 +451,7 @@ public class XmlTask extends Task {
    *
    * @param bufferset
    */
-  public void setClearBuffers(String bufferset) {
+  public void setClearBuffers(final String bufferset) {
     buffers = bufferset.split(",");
   }
 
@@ -465,7 +461,7 @@ public class XmlTask extends Task {
    *
    * @param i
    */
-  public void setIndent(boolean in) {
+  public void setIndent(final boolean in) {
     this.indent = in;
   }
 
@@ -494,6 +490,26 @@ public class XmlTask extends Task {
   public void execute() throws BuildException {
     log("Executing xmltask " + getVersion(), Project.MSG_VERBOSE);
 
+    if (!filesets.isEmpty())
+    {
+        if (docs.size() > 0) {
+          throw new BuildException("Can't use filesets together with source inputs");
+        }
+        Iterator iter = filesets.iterator();
+        FileSet fs = null;
+        while (iter.hasNext())
+        {
+            fs = (FileSet) iter.next();
+            DirectoryScanner ds = fs.getDirectoryScanner(getProject());
+            File srcDir = fs.getDir(getProject());
+            String[] srcFiles = ds.getIncludedFiles();
+            for (int i = 0; i < srcFiles.length; i++)
+            {
+                String path = srcFiles[i];
+                docs.add(new InputFile(srcDir.getAbsolutePath() + File.separator + path, srcDir.getAbsolutePath()));
+            }
+        }
+    }
     if (docs.size() == 0 && todir) {
       throw new BuildException("No input documents");
     }
@@ -565,7 +581,7 @@ public class XmlTask extends Task {
    * @param name the destination file
    * @throws BuildException
    */
-  private void processDoc(Document doc, String name) throws BuildException {
+  private void processDoc(Document doc, final String name) throws BuildException {
     try {
       // get doctype info if required...
       DocumentType dt = doc.getDoctype();
@@ -601,7 +617,6 @@ public class XmlTask extends Task {
             }
             else {
               // "Private" External DTDs - see http://xmlwriter.net/xml_guide/doctype_declaration.shtml
-              // serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "");
             }
             if (dt != null && dt.getSystemId() != null) {
               serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dt.getSystemId());
@@ -707,7 +722,7 @@ public class XmlTask extends Task {
    * @return the resultant writer
    * @throws IOException
    */
-  private Writer getWriter(String filename, Transformer serializer) throws IOException {
+  private Writer getWriter(final String filename, final Transformer serializer) throws IOException {
     String enc = outputEncoding;
     if (enc == null) {
       enc = encoding;
@@ -740,15 +755,15 @@ public class XmlTask extends Task {
     return new Insert(this);
   }
 
-  public void addConfiguredCopy(Copy copy) {
+  public void addConfiguredCopy(final Copy copy) {
     copy.process(this);
   }
 
-  public void addConfiguredCall(Call call) {
+  public void addConfiguredCall(final Call call) {
     call.process(this);
   }
 
-  public void addConfiguredCut(Cut cut) {
+  public void addConfiguredCut(final Cut cut) {
     cut.process(this);
   }
 
@@ -764,15 +779,23 @@ public class XmlTask extends Task {
     return new Entity(this);
   }
 
-  public void registerEntity(String remote, String local) {
+  public void registerEntity(final String remote, final String local) {
     resolver.registerEntity(this, remote, local);
   }
 
-  public void setFailWithoutMatch(boolean f) {
+  public void setFailWithoutMatch(final boolean f) {
     this.failWithoutMatch = f;
   }
 
   public boolean isFailWithoutMatch() {
     return failWithoutMatch;
+  }
+
+  /**
+   * Adds a set of files as source.
+   */
+  public void addFileset(final FileSet set)
+  {
+      filesets.add(set);
   }
 }

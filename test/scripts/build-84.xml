@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- this tests simple fileset functionality  -->
+  <target name="main">
+    <xmltask report="true" todir="/tmp">
+      <fileset dir=".">
+        <include name="84*.xml"/>
+      </fileset>
+      <copy path="/a/b" buffer="count" append="true"/>
+    </xmltask>
+    <xmltask dest="84-out.xml" report="true" >
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+      <paste path="/root" buffer="count"/>
+    </xmltask>
+  </target>
+</project>

@@ -118,9 +118,6 @@
       <fileset dir="doc/" includes="*.jpg"/>
     </copy>
 
-    <!--
-    <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
-    -->
     <!-- generate versioned files for Sourceforge dispatch -->
     <copy file="${jarfile}"       tofile="${v_jarfile}"/>
     <copy file="${jarfile.1.4}"   tofile="${v_jarfile.1.4}"/>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- this tests simple fileset functionality. Assumes that
+       the /tmp directory exists. Not reasonable on non-Unix
+       platforms. C'est la vie -->
+  <target name="main">
+    <copy file="86a.xml" tofile="/tmp/xmltask_86.xml"/>
+    <xmltask report="true">
+      <fileset dir="/tmp">
+        <include name="xmltask_86*.xml"/>
+      </fileset>
+      <fileset dir=".">
+        <include name="86a.xml"/>
+        <include name="86b.xml"/>
+      </fileset>
+      <!-- perform the copy from the sources -->
+      <copy path="/a/b" buffer="count" append="true"/>
+    </xmltask>  
+
+    <xmltask dest="86-out.xml" report="true">
+      <!-- build the destination -->
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+      <paste path="/root" buffer="count"/>
+    </xmltask>
+  </target>
+</project>
