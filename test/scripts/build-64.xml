@@ -22,7 +22,7 @@
 
   <target name="sub">
     <echo>Executing xmltask</echo>
-    <xmltask id="xmltask" report="true" outputter="simple" preserveType="true">
+    <xmltask id="xmltask" report="true" preserveType="true">
       <replace path="/log4j/b/text()" withText="junk"/>
       <replace path="/nonexistant" withText="non"/>
       <replace path="/log4j/b/text()" withText="junk"/>

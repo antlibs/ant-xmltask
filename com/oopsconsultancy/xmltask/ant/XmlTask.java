@@ -464,6 +464,7 @@ public class XmlTask extends Task {
         serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 
         if (preservetype) {
+
           // use the document's
           if (dt != null) {
             // but I don't want to set PUBLIC and SYSTEM = "" i.e. both blank
@@ -471,7 +472,8 @@ public class XmlTask extends Task {
               serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, dt.getPublicId());
             }
             else {
-              serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "");
+              // "Private" External DTDs - see http://xmlwriter.net/xml_guide/doctype_declaration.shtml
+              // serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "");
             }
             if (dt != null && dt.getSystemId() != null) {
               serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dt.getSystemId());

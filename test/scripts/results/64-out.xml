@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE log4j PUBLIC "" "log4j.dtd">
+<!DOCTYPE log4j SYSTEM "log4j.dtd">
 <log4j>
   <b id="FROM">junk</b>
 </log4j>
-
