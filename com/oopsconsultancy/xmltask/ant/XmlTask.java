@@ -14,6 +14,7 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 import com.oopsconsultancy.xmltask.*;
 import com.oopsconsultancy.xmltask.output.*;
+import org.apache.tools.ant.filters.*;
 
 /**
  * the basic Ant xml task. Records a set of actions to
@@ -110,6 +111,19 @@ public class XmlTask extends Task {
   }
 
   /**
+   * records the source property. See the comments
+   * re. InputProperty for why this doesn't work!
+   *
+   * @param property
+   * @throws Exception
+   */
+   /*
+  public void setProperty(String property) throws Exception {
+    docs.add(new InputProperty(property));
+  }
+  */
+
+  /**
    * records the source file(s). These can be wildcarded
    *
    * @param source
@@ -196,6 +210,22 @@ public class XmlTask extends Task {
       return documentFromFile(getName());
     }
   }
+
+  /**
+   * defines the input as a property. This doesn't
+   * currently work since I only allow copying of
+   * attributes and text to properties
+   */
+  public class InputProperty extends InputSpec {
+    protected String base = null;       // what to remove to make it relative again
+    public InputProperty(String name) {
+      super(name);
+    }
+    public Document getDocument() throws Exception {
+      return documentFromStr(getProject().getProperty(name));
+    }
+  }
+
 
   /**
    * defines the input as an xmltask buffer
@@ -341,11 +371,9 @@ public class XmlTask extends Task {
    * @param str
    * @throws Exception
    */
-   /*
   private Document documentFromStr(String str) throws Exception {
-    return documentFromStream(new StringInputStream(filename));
+    return documentFromStream(new StringInputStream(str));
   }
-  */
 
   /**
    * records the output file
@@ -493,26 +521,6 @@ public class XmlTask extends Task {
 
       Document document = null;
       try {
-        /*
-        if (spec instanceof InputFile) {
-          document = documentFromFile(spec.getName());
-        }
-        else if (spec instanceof InputBuffer) {
-          Node[] nodes = BufferStore.get(spec.getName());
-          if (nodes == null) {
-            document = createDocument();
-          }
-          else {
-            if (nodes.length != 1) {
-              throw new BuildException("Cannot use multiple buffer nodes as an input source");
-            }
-            else {
-              document = createDocument();
-              Node newnode = document.importNode(nodes[0], true);
-              document.appendChild(newnode);
-            }
-          }
-        }*/
         if (spec instanceof InputSpec) {
           document = ((InputSpec)spec).getDocument();
         }
