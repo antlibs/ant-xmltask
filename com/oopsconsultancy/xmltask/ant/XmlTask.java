@@ -100,7 +100,17 @@ public class XmlTask extends Task {
   }
 
   /**
-   * records the source and generates a DOM document
+   * records the source buffer
+   *
+   * @param buffer
+   * @throws Exception
+   */
+  public void setBuffer(String buffer) throws Exception {
+    docs.add(new InputBuffer(buffer));
+  }
+
+  /**
+   * records the source file(s). These can be wildcarded
    *
    * @param source
    * @throws Exception
@@ -130,7 +140,7 @@ public class XmlTask extends Task {
       for (int d = 0; d < ds.getIncludedFiles().length; d++) {
         String included = basedir + File.separator +  ds.getIncludedFiles()[d];
         log("Adding " + included, Project.MSG_VERBOSE);
-        docs.add(new FileSpec(included, absolute, basedir));
+        docs.add(new InputFile(included, basedir));
       }
     }
     else {
@@ -141,34 +151,76 @@ public class XmlTask extends Task {
       if (!sf.isAbsolute()) {
         file = getPathPrefix() + source;
         absolute = false;
-        docs.add(new FileSpec(file, absolute, getPathPrefix()));
+        docs.add(new InputFile(file, getPathPrefix()));
       }
       else {
-        docs.add(new FileSpec(file, absolute));
+        docs.add(new InputFile(file));
       }
       log("Reading " + file, Project.MSG_VERBOSE);
     }
   }
 
   /**
-   * defines the source filename and whether it was specified
-   * as absolute or not
+   * defines the source input
    */
-  public class FileSpec {
-    public String name = null;
-    public boolean absolute = false; // was the path specified as absolute ?
-    public String base = null;       // what to remove to make it relative again
-    public FileSpec(String name, boolean absolute) {
+  public abstract class InputSpec {
+    protected String name = null;
+    public InputSpec(String name) {
       this.name = name;
-      this.absolute = absolute;
-    }
-    public FileSpec(String name, boolean absolute, String base) {
-      this.name = name;
-      this.absolute = absolute;
-      this.base = base;
     }
     public String toString() {
-      return name + (absolute ? " (specced as absolute)" : "(base used = " + base + ")");
+      return name;
+    }
+    public String getName() {
+      return name;
+    }
+    public abstract Document getDocument() throws Exception;
+  }
+
+  /**
+   * defines the input as a file (absolute or relative paths)
+   */
+  public class InputFile extends InputSpec {
+    protected String base = null;       // what to remove to make it relative again
+    public InputFile(String name) {
+      super(name);
+    }
+    public InputFile(String name, String base) {
+      super(name);
+      this.base = base;
+    }
+    public String getBase() {
+      return base;
+    }
+    public Document getDocument() throws Exception {
+      return documentFromFile(getName());
+    }
+  }
+
+  /**
+   * defines the input as an xmltask buffer
+   */
+  public class InputBuffer extends InputSpec {
+    public InputBuffer(String name) {
+      super(name);
+    }
+    public Document getDocument() throws Exception {
+      Node[] nodes = BufferStore.get(getName());
+      if (nodes == null) {
+        return createDocument();
+      }
+      else {
+        if (nodes.length != 1) {
+          throw new BuildException("Cannot use multiple buffer nodes as an input source");
+        }
+        else {
+          Document document = createDocument();
+          Node newnode = document.importNode(nodes[0], true);
+          document.appendChild(newnode);
+          return document;
+        }
+      }
+
     }
   }
 
@@ -238,13 +290,13 @@ public class XmlTask extends Task {
   }
 
   /**
-   * builds the input document given the filename
+   * builds the input document given a stream of chars
    * as a source
    *
-   * @param filename
+   * @param stream
    * @throws Exception
    */
-  private Document documentFromFile(String filename) throws Exception {
+  private Document documentFromStream(InputStream is) throws Exception {
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
     dfactory.setNamespaceAware(true);
@@ -260,7 +312,7 @@ public class XmlTask extends Task {
       builder.setEntityResolver(xmlCatalog);
     }
 
-    InputSource in = new InputSource(new FileInputStream(filename));
+    InputSource in = new InputSource(is);
     Document doc = builder.parse(in);
 
     // mmm. always get null here. Must investigate sometime
@@ -269,6 +321,31 @@ public class XmlTask extends Task {
     doc.getDocumentElement().normalize();
     return doc;
   }
+
+  /**
+   * builds the input document given the filename
+   * as a source
+   *
+   * @param filename
+   * @throws Exception
+   */
+  private Document documentFromFile(String filename) throws Exception {
+    return documentFromStream(new FileInputStream(filename));
+  }
+
+  /**
+   * builds the input document given a raw document string
+   * as a source. Note that encoding is assumed as ISO-Latin1
+   * and there will be data loss
+   *
+   * @param str
+   * @throws Exception
+   */
+   /*
+  private Document documentFromStr(String str) throws Exception {
+    return documentFromStream(new StringInputStream(filename));
+  }
+  */
 
   /**
    * records the output file
@@ -406,12 +483,8 @@ public class XmlTask extends Task {
     }
 
     for (int d = 0; d < docs.size(); d++) {
-      FileSpec fspec = (FileSpec)docs.get(d);
-      String doc = null;
-      if (fspec != null) {
-        doc = fspec.name;
-      }
-      log("Processing " + (doc == null ? "" : doc) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
+      InputSpec spec = (InputSpec)docs.get(d);
+      log("Processing " + (spec == null ? "" : spec.getName()) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
 
       // first clear any buffers requested
       for (int b = 0; b < buffers.length; b++) {
@@ -420,8 +493,28 @@ public class XmlTask extends Task {
 
       Document document = null;
       try {
-        if (doc != null) {
-          document = documentFromFile(doc);
+        /*
+        if (spec instanceof InputFile) {
+          document = documentFromFile(spec.getName());
+        }
+        else if (spec instanceof InputBuffer) {
+          Node[] nodes = BufferStore.get(spec.getName());
+          if (nodes == null) {
+            document = createDocument();
+          }
+          else {
+            if (nodes.length != 1) {
+              throw new BuildException("Cannot use multiple buffer nodes as an input source");
+            }
+            else {
+              document = createDocument();
+              Node newnode = document.importNode(nodes[0], true);
+              document.appendChild(newnode);
+            }
+          }
+        }*/
+        if (spec instanceof InputSpec) {
+          document = ((InputSpec)spec).getDocument();
         }
         else {
           document = createDocument();
@@ -431,16 +524,17 @@ public class XmlTask extends Task {
         e.printStackTrace();
         throw new BuildException(e.getMessage());
       }
-      String destfile = doc;
-      if (dest != null) {
-        log("Writing " + destfile + " to " + dest, Project.MSG_VERBOSE);
-      }
 
-      if (fspec != null) {
-        // we strip down to the original filename to write out
-        // to the destination (only if a dir)
-        if (todir) {
-          destfile = destfile.substring(fspec.base.length());
+      String destfile = (spec != null ? spec.getName() : null);
+
+      if (todir) {
+        if (spec instanceof InputFile) {
+          // we strip down to the original filename to write out
+          // to the destination (only if a dir)
+          destfile = destfile.substring(((InputFile)spec).getBase().length());
+        }
+        else {
+          throw new BuildException("Can't write to a directory with a non-file input");
         }
       }
       processDoc(document, destfile);

@@ -31,6 +31,7 @@ Uses include:
 <li>inserting/removing information for J2EE deployment descriptors
 <li>dynamically building Ant build.xml files during builds
 <li>building and maintaining websites built with XHTML
+<li>driving Ant via a <i>meta</i> build.xml to abstract out build processes
 </ul>
 <center>
 <i>
@@ -51,6 +52,7 @@ Current version @VERSION@<p>
 Since v1.8
 <ul>
 <li>&lt;call&gt; operation to call Ant targets for XML nodes identified by &lt;xmltask&gt;
+<li>&lt;xmltask&gt; can now use a <a href="#buffers">buffer</a> as an input source
 </ul>
 Since v1.7
 <ul>
@@ -106,7 +108,7 @@ To use this task, make sure:
 <h4><a name="usage">Usage</a></h4>
 <code>xmltask</code> allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.
 <ul>
-<li>The main &lt;xmltask&gt; section takes arguments to define a source file(s) and a destination file or directory. Note that <code>source</code> is optional if you're creating a new document via &lt;xmltask&gt; instructions. <code>dest</code> and <code>todir</code> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).
+<li>The main &lt;xmltask&gt; section takes arguments to define an XML source and a destination file or directory. Note that the XML source is optional if you're creating a new document via &lt;xmltask&gt; instructions. <code>dest</code> and <code>todir</code> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).
 <p>
 <!-- xmltask attributes -->
 <b>Parameters</b><p>
@@ -116,10 +118,13 @@ To use this task, make sure:
 </tr>
 <tr>
   <td>source</td><td>the source XML file to load. Can take the form of a wildcarded pattern eg. **/*.xml</td><td align="centre">no</td>
-</tr><tr>
+</tr>
+<tr>
+  <td>buffer</td><td>the source <a href="#buffers">buffer</a> containing XML from a previous &lt;xmltask&gt; invocation. The buffer must contain a <i>single</i> root node (i.e be <i>well-formed</i>). If the buffer is empty, then this has the effect of starting with a blank document.</td><td align="centre">no</td>
+</tr>
 <tr>
   <td>dest</td><td>the output XML file to write to</td><td align="centre">no</td>
-</tr><tr>
+</tr>
 <tr>
   <td>todir</td><td>the output directory to write to</td><td align="centre">no</td>
 </tr><tr>
@@ -143,6 +148,20 @@ To use this task, make sure:
   <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are cleared after every input file is processed. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
 </tr>
 </table>
+<p>
+e.g.
+<pre>
+  &lt;xmltask source="input.xml" dest="output.xml"&gt;
+</pre>
+reads from <code>input.xml</code> and writes to <code>output.xml</code>.
+<pre>
+  &lt;xmltask source="*.xml" todir="output"&gt;
+</pre>
+reads from the XML files in the <code>input</code> dir and writes to the same filenames in the <code>output</code> dir.
+<pre>
+  &lt;xmltask buffer="servlet" output="servlet.xml"&gt;
+</pre>
+reads from the previously populated buffer <code>servlet</code> and writes to <code>output.xml</code>.
 <p>
 <li>Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info.
 <p>
@@ -639,7 +658,7 @@ Some examples of common usage:
         ...
   </pre>
   <p>
-  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id.
+  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id. The <code>servletDef</code> buffer can be used in suceeding <code>xmltask</code> invocations.
   <pre>
     &lt;xmltask source="web.xml"&gt;
       &lt;call path="web/servlet" target="deploy" buffer="servletDef"/&gt;

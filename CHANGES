@@ -4,6 +4,7 @@ $Id$
 
 Tested against ant 1.6
 call subtarget implemented
+xmltask can now use a buffer as an input source
 
 1.8.2 14/12/2003
 

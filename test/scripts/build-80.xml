@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests using a blank buffer as an input source -->
+  <target name="main" depends="a,b">
+  </target>
+
+  <target name="a">
+    <!-- does nothing -->
+  </target>
+
+  <target name="b">
+    <!-- tst should not be populated -->
+    <xmltask buffer="tst" dest="80-out.xml">
+      <insert path="/">
+        <![CDATA[
+          <d/>
+        ]]>  
+      </insert>
+    </xmltask>  
+  </target>
+
+</project>

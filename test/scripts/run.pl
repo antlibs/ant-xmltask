@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # $Id$
 
-my @tests = (1..39,41..78);
+my @tests = (1..39,41..81);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -18,7 +18,7 @@ if (-e $xmlcatalog) {
 
 foreach $i ( @tests ) {
   my $nofile = 0;
-  if ($i == 62 || $i == 75) {
+  if ($i == 62 || $i == 75 || $i == 81) {
     # which tests shouldn't return results ?
     $nofile = 1;
   }

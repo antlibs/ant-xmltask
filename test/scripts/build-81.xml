@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests using a buffer as an input source. The match below
+       produces multiple nodes so this build will fail -->
+  <target name="main" depends="a,b">
+  </target>
+
+  <target name="a">
+    <xmltask source="81.xml">
+      <copy path="/a/b" buffer="tst" append="true"/>
+    </xmltask>
+  </target>
+
+  <target name="b">
+    <xmltask buffer="tst" dest="81-out.xml">
+      <insert path="/b/c">
+        <![CDATA[
+          <d/>
+        ]]>  
+      </insert>
+    </xmltask>  
+  </target>
+
+</project>
