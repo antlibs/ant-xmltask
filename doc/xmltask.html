@@ -49,6 +49,7 @@ A mailing list now exists for &lt;xmltask&gt;. See <a href="#support">Support</a
 Current version @VERSION@<p>
 Since v1.9
 <ul>
+<li><code>omitHeader</code> capability to remove the XML header on output
 <li>&lt;copy&gt; and &lt;cut&gt; can now copy/cut text from comments to a nominated property
 <li>&lt;call&gt; can now take properties and static strings as parameters
 <li>&lt;fileset&gt; capability as for standard Ant tasks. The wildcarded <code>source</code> attribute will be deprecated 
@@ -160,6 +161,8 @@ To use this task, make sure:
   <td>encoding</td><td>determines the character encoding value for the output document</td><td align="centre">no</td>
 </tr><tr>
   <td>outputter</td><td>determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.</td><td align="centre">no</td>
+</tr><tr>
+  <td>omitHeader</td><td>when set to true forces omission of the &lt;?xml...?&gt; header. Note that the XML spec specifies the header SHOULD be included, but this is not mandated for XML v1.0</td><td align="centre">no</td>
 </tr><tr>
   <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are cleared after every input file is processed. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
 </tr>

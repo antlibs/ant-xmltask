@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests cutting properties -->
+  <target name="main">
+    <xmltask source="90.xml" dest="90-out.xml" report="true" omitHeader="true">
+      <cut path="/a/b/comment()" property="prop"/>
+    </xmltask>
+    <echo>Copied to '${prop}'</echo>
+  </target>
+</project>

@@ -29,6 +29,9 @@ public class XmlTask extends Task {
   private final static String FMT_NONE = "default";
   private final static String FMT_SIMPLE = "simple";
 
+  private boolean settingStandalone = false;
+  private boolean standalone = false;
+  private boolean omitHeader = false;
   private boolean todir = false;
   private boolean reporting = false;
   private String doctype_public = null;
@@ -436,6 +439,26 @@ public class XmlTask extends Task {
   }
 
   /**
+   * determines whether the header should be omitted
+   *
+   * @param omitHeader
+   */
+  public void setOmitHeader(final boolean omitHeader) {
+    this.omitHeader = omitHeader;
+  }
+
+  /**
+   * determines whether the document is standalone
+   *
+   * @param standalone
+   */
+  public void setStandAlone(final boolean standalone) {
+    this.standalone = standalone;
+    settingStandalone = true;
+  }
+
+
+  /**
    * determines whether the ouput document is munged to
    * remove redundant text nodes, whitespace etc. By
    * default it is
@@ -613,7 +636,10 @@ public class XmlTask extends Task {
       if (dest != null) {
         // and then write out...
         Transformer serializer = TransformerFactory.newInstance().newTransformer();
-        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (omitHeader ? "yes":"no"));
+        if (settingStandalone) {
+        serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
+        }
 
         if (preservetype) {
 

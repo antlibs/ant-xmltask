@@ -1,5 +1,9 @@
 $Id$
 
+1.10.4 --/--/--
+
+omitHeader capability
+
 1.10.3 31/08/2004
 
 Cut/copy to properties now works with comment text
