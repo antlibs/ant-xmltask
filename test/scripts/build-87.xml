@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests failure in sub-tasks -->
+  <target name="main">
+    <xmltask report="true" source="87.xml">
+      <call path="/" target="subtask"/>
+    </xmltask>  
+    <echo>SHOULDN'T SEE THIS</echo>
+    <touch file="87-out.xml"/>
+  </target>
+
+  <target name="subtask">
+    <fail>FAIL</fail>
+  </target>
+
+</project>
