@@ -245,12 +245,15 @@ public class XmlTask extends Task {
         }
         else {
           Document document = createDocument();
-          Node newnode = document.importNode(nodes[0], true);
+          Node orig = nodes[0];
+          if (orig instanceof Document) {
+            orig = ((Document)orig).getDocumentElement();
+          }
+          Node newnode = document.importNode(orig, true);
           document.appendChild(newnode);
           return document;
         }
       }
-
     }
   }
 

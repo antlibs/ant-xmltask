@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # $Id$
 
-my @tests = (1..39,41..81);
+my @tests = (1..39,41..82);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -12,7 +12,7 @@ my $xmlcatalog = "../../classes/org/apache/tools/ant/types/XMLCatalog.class";
 if (-e $xmlcatalog) {
   # xmlcatalog.class found, so we may pick up
   # the wrong XMLCatalog.class
-  print STDERR "XMLCatalog found. Possible XMLCatalog confusion\n";
+  print STDERR "XMLCatalog found. Possible XMLCatalog confusion. Removing .class file\n";
   unlink $xmlcatalog;
 }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests using a buffer as an input source and using the
+       root node as the buffer. Copies from 82.xml to 82-out.xml -->
+  <target name="main" depends="a,b">
+  </target>
+
+  <target name="a">
+    <xmltask source="82.xml">
+      <copy path="/" buffer="tst" append="true"/>
+    </xmltask>
+  </target>
+
+  <target name="b">
+    <xmltask buffer="tst" dest="82-out.xml">
+    </xmltask>  
+  </target>
+
+</project>
