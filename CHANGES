@@ -1,5 +1,10 @@
 $Id$
 
+1.9.2 18/03/2004
+
+clearBuffers now works for multiple files. ie. buffers
+are cleared _prior_ to processing the file set
+
 1.9.1 06/03/2004
 
 Added build capability for jdk 1.5
