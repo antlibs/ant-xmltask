@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+
+
+    <xmltask source="38.xml" dest="38-out.xml" report="true">
+      <remove path="//a/b/@id"/>
+    </xmltask>
+  </target>
+</project>

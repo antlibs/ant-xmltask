@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <property name="node" value="C"/>
+    <xmltask source="36.xml" dest="36-out.xml" report="true">
+      <insert path="/a/b[@id='1']">
+        <![CDATA[
+          <${node}/>
+        ]]>
+      </insert>
+      <insert path="/a/b[@id='2']"><![CDATA[
+          <${node}${node}/>
+          <D/>
+        ]]></insert>
+    </xmltask>
+  </target>
+</project>

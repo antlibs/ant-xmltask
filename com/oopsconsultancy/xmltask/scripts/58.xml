@@ -1,0 +1,6 @@
+<a>
+  <b attr="1"/>
+  <b attr="2"/>
+  <c firstattr="3"/>
+  <c secondattr="4"/>
+</a>

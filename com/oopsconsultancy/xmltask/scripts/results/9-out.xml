@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t>
+  <a>
+    <b id="1">Test</b>
+    <c>FROM</c>
+  </a>
+  <a>
+    <b id="2">Test</b>
+    <c>TO</c>
+  </a>
+  <a>
+    <b id="3">Test</b>
+    <c>FROM</c>
+  </a>
+</t>

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<project name="XmlTask" default="main" basedir=".">
+
+  <target name="init">
+    <property name="build.compiler"       value="jikes"/>
+    <property name="build.compiler.emacs" value="true"/>
+    <property name="jarfile"              value="xmltask.jar"/>
+    <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
+    <property name="tarfile"              value="xmltask.tar"/>
+    <property name="webdir"               value="/home/brian/oops/software/"/>
+    <property name="path"                 value="com/oopsconsultancy/xmltask"/>
+  </target>
+
+  <target name="javac" depends="init" description="Java source build">
+    <!-- move the properties file first -->
+    <copy todir="../../../" file="xmltask.properties"/>
+    <!-- then compile -->
+    <javac srcdir="../../.." destdir="../../.." debug="on">
+      <include name="**/xmltask/**/*.java"/>
+    </javac>
+  </target>
+
+  <target name="clean" depends="init" description="Clean classes">
+    <delete>
+      <fileset dir="." includes="**/*.class" excludes="pre1.5/*"/>
+    </delete>
+    <delete file="tags"/>
+    <delete file="${jarfile}"/>
+    <delete file="${jarfile.1.4}"/>
+    <delete file="${tarfile}"/>
+  </target>
+
+  <target name="test" depends="init">
+    <junit haltonfailure="true">
+      <test name="com.oopsconsultancy.xmltask.test.TestXmlReplacement"/>
+    </junit>
+    <echo>Tests succeed!</echo>
+  </target>
+
+  <target name="main" depends="javac,test" description="Complete build/test"/>
+
+  <target name="package" depends="javac" description="Compiles the appropriate .jars">
+    <!-- tidy some dirs which cause path lengths to expand too far...-->
+    <delete dir="scripts/from"/>
+    <delete dir="scripts/to"/>
+    <!-- move the compatibility XMLCatalog into place for the jar operation -->
+    <copy todir="../../../org/apache/tools/ant/types" file="pre1.5/XMLCatalog.class"/>
+    <jar jarfile="${jarfile}" basedir="../../.."
+          includes="${path}/**/*.class,${path}/**/*.html,xmltask.properties"
+          excludes="${path}/**/test/**/*,**/pre1.5/*"/>
+    <jar jarfile="${jarfile.1.4}" basedir="../../.."
+          includes="${path}/**/*.class,${path}/**/*.html,xmltask.properties,org/apache/tools/ant/types/XMLCatalog.class"
+          excludes="${path}/**/test/**/*,**/pre1.5/*"/>
+    <tar tarfile="${tarfile}"
+         basedir="../../.." 
+         includes="${path}/**/*.java,${path}/**/*.xml,**/*.pl,**/*.dtd,**/LICENSE,**/CREDITS,**/CHANGES"/>
+    <delete file="../../../org/apache/tools/ant/types/XMLCatalog.class"/>     
+    <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
+    <delete file="${tarfile}"/>
+    <echo>Created .jar and .tar.gz</echo>
+  </target>
+
+  <target name="deliver" depends="package" description="Delivers to the OOPS website dir">
+    <!-- perform my local deployment for writing to the web page -->
+    <!-- get and confirm the xmltask version -->
+    <property file="xmltask.properties"/>
+    <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to the web dir " validargs="y,n" addproperty="distribute"/>
+    <condition property="do.abort">
+      <equals arg1="n" arg2="${distribute}"/>
+    </condition>
+    <fail if="do.abort"/>
+
+    <!-- create a web page with the correct version -->
+    <copy file="doc/xmltask.html" todir="/tmp"/>
+    <replace file="/tmp/xmltask.html" token="@VERSION@" value="${com.oopsconsultancy.xmltask.version}"/>
+    <echo>Created version stamped documentation page</echo>
+    <echo>Copying .tar.gz</echo>
+    <copy file="${tarfile}.gz" todir="${webdir}"/>
+    <echo>Copying .jar and 1.4 .jar</echo>
+    <copy file="${jarfile}"       todir="${webdir}"/>
+    <copy file="${jarfile.1.4}"    todir="${webdir}"/>
+    <echo>Copying version-stamped .jar and 1.4 .jar</echo>
+    <copy file="${jarfile}"       tofile="${webdir}/${jarfile}-${com.oopsconsultancy.xmltask.version}"/>
+    <copy file="${jarfile.1.4}"   tofile="${webdir}/${jarfile.1.4}-${com.oopsconsultancy.xmltask.version}"/>
+    <echo>Copying documentation</echo>
+    <copy file="/tmp/xmltask.html" todir="${webdir}"/>
+    <delete file="/tmp/xmltask.html"/>
+    <copy todir="${webdir}">
+      <fileset dir="doc/" includes="*.gif"/>
+    </copy>
+  </target>
+</project>

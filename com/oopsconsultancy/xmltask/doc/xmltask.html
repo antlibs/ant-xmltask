@@ -1,0 +1,429 @@
+<html>
+<head><title>XMLTask</title></head>
+<body bgcolor="#ffffff" text="#000068" link="#0040c0" vlink="000030" alink="#800080">
+<a name="top"></a>
+<center>
+<i>
+"...too essential to be left out of the Ant distribution..."
+</i>
+&nbsp;&nbsp;&nbsp;Ant User mailing list, August 2002
+</center>
+
+<b>Contents</b><ol>
+<li><a href="#intro">Introduction</a>
+<li><a href="#changes">Recent Changes</a>
+<li><a href="#download">Download</a>
+<li><a href="#usage">Usage</a>
+<li><a href="#buffers">Buffers</a>
+<li><a href="#formatting">Formatting</a>
+<li><a href="#examples">Examples</a>
+<li><a href="#issues">Known Issues</a>
+<li><a href="#tutorials">XPath Links</a>
+<li><a href="#contact">Contact</a>
+</ol>
+
+
+<h4><a name="intro">Introduction</a></h4>
+<code>xmltask</code> provides the facility for automatically editing XML files as part of an <a target="_top" href="http://jakarta.apache.org/ant">Ant</a> build. Unlike the standard <code>filter</code> task provided with Ant, it is XML-sensitive, but doesn't require you to define XSLTs.<p>
+Uses include:
+<ul>
+<li>modifying configuration files for applications during builds
+<li>inserting/removing information for J2EE deployment descriptors
+<li>dynamically building Ant build.xml files during builds
+<li>building and maintaining websites built with XHTML
+</ul>
+<center>
+<i>
+"Keep up the good work - xmltask is invaluable to our promotion process"
+</i>
+&nbsp;&nbsp;&nbsp;User comment, June 2003
+</center>
+<p>
+
+
+<a href="http://www.java.net"><img border="0" src="javanet_button_170.gif"/></a>
+<p>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="changes">Recent Changes</a></h4>
+You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<p>
+Current version @VERSION@<p>
+Since v1.6
+<ul>
+<li>Added 'failWithoutMatch' attribute to stop builds when <code>xmltask</code> fails to match
+<li>Reports version number whilst running
+<li>&lt;copy&gt; and &lt;cut&gt; operations can now store multiple nodesets
+<li>&lt;copy&gt; and &lt;cut&gt; operations can now record attribute <i>values</i>
+<li>Enabled copy/paste of attribute nodes
+</ul>
+Since v1.5
+<ul>
+<li>Added &lt;rename&gt; instruction to rename elements and attributes
+<li>Added 'preserveType' attribute to allow transformed documented to preserve their original DTD ids
+<li>Added new formatting options
+<li>Creation of new documents allowed - no requirement for a <i>source</i> file
+<li>Compatibility issues with Ant 1.4 resolved
+<li>Added 'encoding' attribute to enable selectable character encodings for the output
+</ul>
+See the <code>CHANGES</code> file in the download for a comprehensive list of changes for each version<p>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="download">Download</a></h4>
+<i>Version @VERSION@ - release 20-July-2003</i><p>
+<code>xmltask</code> is released under the Apache license. Right-click and choose <i>Save As</i> if your browser doesn't offer you the option.
+<p>
+<b><a href="xmltask.jar">xmltask.jar</a></b> - the .jar file to use in Ant plus documentation (use <a href="xmltask.1.4.jar">this version</a> for Ant version 1.4.x - <code>&lt;xmlcatalog&gt;</code> disabled).
+<p>
+<b><a href="xmltask.tar.gz">xmltask.tar.gz</a></b> - the source code and tests 
+<p>
+Additional Requirements:<br>
+&nbsp;&nbsp;<i>JDK 1.3</i> - <a href="http://xml.apache.org/xerces-j/index.html">Xerces 1.4.1+</a>, <a href="http://xml.apache.org/xalan-j/index.html">Xalan</a><br>
+&nbsp;&nbsp;<i>JDK 1.4</i> - none
+<p>
+<a href="#top">Top</a>
+<hr>
+<h4>How To Use</h4>
+To use this task, make sure:
+<ol>
+<li>The xmltask.jar is in your <code>$CLASSPATH</code><p>
+<li>Reference the <code>xmltask</code> in your <code>build.xml</code> eg.
+<pre>
+  &lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/&gt;
+</pre>
+<li>Reference the <code>xmltask</code> task as part of your build eg.
+<pre>
+  &lt;target name="main"&gt;
+    &lt;xmltask source="input.xml" dest="output.xml"&gt;
+    ...
+</pre>    
+</ol>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="usage">Usage</a></h4>
+<code>xmltask</code> allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.
+<ul>
+<li>The main &lt;xmltask&gt; section takes arguments to define a source file and a destination file:
+<ol>
+  <li> <code>source</code> - the source XML file to load
+  <li> <code>dest</code> - the output XML file to write to
+</ol>
+or you can modify multiple files:
+<ol>
+  <li> <code>source</code> - the source pattern eg. **/*.xml
+  <li> <code>todir</code> - the output directory
+</ol>
+<p>
+Note that <code>source</code> is optional if you're creating a new document via &lt;xmltask&gt; instructions. <code>dest</code> and <code>todir</code> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).
+<p>
+In addition, you can provide the following attributes:
+<ul>
+  <li><code>report</code> when set to true, will result in diagnostic output.
+  <li><code>public</code> sets the PUBLIC identifier in the output XML DOCTYPE declaration. 
+  <li><code>system</code> sets the SYSTEM identifier in the output XML DOCTYPE declaration. 
+  <li><code>preserveType</code> when set to true sets the PUBLIC and SYSTEM identifiers to those of the original document
+  <li><code>failWithoutMatch</code> when set to true will stop the <code>xmltask</code> task (and hence the build process) if any subtask fails to match nodes using the given XPath path
+  <li><code>indent</code> when set to true enables indented formatting of the resultant document. This <i>defaults</i> to true
+  <li><code>encoding</code> determines the character encoding value for the output document
+  <li><code>outputter</code> determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.
+</ul>
+<p>
+<li>Subsections allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info.
+<p>
+<ul>
+  <li>The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a>.
+  <pre>
+      &lt;cut path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
+  </pre>
+
+  <li>The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a>.
+  <pre>
+      &lt;copy path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
+  </pre>
+
+  <li>The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> to be pasted into an XML document. This
+  is a <b>synonym</b> for the insert section (see below)<p>
+  <li> The &lt;insert&gt; section allows you to specify an XML node and the XML to insert below or alongside it
+    <pre>
+    &lt;insert path="/web/servlet/context/root[@attr='val']" xml="&amp;lt;B/&amp;gt;"/&gt;
+    &lt;insert path="/web/servlet/context/root[@attr='val']" file="insert.xml"/&gt;
+    &lt;insert path="/web/servlet/context/root[@attr='val']" buffer="namedBuffer" position="before"/&gt;
+    </pre>
+    The allowed positions are <code>before</code>, <code>after</code>, or <code>under</code>. The default position is <code>under</code>. The XML to insert can be a <i>document fragment</i> - that is to say it doesn't require a root node. Examples of insertable XML include:
+    <pre>
+      &lt;welcome-file-list/&gt;
+    </pre>  
+    (a well formed document)
+    <pre>
+      &lt;servlet-mapping id="1"/&gt;&lt;servlet-mapping id="2"/&gt;
+    </pre>
+    (a well-formed document without a root node)<p>
+   The XML to insert can be specified as body text within the &lt;insert&gt; task eg.
+  <pre>
+      &lt;insert path="web/servlet/context/root[@id='2']/text()"&gt;
+      &lt;![CDATA[
+        &lt;node/&gt;
+      ]]&gt;
+      &lt;/insert&gt;
+  </pre>
+  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
+<p>
+You can create a new document by not specifying a source file, and making the first instruction for &lt;xmltask&gt; an &lt;insert&gt; or &lt;paste&gt; with the appropriate root node (and any subnodes).
+<p>
+
+  <li> The &lt;replace&gt; section allows you to specify an XML node and what to replace it with
+  <pre>
+      &lt;replace path="web/servlet/context/root[@id='2']/text()" withText="2"/&gt;
+      &lt;replace path="web/servlet/context/root[@id='2']/text()" withXml="&amp;lt;id&amp;gt;"/&gt;
+      &lt;replace path="web/servlet/context/root[@id='2']/" withFile="substitution.xml"/&gt;
+      &lt;replace path="web/servlet/context/root[@id='2']/" withBuffer="namedBuffer"/&gt;
+  </pre>
+  (note that to include literal XML using <code>withXml</code>, angle brackets have to be replaced with entities).  The XML can be a well-formed document <i>without</i> any root node. The XML to insert can be specified as body text within the &lt;replace&gt; task eg.
+  <pre>
+      &lt;replace path="web/servlet/context/root[@id='2']/text()"&gt;
+      &lt;![CDATA[
+        &lt;node/&gt;
+      ]]&gt;
+      &lt;/replace&gt;
+  </pre>
+  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
+  <p>
+  <li> The &lt;attr&gt; section allows you to specify an XML node and how to change or remove its attributes
+  <pre>
+      &lt;attr path="web/servlet/context[@id='4']/" attr="id" value="test"/&gt;
+      &lt;attr path="web/servlet/context[@id='4']/" attr="id" remove="true"/&gt;
+  </pre>
+  <li> The &lt;remove&gt; section allows you to specify an XML section to remove
+    <pre>
+    &lt;remove path="web/servlet/context[@id='redundant']"/&gt;
+    </pre>
+    <p>
+  <li> The &lt;rename&gt; section allows you to specify an XML element or attribute to rename
+    <pre>
+    &lt;rename path="a/b/c[@id='1']" to="d"/&gt;
+    &lt;rename path="a/b/@c" to="d"/&gt;
+    </pre>
+    <p>
+    <p>
+  <li><code>xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). If you're using Ant 1.4 or before, you can use the &lt;entity&gt; element within &lt;xmltask&gt;, as below:
+    <pre>
+    &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local="web.dtd"/&gt;
+    &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local=""/&gt;
+    </pre>
+    The first version above specifies a local version of the DTD. The second indicates that the remote entity will be ignored completely. Note that the <code>remote</code> attribute can take either the PUBLIC specification or the SYSTEM specification.
+</ul>
+<p>
+<li>The sections above can be chained together to provide successive modifications to an XML file eg.
+<pre>
+  &lt;target name="main"&gt;
+    &lt;xmltask source="input.xml" 
+             dest="output.xml 
+             public="//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+             system="http://java.sun.com/j2ee/dtds/web-app_2_2.dtd"
+             report="true"&gt;
+      &lt;replace path="web/servlet/context/config[@id='1']/text()" withFile="config1.xml"/&gt;
+      &lt;replace path="web/servlet/context/config[@id='2']/text()" withFile="config2.xml"/&gt;
+      &lt;insert path="/web/security/" file="uat.security.xml"/&gt;
+      &lt;remove path="web/servlet/context/config[@id='4']"/&gt;
+    &lt;/xmltask&gt;
+  &lt;/target&gt;
+</pre>
+Here the <code>report</code> attribute is enabled to view the XML transformations as they occur. The input is loaded from <code>input.xml</code> and the output will go to <code>output.xml</code>. The files <code>config1/2.xml</code> replace the text below the appropriate &lt;config&gt; nodes, the file <code>security.xml</code> is inserted and then the config id #4 is removed. <code>output.xml</code> will be output with the appropriate <code>DOCTYPE</code> setting for a Servlet 2.2 <code>web.xml</code> (using the <code>public</code>/<code>system</code> settings - note that if <code>input.xml</code> has the <code>public</code> and <code>system</code> ids set already, <code>preserveType="true"</code> could be used here).
+</ul>
+<p>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="buffers">Buffers</a></h4>
+Buffers are used to store nodes found by &lt;cut&gt; and &lt;copy&gt; operations, and those nodes can be inserted into a document using &lt;insert&gt; / &lt;paste&gt;.
+<p>
+Buffers exist for the duration of the Ant process and consequently can be used across multiple invocations of &lt;xmltask&gt;. eg. the following is possible:
+  <pre>
+  &lt;target name="cut"&gt;
+    &lt;xmltask source="input.xml" dest="1.xml &gt;
+      &lt;cut path="web/servlet/context/config[@id='4']" buffer="storedXml" /&gt;
+    &lt;/xmltask&gt;
+  &lt;/target&gt;
+  &lt;target name="paste" depends="cut"&gt;
+    &lt;xmltask source="input.xml" dest="output.xml &gt;
+      &lt;paste path="web/servlet/context/config[@id='5'] buffer="storedXml" /&gt;
+    &lt;/xmltask&gt;
+  &lt;/target&gt;
+  </pre>
+
+  so the buffer <i>storedXml</i> is maintained across multiple targets.<p>
+    Note that buffers are simply defined by names. eg. valid buffers would be <i>servlet</i>, <i>buffer100</i> etc.
+    <p>
+    A buffer can record <i>multiple</i> nodes (either resulting from multiple matches or multiple &lt;cut&gt; / &lt;copy&gt; operations). This operation is enabled through use of the <code>append</code> attribute. e.g.
+  <pre>
+      &lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;
+  </pre>
+    A buffer can store all types of XML nodes e.g. text / elements / attributes. Note that when recording an attribute node, both the name of the attribute and the value will be recorded. To store the value alone of an attribute, the <code>attrValue</code> attribute can be used e.g.
+  <pre>
+      &lt;copy path="web/servlet/@id" buffer="id" attrValue="true" /&gt;
+  </pre>
+  This will store the value of the <code>id</code> attribute. The value can be used as a text node in a subsequent &lt;insert&gt; / &lt;paste&gt;.
+<p>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="formatting">Formatting</a></h4>
+The formatting of the output document is controlled by the attribute 'outputter'. There are three options:
+<ul>
+  <li><code>&lt;xmltask outputter="default"...</code><p> outputs the document <i>as is</i>. That is to say, all whitespace etc. is preserved. This is the default option.
+  <p>
+  <li><code>&lt;xmltask outputter="simple"...</code><p> outputs the document with a degree of formatting. Elements are indented and given new lines wherever possible to make a more readable document. This is not suitable for all applications since some XML consumers will be whitespace sensitive.
+  <p>
+  Spacing can be adjusted by using <code>&lt;xmltask outputter="simple:{indent}...&gt;"</code>. e.g.  <code>&lt;xmltask outputter="simple:1"...</code> results in:
+  <pre>
+    &lt;root&gt;
+     &lt;branch/&gt;
+    &lt;/root&gt;
+  </pre>
+  The indent level can be increased: <code>&lt;xmltask outputter="simple:4"...</code> results in:
+  <pre>
+    &lt;root&gt;
+        &lt;branch/&gt;
+    &lt;/root&gt;
+  </pre>
+
+  <p>
+  <li><code>&lt;xmltask outputter="{classname}"...</code><p> outputs the document using the nominated class as the outputting mechanism. This allows you to control the output of the document to your own tastes. The specified class must:
+  <ol>
+    <li>have a default constructor (i.e. no arguments)
+    <li>implement the <code>com.oopsconsultancy.xmltask.output.Outputter</code> interface. 
+  </ol>
+  <p>
+  The custom class will be loaded and instantiated, then passed to a <code>javax.xml.transform.sax.SAXResult</code> object. Hence the outputter object will receive SAX events for each node in the resultant XML document. Note:
+  <ol>
+    <li><code>com.oopsconsultancy.xmltask.output.Outputter</code> extends <code>org.xml.sax.ContentHandler</code>, so the appropriate SAX methods need to be implemented.
+    <li>The standard SAX callbacks will not include callbacks for comments, <code>CDATA</code> sections etc. If you want to receive these events, then you also need to implement the <code>org.xml.sax.ext.LexicalHandler</code> interface as well. 
+    <li>For each callback, you should generate your results and write them to the writer object passed in via <code>setWriter()</code>
+  </ol>
+  <p>
+  A simple introduction is to look at the <code>com.oopsconsultancy.xmltask.output.FormattedDataWriter</code> source code (in the source tarball).
+</ul>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="examples">Examples</a></h4>
+Some examples of common usage:
+<ul>
+  <li>Extracting the title from an XHTML file and storing it in a buffer:
+  <pre>
+    &lt;copy path="/xhtml/head/title/text()" buffer="title"/&gt;
+  </pre>
+  <p>
+
+  <li>Inserting a servlet definition into a <code>web.xml</code>:
+  <pre>
+    &lt;insert path="/web-xml/servlet[last()]" position="after" file="newservlet.xml"/&gt;
+  </pre>
+  <p>
+  <li>Inserting a servlet definition into a <code>web.xml</code> (another way - note properties usage):
+  <pre>
+    &lt;insert path="/web-xml/servlet[last()]" position="after"&gt;
+      &lt;![CDATA[
+        &lt;servlet&gt;`
+          &lt;servlet-name&gt;
+            ${project.name}
+          &lt;/servlet-name&gt;
+        &lt;/servlet&gt;
+      ]]&gt;
+    &lt;/insert&gt;
+  </pre>
+  <p>
+
+  <li>Replacing text occurences within particular div tags:
+  <pre>
+    &lt;replace path="//div[@id='changeMe']/text()" withText="new text"/&gt;
+  </pre>
+  <p>
+
+  <li>Changing an attribute:
+  <pre>
+    &lt;attr path="//div[@id='1']" attr="id" value="2"/&gt;
+  </pre>
+  <p>
+  <li>Removing an attribute:
+  <pre>
+    &lt;remove path="//div[@id='1']/@id"/&gt;
+  </pre>
+  <p>
+  <li>Removing an attribute (another way):
+  <pre>
+    &lt;attr path="//div[@id='1']" attr="id" remove="true"/&gt;
+  </pre>
+  <p>
+  <li>Removing all comments:
+  <pre>
+    &lt;remove path="//child::comment()"/&gt;
+  </pre>
+  <p>
+  <li>Inserting the appropriate system identifiers in a transformed <code>web.xml</code>:
+  <pre>
+    &lt;xmltask source="web.xml" dest="release/web.xml"
+        public="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN " 
+        system="http://java.sun.com/j2ee/dtds/web-app_2_2.dtd" &gt;
+        ...
+  </pre>
+  <i>OR</i>
+  <pre>
+    &lt;xmltask source="web.xml" dest="release/web.xml"
+        preserveType="true"
+        ...
+  </pre>
+  if you're transforming an existing <code>web.xml</code>.
+  <p>
+  <li>Setting the output character set to Japanese encoding:
+  <pre>
+    &lt;xmltask source="web.xml" dest="release/web.xml"
+        encoding="Shift-JIS" &gt;
+        ...
+  </pre>
+  <p>
+  <li>Converting all unordered lists in an XHTML document to ordered lists
+  <pre>
+    &lt;rename path="//ul" to="ol"/&gt;
+  </pre>
+  <li>Creating a new document with a root node &lt;root&gt;
+  <pre>
+    &lt;xmltask dest="release/web.xml"&gt;
+      &lt;insert path="/"&gt;
+        &lt;![CDATA[
+          &lt;root/&gt;`
+        ]]&gt;
+      &lt;/insert&gt;
+        ...
+  </pre>
+  <p>
+
+  <p>
+</ul>
+<hr>
+<h4><a name="issues">Known Issues</a></h4>
+The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:
+<pre>
+/root/branch/
+</pre>
+and should be replaced with
+<pre>
+/root/branch
+</pre>
+Some of the <code>xmltask</code> examples and documentation have used the incorrect syntax. This is now rectified.
+<p>
+<a href="#top">Top</a>
+
+<hr>
+<h4><a name="tutorials">XPath Links</a></h4>
+The XPath spec can be found <a target="_top" href="http://www.w3.org/TR/xpath">here</a><p>
+An excellent XPath tutorial can be found <a target="_top" href="http://www.zvon.org/xxl/XPathTutorial/General/examples.html">here</a>
+<p>
+Hints and tips on XPath can be found at <a target="_top" href="http://www.xml.com/pub/a/2002/08/14/xpath_tips.html">O'Reilly's XML web site</a>
+<p>
+<a href="#top">Top</a>
+<hr>
+<h4><a name="contact">Contact</a></h4>
+<code>xmltask</code> is written and maintained by <a target="_top" href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd.</a>. Enquiries to <a href="mailto:xmltask@oopsconsultancy.com">xmltask@oopsconsultancy.com</a>.
+<p>
+<center>Soon to be hosted on</center>
+<center><A href="http://sourceforge.net"> <IMG src="http://sourceforge.net/sflogo.php?group_id=27398&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A></center>
+
+</body>
+</html>

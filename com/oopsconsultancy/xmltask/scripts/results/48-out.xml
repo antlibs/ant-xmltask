@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Shift-JIS"?>
+
+<!DOCTYPE a:a PUBLIC "pub" "system">
+<a:a attr="1" xmlns:a="www.oopsconsultancy.com">
+  <a:b id="0">TEST&amp;</a:b>
+  <x>
+    <y>
+      <z></z>
+    </y>
+  </x>
+  <!-- a comment -->
+  <![CDATA[
+    <cdata/>
+  ]]>
+  <![CDATA[
+    &&&
+  ]]>
+
+</a:a>
+

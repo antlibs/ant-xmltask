@@ -1,0 +1,4 @@
+<!DOCTYPE log4j SYSTEM "log4j.dtd">
+<log4j>
+  <b id="FROM">Test</b>
+</log4j>

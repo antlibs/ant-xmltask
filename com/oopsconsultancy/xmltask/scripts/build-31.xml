@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main" depends="a,b"/>
+
+  <target name="a">
+    <xmltask source="31.xml" dest="/tmp/a.xml" report="true">
+      <copy path="//a/b" buffer="1"/>
+    </xmltask>
+  </target>
+
+  <target name="b">
+    <xmltask source="31.xml" dest="31-out.xml" report="true">
+      <replace path="//a/d" withBuffer="1"/>
+    </xmltask>
+  </target>
+
+</project>

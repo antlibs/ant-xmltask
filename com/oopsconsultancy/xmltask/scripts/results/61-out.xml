@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j PUBLIC "" "log4j.dtd">
+<log4j>
+  <b id="FROM">Test</b>
+</log4j>
+

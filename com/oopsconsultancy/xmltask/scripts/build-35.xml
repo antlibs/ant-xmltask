@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="35.xml" dest="35-out.xml" report="true">
+      <replace path="/a/b[@id='1']/text()">
+        <![CDATA[
+          <C/>
+        ]]>
+      </replace>
+      <replace path="/a/b[@id='2']"><![CDATA[
+          <C/>
+        ]]></replace>
+    </xmltask>
+  </target>
+</project>

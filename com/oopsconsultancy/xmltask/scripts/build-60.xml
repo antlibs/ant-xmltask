@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests the copying and pasting of attribute nodes
+       and their values -->
+  <target name="main">
+    <xmltask source="60.xml" dest="60-out.xml" report="true">
+      <copy path="/a/@b" append="true" buffer="1" attrValue="true"/>
+      <copy path="/a/d" buffer="2"/>
+      <copy path="/a/g/text()" buffer="3"/>
+      <paste path="/a/@c" buffer="1"/>
+      <paste path="/a/@e" buffer="2"/>
+      <paste path="/a/@h" buffer="3"/>
+    </xmltask>
+  </target>
+</project>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="OwnTaskExample" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="input.xml" dest="output.xml" report="true">
+     <!-- set a text element to a value -->
+      <replace path="web/servlet/context/root[@id = '2']/text()" withText="2"/>
+      <replace path="web/servlet/context[@id = '1']/root/text()" withText="A"/>
+      <replace path="web/servlet/context[@id = '3']/" withText="XXXXXXX"/>
+     <!-- change a text element to a literal -->
+      <replace path="web/servlet/context[@id = '1']/" withXml="&lt;S/&gt;"/>
+     <!-- change a text element to a file -->
+      <replace path="web/servlet/context[@id = '2']/text()" withFile="test/A.xml"/>
+     <!-- change an attribute -->
+      <attr path="web/servlet/context[@id = '4']/" attr="id" value=""/>
+      <attr path="web/servlet/context/root[@attr = '1']/" attr="attr" value="val"/>
+
+     <!-- remove xml -->
+      <remove path="web/servlet/S"/>
+
+      <!-- insert the xml subset -->
+      <insert path="/web/servlet/context/root[@attr = 'val']" xml="&lt;B/&gt;"/>
+      <insert path="/web/servlet/context/root[@attr = 'val']" file="test/B.xml"/>
+    </xmltask>
+  </target>
+</project>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests the copying and pasting with multiple
+       results in the buffers -->
+  <target name="main">
+    <!-- this should copy one node -->
+    <xmltask source="58.xml" report="true">
+      <copy path="/a/b" append="false" buffer="1"/>
+    </xmltask>
+    <!-- this should copy two nodes -->
+    <xmltask source="58.xml" report="true">
+      <copy buffer="2" path="/a/c/@*" append="true"/>
+    </xmltask>
+    <!-- this should copy the d node and below -->
+    <xmltask source="58a.xml" report="true">
+      <copy path="/a/b/c/*|@*" buffer="3" append="true"/>
+    </xmltask>
+
+    <xmltask dest="58-out.xml" report="true" outputter="simple">
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+      <insert path="/root" buffer="1"/>
+      <insert path="/root" buffer="2"/>
+      <insert path="/root" buffer="3"/>
+    </xmltask>
+  </target>
+</project>

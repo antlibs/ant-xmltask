@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="45.xml" dest="45-out.xml" report="true">
+      <rename path="/a" to="b"/>
+    </xmltask>
+  </target>
+</project>

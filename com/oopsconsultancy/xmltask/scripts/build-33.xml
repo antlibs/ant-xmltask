@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="33.xml" dest="33-out.xml" report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+     <!-- set a text element to a value -->
+      <attr path="//a/b[@id='CHANGE']" attr="id" value="TO"/>
+      <attr path="//a/b[@id='EMPTY']" attr="id" value=""/>
+      <attr path="//a/b[@id='REMOVE']" attr="id" remove="true"/>
+    </xmltask>
+  </target>
+</project>

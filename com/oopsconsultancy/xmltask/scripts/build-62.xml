@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests the failWithoutMatch filter. First and third
+       replace will work, but the second one won't -->
+  <target name="main">
+    <xmltask source="62.xml" dest="62-out.xml" failWithoutMatch="true" report="true" outputter="simple" preserveType="true">
+      <replace path="/log4j/b/text()" withText="junk"/>
+      <replace path="/nonexistant" withText="non"/>
+      <replace path="/log4j/b/text()" withText="junk"/>
+    </xmltask>
+  </target>
+</project>

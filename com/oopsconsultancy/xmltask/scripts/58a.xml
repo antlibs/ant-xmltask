@@ -1,0 +1,9 @@
+<a>
+  <b>
+    <c firstattribute="a" secondattribute="b">
+      <d thirdattribute="c">
+        E
+      </d>  
+    </c>
+  </b>
+</a>  

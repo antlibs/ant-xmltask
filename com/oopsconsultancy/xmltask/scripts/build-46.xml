@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask encoding="Shift-JIS" source="46.xml" dest="46-out.xml" report="true" outputter="simple">
+      <insert path="/a">
+        <![CDATA[
+          <c>
+            <d/>
+                </c>
+        ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+        <c> <d/> </c>
+        ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+<e>TEST</e>
+<f>
+TEST
+</f>
+              ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+        <c>TEST<d>NEW TEST</d></c>
+        ]]>
+      </insert>
+
+    </xmltask>
+  </target>
+</project>
