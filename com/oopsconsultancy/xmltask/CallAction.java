@@ -74,9 +74,11 @@ public class CallAction extends Action implements XPathAnalyserClient {
       for (Iterator i = params.iterator(); i.hasNext(); ) {
         Param param = (Param)i.next();
 
-        XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
-        xpa.registerClient(this, param);
-        xpa.analyse(node, param.getPath());
+        if (param.getPath() != null) {
+          XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
+          xpa.registerClient(this, param);
+          xpa.analyse(node, param.getPath());
+        }
 
         // now set the values
         String val = param.getValue();
