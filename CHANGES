@@ -1,9 +1,10 @@
 $Id$
 
-1.8b 13/10/2003
+1.8 09/11/2003
 
 Modified/simplified boolean setters on XmlTask
 Tested against Ant 1.6b
+Logging levels now VERBOSE rather than INFO
 
 1.8a 22/09/2003
 

@@ -124,11 +124,11 @@ public class XmlTask extends Task {
       }
       ds.setIncludes(new String[]{includes});
       ds.setBasedir(basedir);
-      log("Scanning for " + includes + " from " + basedir);
+      log("Scanning for " + includes + " from " + basedir, Project.MSG_VERBOSE);
       ds.scan();
       for (int d = 0; d < ds.getIncludedFiles().length; d++) {
         String included = basedir + File.separator +  ds.getIncludedFiles()[d];
-        log("Adding " + included);
+        log("Adding " + included, Project.MSG_VERBOSE);
         docs.add(new FileSpec(included, absolute, basedir));
       }
     }
@@ -145,7 +145,7 @@ public class XmlTask extends Task {
       else {
         docs.add(new FileSpec(file, absolute));
       }
-      log("Reading " + file);
+      log("Reading " + file, Project.MSG_VERBOSE);
     }
   }
 
@@ -251,11 +251,11 @@ public class XmlTask extends Task {
 
     DocumentBuilder builder = dfactory.newDocumentBuilder();
     if (resolver.registeredEntities() > 0) {
-      log("Using local entity references");
+      log("Using local entity references", Project.MSG_VERBOSE);
       builder.setEntityResolver(resolver);
     }
     else {
-      log("Using predefined xml catalog");
+      log("Using predefined xml catalog", Project.MSG_VERBOSE);
       builder.setEntityResolver(xmlCatalog);
     }
 
@@ -371,7 +371,7 @@ public class XmlTask extends Task {
    * @throws BuildException
    */
   public void execute() throws BuildException {
-    log("Executing xmltask " + getVersion());
+    log("Executing xmltask " + getVersion(), Project.MSG_VERBOSE);
     if (docs.size() == 0 && todir) {
       throw new BuildException("No input documents");
     }
@@ -400,7 +400,7 @@ public class XmlTask extends Task {
       if (fspec != null) {
         doc = fspec.name;
       }
-      log("Processing " + (doc == null ? "" : doc) + (dest == null ? " [no output document]" : (" into " + dest)));
+      log("Processing " + (doc == null ? "" : doc) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
       Document document = null;
       try {
         if (doc != null) {
@@ -415,7 +415,7 @@ public class XmlTask extends Task {
         throw new BuildException(e.getMessage());
       }
       String destfile = doc;
-      log("Writing " + destfile + " to " + dest);
+      log("Writing " + destfile + " to " + dest, Project.MSG_VERBOSE);
 
       if (fspec != null) {
         // we strip down to the original filename to write out
@@ -442,8 +442,8 @@ public class XmlTask extends Task {
       // get doctype info if required...
       DocumentType dt = doc.getDoctype();
       if (dt != null && preservetype) {
-        log("Pub = " + dt.getPublicId());
-        log("Sys = " + dt.getSystemId());
+        log("Pub = " + dt.getPublicId(), Project.MSG_VERBOSE);
+        log("Sys = " + dt.getSystemId(), Project.MSG_VERBOSE);
       }
 
       // now process...
@@ -492,11 +492,11 @@ public class XmlTask extends Task {
         }
 
         if (normalize) {
-          log("Normalizing resultant document");
+          log("Normalizing resultant document", Project.MSG_VERBOSE);
           doc.getDocumentElement().normalize();
         }
         if (indent) {
-          log("Indenting resultant document");
+          log("Indenting resultant document", Project.MSG_VERBOSE);
           serializer.setOutputProperty(OutputKeys.INDENT, "yes");
         }
         else {
@@ -510,7 +510,7 @@ public class XmlTask extends Task {
         }
         else {
           String destname = dest + File.separator + name;
-          log("Writing " + destname);
+          log("Writing " + destname, Project.MSG_VERBOSE);
           File dir = (new File(destname)).getParentFile();
           if (!dir.exists()) {
             if (!dir.mkdirs()) {
@@ -538,7 +538,7 @@ public class XmlTask extends Task {
         }
         else {
           // try and load this as a custom task...
-          log("Loading custom result writer " + outputter);
+          log("Loading custom result writer " + outputter, Project.MSG_VERBOSE);
           Outputter op = (Outputter)(Class.forName(outputter).newInstance());
           op.setWriter(w);
           op.setTransformer(serializer);
@@ -575,7 +575,7 @@ public class XmlTask extends Task {
       enc = encoding;
     }
     if (enc != null) {
-      log("Using output character encoding " + enc);
+      log("Using output character encoding " + enc, Project.MSG_VERBOSE);
       serializer.setOutputProperty(OutputKeys.ENCODING, enc);
       return new OutputStreamWriter(new FileOutputStream(filename), enc);
     }

@@ -1,7 +1,7 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
 import java.util.*;
+import org.w3c.dom.*;
 import org.w3c.dom.traversal.*;
 import org.apache.xpath.*;
 import org.apache.tools.ant.*;
@@ -29,7 +29,7 @@ public class XmlReplace {
     this.task = task;
   }
 
-  private void log(String msg) {
+  private void log(String msg, int level) {
     // task may not be set sometimes (e.g. during unit tests)
     if (task != null) {
       task.log(msg);
@@ -40,7 +40,7 @@ public class XmlReplace {
   }
 
   public int apply(Document doc) throws Exception {
-    log("Applying " + action + " to " + path);
+    log("Applying " + action + " to " + path, Project.MSG_VERBOSE);
 
     action.setDocument(doc);
 
@@ -52,7 +52,7 @@ public class XmlReplace {
       action.apply(n);
       count++;
     }
-    log("Applied " + action + " - " + count + " match(es)");
+    log("Applied " + action + " - " + count + " match(es)", Project.MSG_VERBOSE);
     action.complete();
     return count;
   }

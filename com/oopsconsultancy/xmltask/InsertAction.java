@@ -171,9 +171,9 @@ public class InsertAction extends Action {
     return insert(node);
   }
 
-  private void log(String msg) {
+  private void log(String msg, int level) {
     if (task != null) {
-      task.log(msg);
+      task.log(msg, level);
     }
     else {
       System.out.println(msg);
@@ -193,7 +193,7 @@ public class InsertAction extends Action {
       Node[] n2 = BufferStore.get(buffer);
       if (n2 != null) {
         for (int n = 0; n < n2.length; n++) {
-          log("Inserting " + n2[n]);
+          log("Inserting " + n2[n], Project.MSG_VERBOSE);
           newnode = doc.importNode(n2[n], true);
           insertNode(node, newnode);
         }
@@ -234,7 +234,7 @@ public class InsertAction extends Action {
     if (pos == Position.UNDER) {
       // place the new node under the selected one
       if (existingNode instanceof Document) {
-        log("Building a root element");
+        log("Building a root element", Project.MSG_VERBOSE);
         existingNode.appendChild(newnode);
       }
       else if (existingNode instanceof Element) {

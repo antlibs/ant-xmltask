@@ -74,7 +74,7 @@ public class BufferStore {
 
   public static void log(String msg, Task task) {
     if (task != null) {
-      task.log(msg);
+      task.log(msg, Project.MSG_VERBOSE);
     }
     else {
       System.out.println(msg);
