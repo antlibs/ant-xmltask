@@ -50,7 +50,7 @@ You may encounter problems with <code>xmltask</code> XPath configurations and th
 Current version @VERSION@<p>
 Since v1.8
 <ul>
-<li>&gt;call&lt; operation to call Ant targets for XML nodes identified by &gt;xmltask&lt;
+<li>&lt;call&gt; operation to call Ant targets for XML nodes identified by &lt;xmltask&gt;
 </ul>
 Since v1.7
 <ul>
@@ -386,10 +386,10 @@ You can create a new document by not specifying a source file, and making the fi
     <td>buffer</td><td>the buffer to use to store each identified node (for the duration of the target call)</td><td>no</td>
   </tr>
   <tr>
-    <td>inheritAll</td><td>boolean indicating if the target being called inherits all properties</td><td>no</td>
+    <td>inheritAll</td><td>boolean indicating if the target being called inherits all properties. Defaults to <i>true</i></td><td>no</td>
   </tr>
   <tr>
-    <td>inheritRefs</td><td>boolean indicating if the target being called inherits all references</td><td>no</td>
+    <td>inheritRefs</td><td>boolean indicating if the target being called inherits all references. Defaults to <i>false</i></td><td>no</td>
   </tr>
   </table>
 
@@ -398,6 +398,15 @@ You can create a new document by not specifying a source file, and making the fi
     &lt;call path="a/b/c" target="CNode" buffer="abc"/&gt;
     </pre>
     This mechanism can be used to drive Ant builds from existing XML resources such as <code>web.xml</code> or <code>struts.xml</code>, or to provide a <code>meta-build</code> facility for Ant, by driving the <code>build.xml</code> from a higher level proprietary XML config.
+    <p>
+    Properties can be set for the target being called using XPath syntax. eg.
+    <pre>
+    &lt;call path="a/b/c" target="CNode" buffer="abc"&gt;
+      &lt;param name="val" path="text()"/&gt;
+      &lt;param name="id" path="@id"/&gt;
+    &lt;/call&gt;  
+    </pre>
+    will call the Ant target <code>CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code>C</code>, and the property id is set to the corresponding id attribute.
     <p>
 
 
@@ -630,10 +639,11 @@ Some examples of common usage:
         ...
   </pre>
   <p>
-  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file.
+  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id.
   <pre>
     &lt;xmltask source="web.xml"&gt;
       &lt;call path="web/servlet" target="deploy" buffer="servletDef"/&gt;
+        &lt;param name="id" path="@id"/&gt;
         ...
   </pre>
   <p>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests calling ant targets for nodes identified by xmltask. This
+       checks the param mechanism for the call instruction -->
+  <target name="main">
+    <!-- first create an output file -->
+    <xmltask dest="78-out.xml">
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+    </xmltask>
+
+    <!-- then call subtargets using 78.xml as the driver -->
+    <xmltask source="78.xml">
+      <call path="/a/b" target="ab" buffer="b_ab" inheritAll="true">
+        <param name="1" path="text()"/>
+        <param name="2" path="@attr"/>
+      </call>
+    </xmltask>
+  </target>
+
+  <target name="ab">
+    <xmltask source="78-out.xml" dest="78-out.xml">
+      <insert path="/root">${1}-${2}</insert>
+    </xmltask>
+  </target>
+
+</project>

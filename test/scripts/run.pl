@@ -1,18 +1,19 @@
 #!/usr/bin/perl
 # $Id$
 
-my @tests = (1..39,41..77);
+my @tests = (1..39,41..78);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
 print "Java version = $jv\n";
 
-if (! -e "../../xmltask.jar") {
-  # .jar doesn't exist, so we may pick up
+my $xmlcatalog = "../../classes/org/apache/tools/ant/types/XMLCatalog.class";
+if (-e $xmlcatalog) {
+  # xmlcatalog.class found, so we may pick up
   # the wrong XMLCatalog.class
-  print STDERR ".jar not built. Possible XMLCatalog confusion\n";
-  exit(1);
+  print STDERR "XMLCatalog found. Possible XMLCatalog confusion\n";
+  unlink $xmlcatalog;
 }
 
 foreach $i ( @tests ) {

@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
 import com.oopsconsultancy.xmltask.*;
+import java.util.*;
 
 /**
  * the Ant call task
@@ -15,6 +16,7 @@ public class Call {
   private String buffer = null;
   private boolean inheritAll = true;
   private boolean inheritRefs = false;
+  private List params = new ArrayList();
 
   /**
    * executes a target for a set of nodes
@@ -42,9 +44,13 @@ public class Call {
     this.inheritRefs = inheritRefs;
   }
 
+  public void addConfiguredParam(Param param) {
+    params.add(param);
+  }
+
   protected void process(XmlTask task) {
     if (path != null && target != null) {
-      task.add(new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs, buffer)));
+      task.add(new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs, buffer, params)));
     }
   }
 }

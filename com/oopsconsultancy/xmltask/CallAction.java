@@ -4,6 +4,10 @@ import org.w3c.dom.*;
 import com.oopsconsultancy.xmltask.ant.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.taskdefs.*;
+import java.util.*;
+import org.apache.xpath.objects.*;
+import org.apache.xpath.*;
+import org.w3c.dom.traversal.*;
 
 /**
  * The nominated target is called for
@@ -22,15 +26,17 @@ public class CallAction extends Action {
   private final boolean inheritAll;
   private final boolean inheritRefs;
   private final String buffer;
+  private final List params;
 
   private Ant callee;
 
-  public CallAction(String target, XmlTask task, boolean inheritAll, boolean inheritRefs, String buffer) {
+  public CallAction(String target, XmlTask task, boolean inheritAll, boolean inheritRefs, String buffer, List params) {
     this.target = target;
     this.task = task;
     this.inheritAll = inheritAll;
     this.inheritRefs = inheritRefs;
     this.buffer = buffer;
+    this.params = params;
   }
 
   /**
@@ -52,7 +58,38 @@ public class CallAction extends Action {
     log("Calling target " + target + " for " + node + (buffer != null ? " (in buffer "+buffer:""), Project.MSG_VERBOSE);
 
     if (buffer != null) {
+      // record the complete (sub)node in the nominated buffer
       BufferStore.set(buffer, node, false, task);
+    }
+
+    if (params != null) {
+      for (Iterator i = params.iterator(); i.hasNext(); ) {
+        Param param = (Param)i.next();
+        XObject result = XPathAPI.eval(node, param.getPath());
+
+        if (result instanceof XNodeSet) {
+          NodeIterator nl = result.nodeset();
+          Node n;
+          // we only make use of one node
+          while ((n = nl.nextNode()) != null) {
+            param.set(task, n.getNodeValue());
+          }
+        }
+        else if (result instanceof XBoolean ||
+            result instanceof XNumber ||
+            result instanceof XString) {
+          String str = result.str();
+          param.set(task, result.str());
+        }
+
+        // now set the values
+        String val = param.getValue();
+        if (val != null) {
+          Property p = callee.createProperty();
+          p.setName(param.getName());
+          p.setValue(param.getValue());
+        }
+      }
     }
 
     callee.setAntfile(task.getProject().getProperty("ant.file"));
