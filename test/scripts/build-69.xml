@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests preserveType with no type to preserve
+       Generated a null ptr 04/08/2003 
+
+       We also don't want to put out a doctype with
+       both PUBLIC and SYSTEM = ""
+   -->
+  <target name="main">
+    <xmltask source="69.xml" dest="69-out.xml" report="true" preserveType="true">
+     <!-- set a text element to a value -->
+      <replace path="/a/b[@id='FROM']/text()" withText="69 TEST"/>
+    </xmltask>
+  </target>
+</project>

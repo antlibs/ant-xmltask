@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="25.xml" dest="25-out.xml" report="true">
+      <cut path="//a/b" buffer="1"/>
+      <paste path="//a/d" buffer="1"/>
+      <paste path="//a/d" buffer="2"/>
+    </xmltask>
+  </target>
+</project>

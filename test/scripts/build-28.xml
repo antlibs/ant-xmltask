@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask 
+     source="28.xml" 
+     dest="28-out.xml" 
+     report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+
+      <!-- tests a non-well formed document -->
+      <insert path="//a/b[@id='1']" xml="&lt;BE/&gt;&lt;FORE/&gt;" position="before" />
+      <insert path="//a/b[@id='2']" xml="&lt;AF/&gt;&lt;TER/&gt;" position="after" />
+      <insert path="//a/b[@id='3']" file="subdir/ab.xml" position="under" />
+    </xmltask>
+  </target>
+</project>

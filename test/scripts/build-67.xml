@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests todir with relative paths and wildcarding -->
+  <target name="main">
+    <mkdir dir="from"/>
+    <mkdir dir="to"/>
+    <delete>
+      <fileset dir="from" includes="*.xml"/>
+      <fileset dir="to" includes="*.xml"/>
+    </delete>
+    <copy file="1.xml" tofile="from/67.xml"/>
+
+    <xmltask source="from/67.xml" todir="to" report="true" failWithoutMatch="true">
+     <!-- set a text element to a value -->
+      <replace path="//a/b[@id='FROM']/text()" withText="67 TEST"/>
+    </xmltask>
+
+    <!-- check for to/from/67.xml existing -->
+    <copy file="to/from/67.xml" tofile="67-out.xml"/>
+
+    <!-- counterintuitive... -->
+  </target>
+</project>

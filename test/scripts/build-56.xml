@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests copying and pasting for attribute nodes -->
+  <target name="main">
+    <xmltask source="56.xml" dest="56-out.xml" report="true" outputter="simple">
+      <cut path="/a:activity/@a:name" buffer="named"/>
+      <insert path="/a:activity" position="under">
+        <![CDATA[
+          <name/>
+        ]]>
+      </insert>
+      <insert path="/a:activity/name" position="under" buffer="named"/>
+    </xmltask>
+  </target>
+</project>

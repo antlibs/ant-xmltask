@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <!-- tests custom output mechanisms -->
+    <xmltask source="54.xml" dest="54-out.xml" report="true" outputter="com.oopsconsultancy.xmltask.output.FormattedDataWriter">
+      <insert path="/a">
+        <![CDATA[
+          <c>
+            <d/>
+                </c>
+        ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+        <c> <d/> </c>
+        ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+<e>TEST</e>
+<f>
+TEST
+</f>
+              ]]>
+      </insert>
+      <insert path="/a">
+        <![CDATA[
+        <c>TEST<d>NEW TEST</d></c>
+        ]]>
+      </insert>
+
+    </xmltask>
+  </target>
+</project>

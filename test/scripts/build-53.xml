@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main" depends="a,b"/>
+
+  <!-- we're testing copying from one doc
+       and pasting into a brand new doc -->
+  <target name="a">
+    <xmltask source="27.xml" report="true" outputter="simple">
+      <copy path="//a/b" buffer="1"/>
+    </xmltask>
+  </target>
+
+  <target name="b">
+    <xmltask dest="53-out.xml" report="true" outputter="simple">
+      <paste path="/" buffer="1"/>
+    </xmltask>
+  </target>
+
+</project>

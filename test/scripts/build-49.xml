@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <xmlcatalog id="dtds">
+    <dtd publicId="-//OOPS Consultancy//DTD Test 1.0//EN" location="./test-18.dtd"/>
+  </xmlcatalog>
+
+  <target name="main">
+    <xmltask source="49.xml" dest="49-out.xml" report="true" preserveType="true">
+      <xmlcatalog refid="dtds"/>
+    </xmltask>
+  </target>
+</project>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask 
+     source="15.xml" 
+     dest="15-out.xml" 
+     report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+      <insert path="//a/b[@id='1']" position="before" xml="&lt;FIRST/&gt;"/>
+      <insert path="//a/b[@id='3']" position="after" xml="&lt;LAST/&gt;"/>
+      <insert path="//a/b[@id='2']" position="under" xml="&lt;UNDER/&gt;"/>
+      <insert path="//a/b[@id='1']" position="after" xml="&lt;SECOND/&gt;"/>
+    </xmltask>
+  </target>
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <mkdir dir="/tmp/from"/>
+    <mkdir dir="/tmp/to"/>
+    <delete>
+      <fileset dir="/tmp/from" includes="*.xml"/>
+      <fileset dir="/tmp/to" includes="*.xml"/>
+    </delete>
+    <copy file="1.xml" tofile="/tmp/from/63.xml"/>
+
+    <xmltask source="/tmp/from/*" todir="/tmp/to/" report="true" failWithoutMatch="true">
+     <!-- set a text element to a value -->
+      <replace path="//a/b[@id='FROM']/text()" withText="TO"/>
+    </xmltask>
+
+    <!-- check for /tmp/to/1.xml existing -->
+    <copy file="/tmp/to/63.xml" tofile="63-out.xml"/>
+  </target>
+</project>

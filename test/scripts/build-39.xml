@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="39.xml" dest="39-out.xml" encoding="UTF-16" report="true"/>
+  </target>
+</project>

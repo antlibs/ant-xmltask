@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask dest="52-out.xml" report="true" outputter="simple">
+     <!-- construct a document from scratch... -->
+     <insert path="/">
+      <![CDATA[
+        <root>
+          <branch/>
+        </root>
+      ]]>
+     </insert>
+     <rename path="/root" to="root2"/>
+    </xmltask>
+  </target>
+</project>

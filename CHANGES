@@ -1,0 +1,90 @@
+$Id$
+
+1.6.6b 01/08/2003 NOT RELEASED YET
+setSource() fix for use with <script> tasks
+Source/absolute path fix
+preserveType fix and blank DOCTYPE fixes. 
+Logging now performed via the Ant logging framework
+
+1.6.5 20/07/2003
+
+Added the 'failWithoutMatch' attribute
+
+1.6.4 25/06/2003
+
+Bug fix related to blank PUBLIC/SYSTEM ids and 'preserveType'
+
+1.6.3 24/06/2003
+
+Now reports version number whilst running
+
+1.6.2 17/06/2003
+
+<copy> and <cut> operations can now store multiple nodesets
+<copy> and <cut> operations can now record attribute values
+
+1.6.1 01/06/2003
+
+Insertion of attribute nodes from a buffer enabled
+
+1.6  07/05/2003
+
+Added <rename> instruction to rename elements and attributes
+Added 'preserveType' attribute to allow transformed documented to preserve their original DTD ids
+Added new formatting options
+Creation of new documents allowed - no requirement for a source file
+Compatibility issues with Ant 1.4 resolved
+
+1.5  18/02/2003
+
+Added 'remove' attribute to the <attr> instruction
+<insert> and <replace> can now specify XML within their bodies
+<replace> can handle document fragments (well-formed but rootless documents)
+
+1.4   25/01/2003
+
+Added the cut/copy/paste and buffer mechanisms
+Added the insert directive
+Fixed handling of files in subdirectories for insert/replace tasks
+Fixed insertion bug with nodes indirectly connected to the root
+
+1.3b  03/12/2002
+
+Fixed a bug preventing removal of attributes
+
+1.3a  18/11/2002
+
+Now uses the xml catalog facility of Ant 1.5
+
+1.3   08/08/2002 
+
+Allows insertion of xml without a root element
+
+1.2c  20/06/2002
+
+Handles absolute paths of local entities correctly
+
+1.2b  15/06/2002
+
+Fixed absolute vs. relative paths and instantiation
+of task elements with out-of-order attributes
+
+1.2a  29/05/2002
+
+Fixed loading and writing of files from ant tasks launched via
+<ant dir="xx"> calls
+Added the <entity> subtask
+
+1.2   28/05/2002
+
+Fixed the single-file loading via "source" attribute
+Added public/system attributes
+Confirmed against Ant v1.5b
+
+1.1   15/05/2002
+
+Provided a means to load multiple files and the "todir" attribute
+
+1.0   --/04/2002
+
+Initial release

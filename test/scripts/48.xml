@@ -1,0 +1,13 @@
+<a:a xmlns:a="www.oopsconsultancy.com"  attr="1">
+  <a:b id="0">
+    TEST&amp;
+  </a:b>
+  <x><y><z/></y></x>
+  <!-- a comment -->
+  <![CDATA[
+    <cdata/>
+  ]]>
+  <![CDATA[
+    &&&
+  ]]>
+</a:a>  
