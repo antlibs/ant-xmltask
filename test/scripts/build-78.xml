@@ -29,13 +29,16 @@
       <call path="/a/b" target="ab" buffer="b_ab" inheritAll="true">
         <param name="1" path="text()"/>
         <param name="2" path="@attr"/>
+        <param name="3" value="${os.name}"/>
       </call>
     </xmltask>
   </target>
 
   <target name="ab">
     <xmltask source="78-out.xml" dest="78-out.xml">
-      <insert path="/root">${1}-${2}</insert>
+      <insert path="/root">[1 = ${1}]</insert>
+      <insert path="/root">[2 = ${2}]</insert>
+      <insert path="/root">[3 = ${3}]</insert>
     </xmltask>
   </target>
 
