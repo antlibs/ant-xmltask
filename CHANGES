@@ -1,5 +1,9 @@
 $Id$
 
+1.8a 22/09/2003
+
+Added copying/cutting to properties
+
 1.7 06/09/2003
 properties file included in source distribution
 build.xml fixes for source distribution
