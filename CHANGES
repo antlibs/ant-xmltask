@@ -1,6 +1,6 @@
 $Id$
 
-1.10.6 23/03/2005
+1.10.6 29/04/2005
 
 Added a fix for properties being reset inbetween <call>s. See test/scripts/build-93.xml
 
