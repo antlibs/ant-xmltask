@@ -2,7 +2,6 @@
 <!DOCTYPE a PUBLIC "-//OOPS" "http://www.oopsconsultancy.com/dtd/test.dtd">
 <a>
   <b id="FROM">Test<C>
-<D/>
-</C>
+<D/>127.0.0.1</C>
 </b>
 </a>

@@ -3,12 +3,14 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
+  <property name="config.addr" value="127.0.0.1"/>
     <xmltask 
      source="13.xml" 
      dest="13-out.xml" 
      report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
       <insert path="//a/b[@id='FROM']" xml="&lt;C/&gt;"/>
       <insert xml="&lt;D/&gt;" path="//a/b/C" />
+      <insert xml="${config.addr}" path="//a/b/C" />
     </xmltask>
   </target>
 </project>
