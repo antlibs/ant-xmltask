@@ -546,6 +546,7 @@ public class XmlTask extends Task {
           throw new BuildException("Can't use filesets together with source inputs");
         }
         Iterator iter = filesets.iterator();
+        int count = 0;
         FileSet fs = null;
         while (iter.hasNext())
         {
@@ -558,6 +559,12 @@ public class XmlTask extends Task {
                 String path = srcFiles[i];
                 docs.add(new InputFile(srcDir.getAbsolutePath() + File.separator + path, srcDir.getAbsolutePath()));
             }
+            count+= srcFiles.length;
+        }
+        if (count == 0) {
+        // we have a fileset, but nothing is matching, so
+        // we'll return
+        return;
         }
     }
     if (docs.size() == 0 && todir) {
