@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
-
-<!-- $Id$ -->
-
 <project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-  <!--
   <taskdef name="script"  classname="org.apache.tools.ant.taskdefs.optional.Script"/>
-  -->
 
   <!-- tests the script stuff -->
   <target name="main">
@@ -22,7 +17,7 @@
 
   <target name="sub">
     <echo>Executing xmltask</echo>
-    <xmltask id="xmltask" report="true" preserveType="true">
+    <xmltask id="xmltask" report="true" outputter="simple" preserveType="true">
       <replace path="/log4j/b/text()" withText="junk"/>
       <replace path="/nonexistant" withText="non"/>
       <replace path="/log4j/b/text()" withText="junk"/>

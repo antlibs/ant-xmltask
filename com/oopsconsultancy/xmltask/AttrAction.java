@@ -43,14 +43,14 @@ public class AttrAction extends Action {
       return true;
     }
     else {
-      log(node + " can't have any attributes", Project.MSG_WARN);
+      log(node + " can't have any attributes");
       return false;
     }
   }
 
-  private void log(String msg, int level) {
+  private void log(String msg) {
     if (task != null) {
-      task.log(msg, level);
+      task.log(msg);
     }
     else {
       System.out.println(msg);

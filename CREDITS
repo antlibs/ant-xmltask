@@ -1,5 +1,3 @@
-# $Id$
-
 Thanks to those who have contributed suggestions, comments etc.
 
 Jules Gosnell       - jules@mortbay.com
@@ -14,13 +12,6 @@ Serge Shikov        - sshikov@microtest.ru
 Jan Materne         - jan.materne@rzf.fin.nrw.de
 Daniel Ochs         - dan.ochs@wrycan.com
 Igor Grapp          - igrapp@vnuemedia.com
-Nils Winkler        - nils@nilswinkler.com
-Tom Furrer          - tfurrer@infonic.net
-Nagarajan Murugesan - nmurugesan@selectica.com
-Kevin LaVergne      - klavergne@users.sourceforge.net
-Michael Dodd        - Michael.Dodd@ingrambook.com
-Juergen Damke       - damke@de.ibm.com
-Remi Clavier        - remi.clavier@francetelecom.com
 
 Thanks to Dave Megginson (info@megginson.com) for the use
 of the XMLWriter and DataWriter classes (now somewhat

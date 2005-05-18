@@ -2,54 +2,36 @@
 <project name="XmlTask" default="main" basedir=".">
   <!-- $Id$ -->
   <target name="init">
-  <!--
     <property name="build.compiler"       value="jikes"/>
-    -->
     <property name="build.compiler.emacs" value="true"/>
     <property name="jarfile"              value="xmltask.jar"/>
     <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
     <property name="tarfile"              value="xmltask.tar"/>
-    <property name="webdir"               value="/home/brian/oops/software/xmltask/"/>
+    <property name="webdir"               value="/home/brian/oops/software/"/>
+    <property name="path"                 value="com/oopsconsultancy/xmltask"/>
 
     <!-- prepare dirs -->
     <mkdir dir="classes"/>
-
-    <property file="xmltask.properties"/>
-    <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
-    <property name="v_jarfile.1.4"          value="xmltask-v${com.oopsconsultancy.xmltask.version}-ant1.4.jar"/>
-    <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
   </target>
 
   <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
-    <javac srcdir="." destdir="classes" debug="on" nowarn="true">
+    <javac srcdir="." destdir="classes" debug="on">
       <include name="**/*.java"/>
     </javac>
     <copy file="xmltask.properties" todir="classes"/>
-    <!-- we've built against dummy XPathAPI classes so we
-         can compile pre/post JDK 1.5 classes in the absence
-         of one or the other. We then delete the dummy classes -->
-    <delete dir="classes/com/sun"/>
-    <delete dir="classes/org/apache"/>
   </target>
 
   <target name="clean" depends="init" description="Clean classes">
-    <!-- clean the test files up -->
-    <delete>
-      <fileset dir="." includes="TEST-*.txt"/>
-    </delete>
     <delete>
       <fileset dir="classes" includes="**/*.class" excludes="**/pre1.5/*"/>
     </delete>
     <delete file="tags"/>
     <delete file="${jarfile}"/>
     <delete file="${jarfile.1.4}"/>
-    <delete file="${v_jarfile}"/>
-    <delete file="${v_jarfile.1.4}"/>
     <delete file="${tarfile}"/>
     <delete file="${tarfile}.gz"/>
-    <delete file="${v_tarfile}.gz"/>
   </target>
 
   <target name="test" depends="init">
@@ -85,27 +67,21 @@
 
   <target name="deliver" depends="package" description="Delivers to the OOPS website dir">
     <!-- perform my local deployment for writing to the web page -->
-    <!-- create a web page with the correct version -->
-    <checksum file="${tarfile}.gz" property="GZ_MD5"/>
-    <checksum file="${jarfile}" property="JAR_MD5"/>
-    <checksum file="${jarfile.1.4}" property="JAR_14_MD5"/>
-    <copy file="doc/xmltask.html" todir="/tmp"/>
-    <tstamp>
-      <format property="TODAY" pattern="dd-MMM-yyyy"/>
-    </tstamp>
-    <replace file="/tmp/xmltask.html" token="@VERSION@" value="${com.oopsconsultancy.xmltask.version}"/>
-    <replace file="/tmp/xmltask.html" token="@TODAY@" value="${TODAY}"/>
-    <replace file="/tmp/xmltask.html" token="@GZ_MD5@" value="${GZ_MD5}"/>
-    <replace file="/tmp/xmltask.html" token="@JAR_MD5@" value="${JAR_MD5}"/>
-    <replace file="/tmp/xmltask.html" token="@JAR_14_MD5@" value="${JAR_14_MD5}"/>
-
     <!-- get and confirm the xmltask version -->
+    <property file="xmltask.properties"/>
     <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to the web dir " validargs="y,n" addproperty="distribute"/>
     <condition property="do.abort">
       <equals arg1="n" arg2="${distribute}"/>
     </condition>
     <fail if="do.abort"/>
 
+    <!-- create a web page with the correct version -->
+    <copy file="doc/xmltask.html" todir="/tmp"/>
+    <tstamp>
+      <format property="TODAY" pattern="dd-MMM-yyyy"/>
+    </tstamp>
+    <replace file="/tmp/xmltask.html" token="@VERSION@" value="${com.oopsconsultancy.xmltask.version}"/>
+    <replace file="/tmp/xmltask.html" token="@TODAY@" value="${TODAY}"/>
     <echo>Created version stamped documentation page</echo>
     <echo>Copying .tar.gz</echo>
     <copy file="${tarfile}.gz" todir="${webdir}"/>
@@ -113,21 +89,14 @@
     <copy file="${jarfile}"       todir="${webdir}"/>
     <copy file="${jarfile.1.4}"    todir="${webdir}"/>
     <echo>Copying version-stamped .jar and 1.4 .jar</echo>
-    <copy file="${jarfile}"       tofile="${webdir}/${v_jarfile}"/>
-    <copy file="${jarfile.1.4}"   tofile="${webdir}/${v_jarfile.1.4}"/>
+    <copy file="${jarfile}"       tofile="${webdir}/${jarfile}-${com.oopsconsultancy.xmltask.version}"/>
+    <copy file="${jarfile.1.4}"   tofile="${webdir}/${jarfile.1.4}-${com.oopsconsultancy.xmltask.version}"/>
     <echo>Copying documentation</echo>
-    <copy file="/tmp/xmltask.html" tofile="${webdir}/index.html"/>
+    <copy file="/tmp/xmltask.html" todir="${webdir}"/>
     <delete file="/tmp/xmltask.html"/>
     <copy todir="${webdir}">
       <fileset dir="doc/" includes="*.gif"/>
-      <fileset dir="doc/" includes="*.jpg"/>
     </copy>
-
-    <!-- generate versioned files for Sourceforge dispatch -->
-    <copy file="${jarfile}"       tofile="${v_jarfile}"/>
-    <copy file="${jarfile.1.4}"   tofile="${v_jarfile.1.4}"/>
-    <copy file="${tarfile}.gz"    tofile="${v_tarfile}.gz"/>
-    <echo>Created ${v_jarfile}, ${v_jarfile.1.4}, ${v_tarfile}.gz</echo>
 
     <!-- sends the files to Sourceforge.net -->
     <echo>FTPing to upload.sorceforge.net</echo>
@@ -138,9 +107,8 @@
      remotedir="/incoming"
      depends="yes">
       <fileset dir=".">
-        <include name="${v_jarfile}"/>
-        <include name="${v_jarfile.1.4}"/>
-        <include name="${v_tarfile}.gz"/>
+        <include name="**/*.jar"/>
+        <include name="**/*.tar.gz"/>
       </fileset>
     </ftp>
   </target>

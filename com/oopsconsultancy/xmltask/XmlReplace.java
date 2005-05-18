@@ -1,8 +1,9 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.*;
 import org.w3c.dom.*;
+import java.util.*;
 import org.w3c.dom.traversal.*;
+import org.apache.xpath.*;
 import org.apache.tools.ant.*;
 
 /**
@@ -13,7 +14,7 @@ import org.apache.tools.ant.*;
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class XmlReplace implements XPathAnalyserClient {
+public class XmlReplace {
 
   private String path = null;
   private Action action = null;
@@ -28,10 +29,10 @@ public class XmlReplace implements XPathAnalyserClient {
     this.task = task;
   }
 
-  private void log(String msg, int level) {
+  private void log(String msg) {
     // task may not be set sometimes (e.g. during unit tests)
     if (task != null) {
-      task.log(msg, level);
+      task.log(msg);
     }
     else {
       System.out.println(msg);
@@ -39,17 +40,19 @@ public class XmlReplace implements XPathAnalyserClient {
   }
 
   public int apply(Document doc) throws Exception {
-    log("Applying " + action + " to " + path, Project.MSG_VERBOSE);
+    log("Applying " + action + " to " + path);
 
     action.setDocument(doc);
 
     List removals = new ArrayList();
-
-    XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
-    xpa.registerClient(this, null);
-    int count = xpa.analyse(doc, path);
-
-    log("Applied " + action + " - " + count + " match(es)", Project.MSG_VERBOSE);
+    NodeIterator nl = XPathAPI.selectNodeIterator(doc, path);
+    Node n;
+    int count = 0;
+    while ((n = nl.nextNode()) != null) {
+      action.apply(n);
+      count++;
+    }
+    log("Applied " + action + " - " + count + " match(es)");
     action.complete();
     return count;
   }
@@ -57,24 +60,5 @@ public class XmlReplace implements XPathAnalyserClient {
   public String toString() {
     return action.toString() + " (" + path + ")";
   }
-
-  /**
-   * called by the XPathAnalyser implementations
-   *
-   * @param n
-   */
-  public void applyNode(Node n, Object callback) throws Exception {
-    action.apply(n);
-  }
-
-  /**
-   * called by the XPathAnalyser implementations
-   *
-   * @param n
-   */
-  public void applyNode(String str, Object callback) throws Exception {
-    action.apply(action.getDocument().createTextNode(str));
-  }
-
 }
 

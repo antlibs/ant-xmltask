@@ -8,7 +8,7 @@
       <dtd publicId="-//OOPS Consultancy//DTD Test 1.0//EN" location="./test-18.dtd"/>
     </xmlcatalog>
 
-    <xmltask source="18.xml" dest="18-out.xml" report="false" public="AA" system="BB">
+    <xmltask source="18.xml" dest="18-out.xml" report="true" public="AA" system="BB">
       <xmlcatalog refid="dtds"/>
      <!-- set a text element to a value -->
       <replace path="//a/b[@id='FROM']/text()" withText="8"/>

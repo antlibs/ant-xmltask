@@ -14,7 +14,6 @@
 <li><a href="#intro">Introduction</a>
 <li><a href="#changes">Recent Changes</a>
 <li><a href="#download">Download</a>
-<li><a href="#support">Support</a>
 <li><a href="#usage">Usage</a>
 <li><a href="#buffers">Buffers</a>
 <li><a href="#formatting">Formatting</a>
@@ -24,6 +23,7 @@
 <li><a href="#contact">Contact</a>
 </ol>
 
+
 <h4><a name="intro">Introduction</a></h4>
 <code>xmltask</code> provides the facility for automatically editing XML files as part of an <a target="_top" href="http://jakarta.apache.org/ant">Ant</a> build. Unlike the standard <code>filter</code> task provided with Ant, it is XML-sensitive, but doesn't require you to define XSLTs.<p>
 Uses include:
@@ -32,7 +32,6 @@ Uses include:
 <li>inserting/removing information for J2EE deployment descriptors
 <li>dynamically building Ant build.xml files during builds
 <li>building and maintaining websites built with XHTML
-<li>driving Ant via a <i>meta</i> build.xml to abstract out build processes
 </ul>
 <center>
 <i>
@@ -42,33 +41,30 @@ Uses include:
 </center>
 <p>
 
+
+<a href="http://www.java.net"><img border="0" src="javanet_button_170.gif"/></a>
+<p>
 <a href="#top">Top</a>
 <hr>
 <h4><a name="changes">Recent Changes</a></h4>
-A mailing list now exists for &lt;xmltask&gt;. See <a href="#support">Support</a> for more info.<p>
+You may encounter problems with <code>xmltask</code> XPath configurations and the JDK 1.4.2 release. See <a href="#issues">Known Issues</a> for more info.<p>
 Current version @VERSION@<p>
-Since v1.9
+Since v1.6
 <ul>
-<li>Logs less by default
-<li><code>omitHeader</code> capability to remove the XML header on output
-<li><code>standalone</code> capability to allow standalone XML documents
-<li>&lt;copy&gt; and &lt;cut&gt; can now copy/cut text from comments to a nominated property
-<li>&lt;call&gt; can now take properties and static strings as parameters
-<li>&lt;fileset&gt; capability as for standard Ant tasks. The wildcarded <code>source</code> attribute will be deprecated 
-<li>Now compatible with JDK 1.3
+<li>Added 'failWithoutMatch' attribute to stop builds when <code>xmltask</code> fails to match
+<li>Reports version number whilst running
+<li>&lt;copy&gt; and &lt;cut&gt; operations can now store multiple nodesets
+<li>&lt;copy&gt; and &lt;cut&gt; operations can now record attribute <i>values</i>
+<li>Enabled copy/paste of attribute nodes
 </ul>
-Since v1.8
+Since v1.5
 <ul>
-<li>&lt;call&gt; operation to call Ant targets for XML nodes identified by &lt;xmltask&gt;
-<li>&lt;xmltask&gt; can now use a <a href="#buffers">buffer</a> as an input source
-<li>&lt;xmltask&gt; can now build/run under JDK 1.5 (since 1.9.1)
-</ul>
-Since v1.7
-<ul>
-<li>Various minor bug fixes
-<li>Logging overhaul and reduction in verbose output
-<li>Enabling use of XPath functions such as <code>count()</code> etc.
-<li>Buffer clearing via the <code>clearBuffers</code> instruction
+<li>Added &lt;rename&gt; instruction to rename elements and attributes
+<li>Added 'preserveType' attribute to allow transformed documented to preserve their original DTD ids
+<li>Added new formatting options
+<li>Creation of new documents allowed - no requirement for a <i>source</i> file
+<li>Compatibility issues with Ant 1.4 resolved
+<li>Added 'encoding' attribute to enable selectable character encodings for the output
 </ul>
 See the <code>CHANGES</code> file in the download for a comprehensive list of changes for each version<p>
 <a href="#top">Top</a>
@@ -77,24 +73,15 @@ See the <code>CHANGES</code> file in the download for a comprehensive list of ch
 <i>Version @VERSION@ - release @TODAY@</i><p>
 <code>xmltask</code> is released under the Apache license. Right-click and choose <i>Save As</i> if your browser doesn't offer you the option.
 <p>
-<b><a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@.jar?download">xmltask.jar</a></b> - the .jar file to use in Ant plus documentation (use <a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@-ant1.4.jar?download">this version</a> for Ant version 1.4.x - <code>&lt;xmlcatalog&gt;</code> disabled).
+<b><a href="xmltask.jar">xmltask.jar</a></b> - the .jar file to use in Ant plus documentation (use <a href="xmltask.1.4.jar">this version</a> for Ant version 1.4.x - <code>&lt;xmlcatalog&gt;</code> disabled).
 <p>
-<b><a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@.tar.gz?download">xmltask.tar.gz</a></b> - the source code and tests 
-<p>
-<font size="-1">
-Checksums:
-<br>
-xmltask.jar - MD5 @JAR_MD5@<br>
-xmltask.jar for Ant 1.4 - MD5 @JAR_14_MD5@<br>
-xmltask.tar.gz - MD5 @GZ_MD5@<br>
-
-</font>
+<b><a href="xmltask.tar.gz">xmltask.tar.gz</a></b> - the source code and tests 
 <p>
 Additional Requirements:<br>
 &nbsp;&nbsp;<i>JDK 1.3</i> - <a href="http://xml.apache.org/xerces-j/index.html">Xerces 1.4.1+</a>, <a href="http://xml.apache.org/xalan-j/index.html">Xalan</a><br>
 &nbsp;&nbsp;<i>JDK 1.4</i> - none
 <p>
-Download previous versions at <a href="http://sourceforge.net/project/showfiles.php?group_id=27398">Sourceforge.net</a>
+Download previous versions at <a href="http://sourceforge.net/projects/xmltask/">Sourceforge.net</a>
 <p>
 <a href="#top">Top</a>
 <hr>
@@ -115,179 +102,56 @@ To use this task, make sure:
 </ol>
 <a href="#top">Top</a>
 <hr>
-<h4><a name="support">Support</a></h4>
-<code>xmltask</code> now has a support mailing list. 
-<p>Email <a href="mailto:xmltask-users@lists.sourceforge.net">xmltask-users@lists.sourceforge.net</a>
-<p>To subscribe, or view the archives, visit the <a href="http://lists.sourceforge.net/lists/listinfo/xmltask-users">Xmltask-users mail page</a>
-<p>
-<a href="#top">Top</a>
-<hr>
 <h4><a name="usage">Usage</a></h4>
 <code>xmltask</code> allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.
 <ul>
-<li>The main &lt;xmltask&gt; section takes arguments to define an XML source and a destination file or directory. Note that the XML source is optional if you're creating a new document via &lt;xmltask&gt; instructions. <code>dest</code> and <code>todir</code> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).
+<li>The main &lt;xmltask&gt; section takes arguments to define a source file and a destination file:
+<ol>
+  <li> <code>source</code> - the source XML file to load
+  <li> <code>dest</code> - the output XML file to write to
+</ol>
+or you can modify multiple files:
+<ol>
+  <li> <code>source</code> - the source pattern eg. **/*.xml
+  <li> <code>todir</code> - the output directory
+</ol>
 <p>
-&lt;fileset&gt;s are used to define sets of files for <code>xmltask</code> to operate on. See the standard Ant documentation for information on using filesets.
+Note that <code>source</code> is optional if you're creating a new document via &lt;xmltask&gt; instructions. <code>dest</code> and <code>todir</code> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).
 <p>
-<!-- xmltask attributes -->
-<b>Parameters</b><p>
-<table border="1" cellpadding="2" cellspacing="0">
-<tr>
-<td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-</tr>
-<tr>
-  <td>source</td><td>the source XML file to load. Can take the form of a wildcarded pattern eg. **/*.xml. Note that this capability will be deprecated in favour of &lt;fileset&gt; usage</td><td align="centre">no</td>
-</tr>
-<tr>
-  <td>sourcebuffer</td><td>the source <a href="#buffers">buffer</a> containing XML from a previous &lt;xmltask&gt; invocation. The buffer must contain a <i>single</i> root node (i.e be <i>well-formed</i>). If the buffer is empty, then this has the effect of starting with a blank document.</td><td align="centre">no</td>
-</tr>
-<tr>
-  <td>dest</td><td>the output XML file to write to</td><td align="centre">no</td>
-</tr>
-<tr>
-  <td>todir</td><td>the output directory to write to</td><td align="centre">no</td>
-</tr><tr>
-<tr>
-  <td>report</td><td>when set to true, will result in diagnostic output.</td><td align="centre">no</td>
-</tr><tr>
-  <td>public</td><td>sets the PUBLIC identifier in the output XML DOCTYPE declaration. </td><td align="centre">no</td>
-</tr><tr>
-  <td>system</td><td>sets the SYSTEM identifier in the output XML DOCTYPE declaration. </td><td align="centre">no</td>
-</tr><tr>
-  <td>preservetype</td><td>when set to true sets the PUBLIC and SYSTEM identifiers to those of the original document</td><td align="centre">no</td>
-</tr><tr>
-  <td>failWithoutMatch</td><td>when set to true will stop the <code>xmltask</code> task (and hence the build process) if any subtask fails to match nodes using the given XPath path</td><td align="centre">no</td>
-</tr><tr>
-  <td>indent</td><td>when set to true enables indented formatting of the resultant document. This <i>defaults</i> to true</td><td align="centre">no</td>
-</tr><tr>
-  <td>encoding</td><td>determines the character encoding value for the output document</td><td align="centre">no</td>
-</tr><tr>
-  <td>outputter</td><td>determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.</td><td align="centre">no</td>
-</tr><tr>
-  <td>omitHeader</td><td>when set to true forces omission of the &lt;?xml...?&gt; header. Note that the XML spec specifies the header SHOULD be included, but this is not mandated for XML v1.0</td><td align="centre">no</td>
-</tr><tr>
-  <td>standalone</td><td>when set to true/false sets the <code>standalone</code> attribute of the header</td><td align="centre">no</td>
-</tr><tr>
-  <td>clearBuffers</td><td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are cleared after every input file is processed. Buffers are specified in a comma-delimited string</td><td align="centre">no</td>
-</tr>
-</table>
+In addition, you can provide the following attributes:
+<ul>
+  <li><code>report</code> when set to true, will result in diagnostic output.
+  <li><code>public</code> sets the PUBLIC identifier in the output XML DOCTYPE declaration. 
+  <li><code>system</code> sets the SYSTEM identifier in the output XML DOCTYPE declaration. 
+  <li><code>preserveType</code> when set to true sets the PUBLIC and SYSTEM identifiers to those of the original document
+  <li><code>failWithoutMatch</code> when set to true will stop the <code>xmltask</code> task (and hence the build process) if any subtask fails to match nodes using the given XPath path
+  <li><code>indent</code> when set to true enables indented formatting of the resultant document. This <i>defaults</i> to true
+  <li><code>encoding</code> determines the character encoding value for the output document
+  <li><code>outputter</code> determines the output mechanism to be used. See <a href="#formatting">formatting</a> for more info.
+</ul>
 <p>
-e.g.
-<pre>
-  &lt;xmltask source="input.xml" dest="output.xml"&gt;
-</pre>
-reads from <code>input.xml</code> and writes to <code>output.xml</code>.
-<pre>
-  &lt;xmltask todir="output"&gt;
-    &lt;fileset dir="."&gt;
-      &lt;includes name="*.xml"/&gt;
-      
-</pre>
-reads from the XML files in the current dir and writes to the same filenames in the <code>output</code> dir.
-<pre>
-  &lt;xmltask sourcebuffer="servlet" output="servlet.xml"&gt;
-</pre>
-reads from the previously populated buffer <code>servlet</code> and writes to <code>output.xml</code>.
-<p>
-<li>Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info.
+<li>Subsections allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info.
 <p>
 <ul>
-  <li>The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property.
-
-<!-- cut attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to cut</td><td>yes</td>
-  </tr>
-  <tr>  
-    <td>buffer</td><td>the buffer to store the cut XML</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>property</td><td>the property to store the cut XML</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>append</td><td>when set to <code>true</code>, <i>appends</i> to the given buffer or property</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>attrValue</td><td>Cutting an attribute will result in the <i>whole</i> attribute plus value being cut. When <code>attrValue</code> is set to true then only the attribute's <i>value</i> is cut</td><td>no</td>
-  </tr>
-  </table>
-  <p>e.g.
+  <li>The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a>.
   <pre>
       &lt;cut path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
-      &lt;cut path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;
   </pre>
 
-<!-- copy attributes -->
-  <li>The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property.
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to copy</td><td>yes</td>
-  </tr>
-  <tr>  
-    <td>buffer</td><td>the buffer to store the copied XML</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>property</td><td>the property to store the copied XML</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>append</td><td>when set to <code>true</code>, <i>appends</i> to the given buffer or property</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>attrValue</td><td>Copying an attribute will result in the <i>whole</i> attribute plus value being cut. When <code>attrValue</code> is set to true then only the attribute's <i>value</i> is copied</td><td>no</td>
-  </tr>
-  </table>
-  <p>e.g.
-
+  <li>The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a>.
   <pre>
       &lt;copy path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
-      &lt;copy path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;
   </pre>
 
-  <li>The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> or a property to be pasted into an XML document. This
+  <li>The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> to be pasted into an XML document. This
   is a <b>synonym</b> for the insert section (see below)<p>
   <li> The &lt;insert&gt; section allows you to specify an XML node and the XML to insert below or alongside it
-
-<!-- paste/insert attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to insert into</td><td>yes</td>
-  </tr>
-  <tr>  
-    <td>buffer</td><td>the buffer to paste</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>file</td><td>the file to paste</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>xml</td><td>the literal XML to paste</td><td>no</td>
-  </tr>
-  <tr>  
-    <td>position</td><td>where the XML is to be inserted in relation to the XML highlighted by <code>path</code>. The allowed positions are <code>before</code>, <code>after</code>, or <code>under</code>. The default position is <code>under</code>.
-    
-    </td><td>no</td>
-  </tr>
-  </table>
-  <p>e.g.
     <pre>
     &lt;insert path="/web/servlet/context/root[@attr='val']" xml="&amp;lt;B/&amp;gt;"/&gt;
     &lt;insert path="/web/servlet/context/root[@attr='val']" file="insert.xml"/&gt;
     &lt;insert path="/web/servlet/context/root[@attr='val']" buffer="namedBuffer" position="before"/&gt;
-    &lt;insert path="/web/servlet/context/root[@attr='val']" xml="${property1}" position="before"/&gt;
     </pre>
-    The XML to insert can be a <i>document fragment</i> - that is to say it doesn't require a root node. Examples of insertable XML include:
+    The allowed positions are <code>before</code>, <code>after</code>, or <code>under</code>. The default position is <code>under</code>. The XML to insert can be a <i>document fragment</i> - that is to say it doesn't require a root node. Examples of insertable XML include:
     <pre>
       &lt;welcome-file-list/&gt;
     </pre>  
@@ -304,36 +168,12 @@ reads from the previously populated buffer <code>servlet</code> and writes to <c
       ]]&gt;
       &lt;/insert&gt;
   </pre>
-  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections. Insert a property using this body test method.
+  Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
 <p>
 You can create a new document by not specifying a source file, and making the first instruction for &lt;xmltask&gt; an &lt;insert&gt; or &lt;paste&gt; with the appropriate root node (and any subnodes).
 <p>
 
   <li> The &lt;replace&gt; section allows you to specify an XML node and what to replace it with
-
-<!-- replace attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to replace</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>withText</td><td>the text to insert in place of the nominated nodes</td><td>no</td>
-  </tr>
-  <tr>
-    <td>withXml</td><td>the literal XML to insert in place of the nominated nodes</td><td>no</td>
-  </tr>
-  <tr>
-    <td>withFile</td><td>the file containing XML to insert in place of the nominated nodes</td><td>no</td>
-  </tr>
-  <tr>
-    <td>withBuffer</td><td>the buffer containing XML to insert in place of the nominated nodes</td><td>no</td>
-  </tr>
-  </table>
-  <p>e.g.
   <pre>
       &lt;replace path="web/servlet/context/root[@id='2']/text()" withText="2"/&gt;
       &lt;replace path="web/servlet/context/root[@id='2']/text()" withXml="&amp;lt;id&amp;gt;"/&gt;
@@ -350,132 +190,24 @@ You can create a new document by not specifying a source file, and making the fi
   </pre>
   Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.
   <p>
-  <li> The &lt;attr&gt; section allows you to specify an XML node and how to add, change or remove its attributes
-<!-- attr attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to be changed</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>attr</td><td>the name of the attribute to be added/changed or removed</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>value</td><td>the value to set the attribute to</td><td>no</td>
-  </tr>
-  <tr>
-    <td>remove</td><td>if set to <code>true</code>, indicates that the nominated attribute should be removed</td><td>no</td>
-  </tr>
-  </table>
-  <p>e.g.
+  <li> The &lt;attr&gt; section allows you to specify an XML node and how to change or remove its attributes
   <pre>
       &lt;attr path="web/servlet/context[@id='4']/" attr="id" value="test"/&gt;
       &lt;attr path="web/servlet/context[@id='4']/" attr="id" remove="true"/&gt;
   </pre>
-  Note that in the first example, if the attribute <code>id</code> doesn't exist, it will be added.
-  <p>
   <li> The &lt;remove&gt; section allows you to specify an XML section to remove
-<!-- remove attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to be removed</td><td>yes</td>
-  </tr>
-  </table>
-  <p>e.g.
     <pre>
     &lt;remove path="web/servlet/context[@id='redundant']"/&gt;
     </pre>
     <p>
-
   <li> The &lt;rename&gt; section allows you to specify an XML element or attribute to rename
-<!-- rename attributes -->
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to be renamed</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>to</td><td>the new node name</td><td>yes</td>
-  </tr>
-  </table>
-
-  <p>e.g.
     <pre>
     &lt;rename path="a/b/c[@id='1']" to="d"/&gt;
     &lt;rename path="a/b/@c" to="d"/&gt;
     </pre>
     <p>
-
-<!-- call documentation -->
-  <li> The &lt;call&gt; section allows you to call Ant targets in the same <code>build.xml</code> file for nodes identified by an XPath.
-  <p><b>Parameters</b><p>
-  <table border="1" cellpadding="2" cellspacing="0">
-  <tr>
-  <td><b>Attribute</b></td><td><b>Description</b></td><td align="centre"><b>Required</b></td>
-  </tr>
-  <tr>
-    <td>path</td><td>the XPath reference of the element(s) to be identified</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>target</td><td>the Ant target to call for each identified node</td><td>yes</td>
-  </tr>
-  <tr>
-    <td>buffer</td><td>the buffer to use to store each identified node (for the duration of the target call)</td><td>no</td>
-  </tr>
-  <tr>
-    <td>inheritAll</td><td>boolean indicating if the target being called inherits all properties. Defaults to <i>true</i></td><td>no</td>
-  </tr>
-  <tr>
-    <td>inheritRefs</td><td>boolean indicating if the target being called inherits all references. Defaults to <i>false</i></td><td>no</td>
-  </tr>
-  </table>
-
-  <p>e.g. in the below example, the Ant target <code>CNode</code> is called for <i>each</i> occurrence of the <code>C</code> node in the given XPath expression. For each call to <code>CNode</code> the buffer <code>abc</code> is populated with the node identified (plus any subnodes).
-    <pre>
-    &lt;call path="a/b/c" target="CNode" buffer="abc"/&gt;
-    </pre>
-    This mechanism can be used to drive Ant builds from existing XML resources such as <code>web.xml</code> or <code>struts.xml</code>, or to provide a <code>meta-build</code> facility for Ant, by driving the <code>build.xml</code> from a higher level proprietary XML config.
     <p>
-    Properties can be set for the target being called using XPath syntax or simply as existing properties or static strings. eg.
-    <pre>
-    &lt;call path="a/b/c" target="CNode" buffer="abc"&gt;
-      &lt;param name="val" path="text()"/&gt;
-      &lt;param name="id" path="@id"/&gt;
-      &lt;param name="os" value="${os.name}"/&gt;
-    &lt;/call&gt;  
-    </pre>
-    will call the Ant target <code>CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code>C</code>, and the property id is set to the corresponding id attribute. <i>os</i> is set to the OS.
-    <p>
-    Two standard properties are set for each call. <i>xmltask.path</i> is the path to the node that triggered this call, and <i>xmltask.fqpath</i> is the same path but with fully-qualified node names.
-    <p>
-
-
-<!-- xmltask xmlcatalog settings -->
-  <li><code>xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like).
-  <p>e.g.
-  <pre>
-    &lt;xmlcatalog id="<b>dtds</b>"&gt;
-      &lt;dtd publicId="-//OOPS Consultancy//DTD Test 1.0//EN" location="./local.dtd"/&gt;
-    &lt;/xmlcatalog&gt;
-
-    &lt;xmltask source="18.xml" dest="18-out.xml" report="true"&gt;
-      &lt;xmlcatalog refid="<b>dtds</b>"/&gt;
-     &lt;!-- set a text element to a value --&gt;
-      ...
-    &lt;/xmltask&gt;
-  </pre>
-  references a local copy of a DTD.<p>
-  If you're using Ant 1.4 or before, you can use the &lt;entity&gt; element within &lt;xmltask&gt;, as below:
+  <li><code>xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). If you're using Ant 1.4 or before, you can use the &lt;entity&gt; element within &lt;xmltask&gt;, as below:
     <pre>
     &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local="web.dtd"/&gt;
     &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local=""/&gt;
@@ -513,7 +245,6 @@ Buffers exist for the duration of the Ant process and consequently can be used a
       &lt;cut path="web/servlet/context/config[@id='4']" buffer="storedXml" /&gt;
     &lt;/xmltask&gt;
   &lt;/target&gt;
-
   &lt;target name="paste" depends="cut"&gt;
     &lt;xmltask source="input.xml" dest="output.xml &gt;
       &lt;paste path="web/servlet/context/config[@id='5'] buffer="storedXml" /&gt;
@@ -539,7 +270,7 @@ Buffers exist for the duration of the Ant process and consequently can be used a
 <h4><a name="formatting">Formatting</a></h4>
 The formatting of the output document is controlled by the attribute 'outputter'. There are three options:
 <ul>
-  <li><code>&lt;xmltask outputter="default"...</code><p> outputs the document <i>as is</i>. That is to say, all whitespace etc. is preserved. This is the default option. Note that attribute ordering <i>may</i> change and elements containing attributes may be split over several lines etc. ie. the document remains the same <i>semantically</i>.
+  <li><code>&lt;xmltask outputter="default"...</code><p> outputs the document <i>as is</i>. That is to say, all whitespace etc. is preserved. This is the default option.
   <p>
   <li><code>&lt;xmltask outputter="simple"...</code><p> outputs the document with a degree of formatting. Elements are indented and given new lines wherever possible to make a more readable document. This is not suitable for all applications since some XML consumers will be whitespace sensitive.
   <p>
@@ -583,12 +314,6 @@ Some examples of common usage:
   </pre>
   <p>
 
-  <li>Extracting the title from an XHTML file and storing it in a property:
-  <pre>
-    &lt;copy path="/xhtml/head/title/text()" property="title"/&gt;
-  </pre>
-  <p>
-
   <li>Inserting a servlet definition into a <code>web.xml</code>:
   <pre>
     &lt;insert path="/web-xml/servlet[last()]" position="after" file="newservlet.xml"/&gt;
@@ -629,21 +354,6 @@ Some examples of common usage:
     &lt;attr path="//div[@id='1']" attr="id" remove="true"/&gt;
   </pre>
   <p>
-  <li>Copying an attribute's value into a property:
-  <pre>
-    &lt;copy path="//div[@id='1']/@id" attrValue="true" property="value"/&gt;
-  </pre>
-  <p>
-  <li>Copying multiple values into one buffer. Note the clearing of buffers <code>a</code>, <code>b</code> and <code>c</code> prior to appending. Buffer <code>b</code> contains all the <code>div</code> elements for each input file :
-  <pre>
-    &lt;xmltask clearBuffers="a,b,c"&gt; 
-      &lt;fileset dir="."&gt; 
-        &lt;includes name="*.xml"/&gt; 
-      &lt;/fileset&gt; 
-      &lt;copy path="//div" buffer="b" append="true"/&gt;
-      ...
-  </pre>
-  <p>
   <li>Removing all comments:
   <pre>
     &lt;remove path="//child::comment()"/&gt;
@@ -680,41 +390,18 @@ Some examples of common usage:
     &lt;xmltask dest="release/web.xml"&gt;
       &lt;insert path="/"&gt;
         &lt;![CDATA[
-          &lt;root/&gt;
+          &lt;root/&gt;`
         ]]&gt;
       &lt;/insert&gt;
         ...
   </pre>
-  <li>Counting nodes and recording the result in a property
-  <pre>
-    &lt;xmltask source="multiple.xml"&gt;
-      &lt;copy path="count(/servlet)" property="count"/&gt;
-        ...
-  </pre>
-  <p>
-  <li>Identifying elements with namespaces. This example copies the <code>node</code> element which is tied to a namespace via an <code>xmlns</code> directive. See <a href="http://www.xml.com/pub/a/2004/02/25/qanda.html">this XML.com article</a> for namespace-related issues.
-  <pre>
-    &lt;xmltask source="input.xml"&gt;
-      &lt;copy path="//*[local-name='node']" property="count"/&gt;
-        ...
-  </pre>
-
-  <p>
-  <li>Call the <i>deploy</i> task for each servlet entry in a <code>web.xml</code>. For each invocation the <code>servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id. The <code>servletDef</code> buffer can be used in suceeding <code>xmltask</code> invocations.
-  <pre>
-    &lt;xmltask source="web.xml"&gt;
-      &lt;call path="web/servlet" target="deploy" buffer="servletDef"/&gt;
-        &lt;param name="id" path="@id"/&gt;
-      &lt;/call&gt;  
-    &lt;/xmltask&gt;  
-  </pre>
   <p>
 
+  <p>
 </ul>
 <hr>
 <h4><a name="issues">Known Issues</a></h4>
-<ul>
-<li>The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:
+The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:
 <pre>
 /root/branch/
 </pre>
@@ -723,7 +410,7 @@ and should be replaced with
 /root/branch
 </pre>
 Some of the <code>xmltask</code> examples and documentation have used the incorrect syntax. This is now rectified.
-</ul>
+<p>
 <a href="#top">Top</a>
 
 <hr>
@@ -733,37 +420,12 @@ An excellent XPath tutorial can be found <a target="_top" href="http://www.zvon.
 <p>
 Hints and tips on XPath can be found at <a target="_top" href="http://www.xml.com/pub/a/2002/08/14/xpath_tips.html">O'Reilly's XML web site</a>
 <p>
-Many Xpath issues relate to namespace matching. <a href="http://www.xml.com/pub/a/2004/02/25/qanda.html">This XML.com article</a> offers an excellent discussion of the issues.
-<p>
-The following books are invaluable for XPath issues:<p>
-<table>
-  <tr>
-    <td>
-      <i>XPath and XPointer</i> by John E. Simpson
-    </td>
-    <td>
-      <a href="http://www.amazon.co.uk/exec/obidos/ASIN/0596002912/oopsconsultanclt"><img border="1" height="140" width="93" src="xpathandxpointer.jpg"></a>
-    </td>
-  </tr>
-  <tr><td>&nbsp;</td></tr>
-  <tr>
-    <td>
-      <i>XSLT</i> by Doug Tidwell. Contains<br>useful XPath information
-    </td>
-    <td>
-      <a href="http://www.amazon.co.uk/exec/obidos/ASIN/0596000537/oopsconsultanclt"><img border="1" height="140" width="93" src="xslt.jpg"></a>
-    </td>
-
-  </tr>
-</table>
-
-<p>
 <a href="#top">Top</a>
 <hr>
 <h4><a name="contact">Contact</a></h4>
-<code>xmltask</code> is written and maintained by <a target="_top" href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd.</a>. For enquiries see the <a href="#support">support info</a>.
+<code>xmltask</code> is written and maintained by <a target="_top" href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd.</a>. Enquiries to <a href="mailto:xmltask@oopsconsultancy.com">xmltask@oopsconsultancy.com</a>.
 <p>
-<center>Now hosted on</center>
+<center>Soon to be hosted on</center>
 <center><A href="http://sourceforge.net"> <IMG src="http://sourceforge.net/sflogo.php?group_id=27398&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A></center>
 
 </body>
