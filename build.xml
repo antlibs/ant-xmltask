@@ -23,6 +23,9 @@
   <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
+    <javac srcdir="." destdir="." debug="on" nowarn="true">
+      <include name="**/XMLCatalog.java"/>
+    </javac>
     <javac srcdir="." destdir="classes" debug="on" nowarn="true">
       <include name="**/*.java"/>
     </javac>
@@ -76,7 +79,7 @@
           excludes="**/test/**/*,**/pre1.5/*"/>
     <tar tarfile="${tarfile}"
          basedir="." 
-         includes="**/*.java,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties"/>
+         includes="**/*.java,com/oopsconsultancy/xmltask/pre1.5/XMLCatalog.class,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties"/>
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
     <delete file="classes/org/apache/tools/ant/types/XMLCatalog.class"/>     
     <delete file="${tarfile}"/>
