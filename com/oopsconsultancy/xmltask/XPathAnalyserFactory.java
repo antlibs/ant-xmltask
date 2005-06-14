@@ -12,7 +12,9 @@ public class XPathAnalyserFactory {
   public static XPathAnalyser getAnalyser() throws Exception {
     XPathAnalyser analyser;
 
-    if (System.getProperty("java.vm.version").indexOf("1.5") != -1) {
+// changed from java.vm.version since this doesn't
+// work for JRockit!
+    if (System.getProperty("java.version").indexOf("1.5") != -1) {
       analyser = (XPathAnalyser)Class.forName("com.oopsconsultancy.xmltask.jdk15.XPathAnalyser15").newInstance();
     }
     else {

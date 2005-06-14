@@ -3,6 +3,9 @@ package com.oopsconsultancy.xmltask;
 import java.util.*;
 import org.w3c.dom.*;
 import org.apache.tools.ant.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
 
 /**
  * stores a list of nodes vs. buffer name. We clone the given node on
@@ -70,6 +73,23 @@ public class BufferStore {
     }
     log("", task);
     list.add(newnode);
+
+    // some buffer debugging
+    try {
+    System.out.println("--> Buffer '" + name + "'");
+      Transformer serializer = TransformerFactory.newInstance().newTransformer();
+      for (Iterator i = list.iterator(); i.hasNext(); ) {
+        Node node = (Node)i.next();
+
+        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        serializer.transform(new DOMSource(node), new StreamResult(System.out));
+      }
+    System.out.println("<-- Buffer '" + name + "'");
+    }
+    catch (Exception e) {
+      log("Problem during buffer output", task);
+      e.printStackTrace();
+    }
   }
 
   public static void clear(String name, Task task) {

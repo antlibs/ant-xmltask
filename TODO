@@ -9,5 +9,3 @@ Set a property if a node exists ?
 
 How do I change text etc. via regular expressions ? 
 eg. convert <text>[ABC]</text> to <text>ABC</text>
-
-Use filesets for filehandling

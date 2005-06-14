@@ -35,6 +35,7 @@ public class XmlTask extends Task {
   private boolean standalone = false;
   private boolean omitHeader = false;
   private boolean todir = false;
+  private boolean tobuffer = false;
   private boolean reporting = false;
   private String doctype_public = null;
   private String doctype_system = null;
@@ -53,7 +54,7 @@ public class XmlTask extends Task {
   private final List filesets = new ArrayList();
 
   /**
-   * the file to output
+   * the file/buffer to output to
    */
   private String dest =  null;
 
@@ -390,7 +391,20 @@ public class XmlTask extends Task {
   public void setDest(final String dest) {
     this.dest = dest;
     todir = false;
+    tobuffer = false;
   }
+
+  /**
+   * records the output buffer
+   *
+   * @param dest
+   */
+  public void setDestBuffer(final String dest) {
+    this.dest = dest;
+    todir = false;
+    tobuffer = true;
+  }
+
 
   /**
    * sets the mechanism for outputting the XML
@@ -409,6 +423,7 @@ public class XmlTask extends Task {
   public void setTodir(final String dest) {
     this.dest = dest;
     todir = true;
+    tobuffer = false;
   }
 
   /**
@@ -582,7 +597,7 @@ public class XmlTask extends Task {
     }
 
     // now make the destination directory absolute...
-    if (dest != null) {
+    if (dest != null && !tobuffer) {
       File fdest = new File(dest);
       if (!fdest.isAbsolute()) {
         dest = getPathPrefix() + dest;
@@ -663,108 +678,117 @@ public class XmlTask extends Task {
       }
 
       if (dest != null) {
-        // and then write out...
-        Transformer serializer = TransformerFactory.newInstance().newTransformer();
-        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (omitHeader ? "yes":"no"));
-        if (settingStandalone) {
-          serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
-        }
-        if (settingVersion) {
-          serializer.setOutputProperty(OutputKeys.VERSION, xmlVersion);
-        }
-
-        if (preservetype) {
-
-          // use the document's
-          if (dt != null) {
-            // but I don't want to set PUBLIC and SYSTEM = "" i.e. both blank
-            if (dt.getPublicId() != null) {
-              serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, dt.getPublicId());
-            }
-            else {
-              // "Private" External DTDs - see http://xmlwriter.net/xml_guide/doctype_declaration.shtml
-            }
-            if (dt != null && dt.getSystemId() != null) {
-              serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dt.getSystemId());
-            }
-            else {
-              serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "");
-            }
-          }
-        }
-        else {
-          // use the configured... (if configured!)
-          if (doctype_public != null) {
-            serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype_public);
-          }
-          if (doctype_system != null) {
-            serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype_system);
-          }
-        }
-
-        if (normalize && doc != null && doc.getDocumentElement() != null) {
-          log("Normalizing resultant document", Project.MSG_VERBOSE);
-          doc.getDocumentElement().normalize();
-        }
-        if (indent) {
-          log("Indenting resultant document", Project.MSG_VERBOSE);
-          serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-        }
-        else {
-          serializer.setOutputProperty(OutputKeys.INDENT, "no");
-        }
-
         // and output
-        Writer w = null;
-        if (todir == false) {
-          w = getWriter(dest, serializer);
+        if (tobuffer) {
+          // write to a buffer
+          BufferStore.set(dest, doc.getDocumentElement(), false, this);
         }
         else {
-          String destname = dest + File.separator + name;
-          log("Writing " + destname, Project.MSG_VERBOSE);
-          File dir = (new File(destname)).getParentFile();
-          if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-              throw new Exception("Failed to make destination directory " + dest);
+
+          // and then write out...
+          Transformer serializer = TransformerFactory.newInstance().newTransformer();
+          serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (omitHeader ? "yes":"no"));
+
+          if (settingStandalone) {
+            serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
+          }
+          if (settingVersion) {
+            serializer.setOutputProperty(OutputKeys.VERSION, xmlVersion);
+          }
+
+          if (preservetype) {
+
+            // use the document's
+            if (dt != null) {
+              // but I don't want to set PUBLIC and SYSTEM = "" i.e. both blank
+              if (dt.getPublicId() != null) {
+                serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, dt.getPublicId());
+              }
+              else {
+                // "Private" External DTDs - see http://xmlwriter.net/xml_guide/doctype_declaration.shtml
+              }
+              if (dt != null && dt.getSystemId() != null) {
+                serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dt.getSystemId());
+              }
+              else {
+                serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "");
+              }
             }
           }
-          w = getWriter(destname, serializer);
-        }
-
-        Result res = null;
-        if (FMT_NONE.equals(outputter)) {
-          res = new StreamResult(w);
-        }
-        else if (outputter.startsWith(FMT_SIMPLE)) {
-          FormattedDataWriter dw = new FormattedDataWriter();
-
-          dw.setWriter(w);
-          dw.setIndentStep(2);
-          if (outputter.indexOf(":") != -1) {
-            // looks like it's formatted as simple:{indent}...
-            String fmt = outputter.substring(outputter.indexOf(":") + 1);
-            dw.setIndentStep(Integer.parseInt(fmt));
+          else {
+            // use the configured... (if configured!)
+            if (doctype_public != null) {
+              serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype_public);
+            }
+            if (doctype_system != null) {
+              serializer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype_system);
+            }
           }
 
-          /*
-          System.out.println("SET PREFIX");
-          dw.forceNSDecl("http://exist.sourceforge.net/NS/exist", "exist");
-          dw.setPrefix("http://www.accountz.com/xmlbeans/model", "");
-          */
+          if (normalize && doc != null && doc.getDocumentElement() != null) {
+            log("Normalizing resultant document", Project.MSG_VERBOSE);
+            doc.getDocumentElement().normalize();
+          }
+          if (indent) {
+            log("Indenting resultant document", Project.MSG_VERBOSE);
+            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+          }
+          else {
+            serializer.setOutputProperty(OutputKeys.INDENT, "no");
+          }
 
-          dw.setTransformer(serializer);
-          res = new SAXResult(dw);
+          // write to a file or directory
+          Writer w = null;
+          if (todir == false) {
+            w = getWriter(dest, serializer);
+          }
+          else {
+            String destname = dest + File.separator + name;
+            log("Writing " + destname, Project.MSG_VERBOSE);
+            File dir = (new File(destname)).getParentFile();
+            if (!dir.exists()) {
+              if (!dir.mkdirs()) {
+                throw new Exception("Failed to make destination directory " + dest);
+              }
+            }
+            w = getWriter(destname, serializer);
+          }
+
+          Result res = null;
+          if (FMT_NONE.equals(outputter)) {
+            res = new StreamResult(w);
+          }
+          else if (outputter.startsWith(FMT_SIMPLE)) {
+            FormattedDataWriter dw = new FormattedDataWriter();
+
+            dw.setWriter(w);
+            dw.setIndentStep(2);
+            if (outputter.indexOf(":") != -1) {
+              // looks like it's formatted as simple:{indent}...
+              String fmt = outputter.substring(outputter.indexOf(":") + 1);
+              dw.setIndentStep(Integer.parseInt(fmt));
+            }
+
+            /*
+               System.out.println("SET PREFIX");
+               dw.forceNSDecl("http://exist.sourceforge.net/NS/exist", "exist");
+               dw.setPrefix("http://www.accountz.com/xmlbeans/model", "");
+             */
+
+            dw.setTransformer(serializer);
+            res = new SAXResult(dw);
+          }
+          else {
+            // try and load this as a custom task...
+            log("Loading custom result writer " + outputter, Project.MSG_VERBOSE);
+            Outputter op = (Outputter)(Class.forName(outputter).newInstance());
+            op.setWriter(w);
+            op.setTransformer(serializer);
+            res = new SAXResult(op);
+          }
+          serializer.transform(new DOMSource(doc), res);
+          w.close();
         }
-        else {
-          // try and load this as a custom task...
-          log("Loading custom result writer " + outputter, Project.MSG_VERBOSE);
-          Outputter op = (Outputter)(Class.forName(outputter).newInstance());
-          op.setWriter(w);
-          op.setTransformer(serializer);
-          res = new SAXResult(op);
-        }
-        serializer.transform(new DOMSource(doc), res);
-        w.close();
       }
     }
     catch (IOException e) {

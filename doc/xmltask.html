@@ -145,6 +145,9 @@ To use this task, make sure:
   <td>dest</td><td>the output XML file to write to</td><td align="centre">no</td>
 </tr>
 <tr>
+  <td>destbuffer</td><td>the output buffer to write to</td><td align="centre">no</td>
+</tr>
+<tr>
   <td>todir</td><td>the output directory to write to</td><td align="centre">no</td>
 </tr><tr>
 <tr>
@@ -185,9 +188,15 @@ reads from <code>input.xml</code> and writes to <code>output.xml</code>.
 </pre>
 reads from the XML files in the current dir and writes to the same filenames in the <code>output</code> dir.
 <pre>
-  &lt;xmltask sourcebuffer="servlet" output="servlet.xml"&gt;
+  &lt;xmltask sourcebuffer="servlet" dest="servlet.xml"&gt;
 </pre>
 reads from the previously populated buffer <code>servlet</code> and writes to <code>output.xml</code>.
+<pre>
+  &lt;xmltask sourcebuffer="buf1" destbuffer="buf2"&gt;
+</pre>
+reads from the previously populated buffer <code>buf1</code> and writes to the buffer <code>buf2</code>.
+<p>
+Note that reading from and writing to the <i>same file</i> or <i>same buffer</i> is permitted.
 <p>
 <li>Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info.
 <p>
@@ -506,12 +515,12 @@ Here the <code>report</code> attribute is enabled to view the XML transformation
 <a href="#top">Top</a>
 <hr>
 <h4><a name="buffers">Buffers</a></h4>
-Buffers are used to store nodes found by &lt;cut&gt; and &lt;copy&gt; operations, and those nodes can be inserted into a document using &lt;insert&gt; / &lt;paste&gt;.
+Buffers are used to store nodes found by &lt;cut&gt; and &lt;copy&gt; operations, and those nodes can be inserted into a document using &lt;insert&gt; / &lt;paste&gt;. Buffers can be used as an input (via <code>sourcebuffer</code>) and as an output (via <code>destbuffer</code>).
 <p>
 Buffers exist for the duration of the Ant process and consequently can be used across multiple invocations of &lt;xmltask&gt;. eg. the following is possible:
   <pre>
   &lt;target name="cut"&gt;
-    &lt;xmltask source="input.xml" dest="1.xml &gt;
+    &lt;xmltask source="input.xml" &gt;
       &lt;cut path="web/servlet/context/config[@id='4']" buffer="storedXml" /&gt;
     &lt;/xmltask&gt;
   &lt;/target&gt;
@@ -530,7 +539,7 @@ Buffers exist for the duration of the Ant process and consequently can be used a
   <pre>
       &lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;
   </pre>
-    A buffer can store all types of XML nodes e.g. text / elements / attributes. Note that when recording an attribute node, both the name of the attribute and the value will be recorded. To store the value alone of an attribute, the <code>attrValue</code> attribute can be used e.g.
+    Unlike properties (which can currently only store text-based data), buffers can store all types of XML nodes e.g. text / elements / attributes. Note that when recording an attribute node, both the name of the attribute and the value will be recorded. To store the value alone of an attribute, the <code>attrValue</code> attribute can be used e.g.
   <pre>
       &lt;copy path="web/servlet/@id" buffer="id" attrValue="true" /&gt;
   </pre>

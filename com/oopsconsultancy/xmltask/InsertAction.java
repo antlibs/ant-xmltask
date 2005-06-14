@@ -26,8 +26,8 @@ public class InsertAction extends Action {
    * represents the insertion points for a document fragment/element
    */
   public static class Position {
-    private String label = null;
-    private Position(String label) {
+    private final String label;
+    private Position(final String label) {
       this.label = label;
     }
     public final static Position UNDER = new Position("under");
@@ -53,29 +53,29 @@ public class InsertAction extends Action {
   private DocumentBuilder getBuilder() throws ParserConfigurationException {
     DocumentBuilder db = dfactory.newDocumentBuilder();
     db.setErrorHandler(new ErrorHandler(){
-        public void error(SAXParseException e) {
+        public void error(final SAXParseException e) {
           System.err.println(e.getMessage());
         }
-        public void fatalError(SAXParseException e) {
+        public void fatalError(final SAXParseException e) {
           // I want to disable the error o/p for non-well
           // formed documents
         }
-        public void warning(SAXParseException e) {
+        public void warning(final SAXParseException e) {
           System.err.println(e.getMessage());
         }
         });
     return db;
   }
 
-  public static InsertAction fromString(String txml, Task task) throws Exception {
+  public static InsertAction fromString(final String txml, final Task task) throws Exception {
     return new InsertAction(txml, task);
   }
 
-  public static InsertAction fromFile(File file, Task task) throws Exception {
+  public static InsertAction fromFile(final File file, final Task task) throws Exception {
     return new InsertAction(file, task);
   }
 
-  public static InsertAction fromBuffer(String buffer, Task task) throws Exception {
+  public static InsertAction fromBuffer(final String buffer, final Task task) throws Exception {
     InsertAction ia = new InsertAction();
     ia.buffer = buffer;
     ia.task = task;
@@ -100,7 +100,7 @@ public class InsertAction extends Action {
    * @param task
    * @throws Exception
    */
-  protected InsertAction(String txml, Task task) throws Exception {
+  protected InsertAction(final String txml, final Task task) throws Exception {
     this.task = task;
     try {
       readXml(txml);
@@ -122,7 +122,7 @@ public class InsertAction extends Action {
    * @param task
    * @throws Exception
    */
-  protected InsertAction(File xml, Task task) throws Exception {
+  protected InsertAction(final File xml, final Task task) throws Exception {
     this.task = task;
     InputSource in2 = new InputSource(new FileInputStream(xml));
     try {
@@ -149,14 +149,14 @@ public class InsertAction extends Action {
    * @param xml
    * @throws Exception
    */
-  protected void readXml(String xml) throws Exception {
+  protected void readXml(final String xml) throws Exception {
     StringReader sr = new StringReader(xml);
     DocumentBuilder db = getBuilder();
     doc2 = db.parse(new InputSource(sr));
   }
 
 
-  public void setPosition(Position val) {
+  public void setPosition(final Position val) {
     pos = val;
   }
 
@@ -167,11 +167,11 @@ public class InsertAction extends Action {
    * @param node
    * @throws Exception
    */
-  public boolean apply(Node node) throws Exception {
+  public boolean apply(final Node node) throws Exception {
     return insert(node);
   }
 
-  private void log(String msg, int level) {
+  private void log(final String msg, final int level) {
     if (task != null) {
       task.log(msg, level);
     }
@@ -187,7 +187,7 @@ public class InsertAction extends Action {
    * @return true on success
    * @throws Exception
    */
-  protected boolean insert(Node node) throws Exception {
+  protected boolean insert(final Node node) throws Exception {
     Node newnode = null;
     if (buffer != null) {
       Node[] n2 = BufferStore.get(buffer);
@@ -226,7 +226,7 @@ public class InsertAction extends Action {
    * @return true on success
    * @throws Exception
    */
-  private boolean insertNode(Node existingNode, Node newnode) throws Exception {
+  private boolean insertNode(final Node existingNode, final Node newnode) throws Exception {
 
     // we first select on the position, and then determine
     // what to do based on the node types
@@ -264,7 +264,12 @@ public class InsertAction extends Action {
     }
     if (pos == Position.BEFORE) {
       // place the new node before the current one
-      existingNode.getParentNode().insertBefore(newnode, existingNode);
+      Node parent = existingNode.getParentNode();
+      if (parent == null) {
+        System.err.println("Attempt to insert prior to root node");
+        return false;
+      }
+      parent.insertBefore(newnode, existingNode);
     }
     if (pos == Position.AFTER) {
       // place the new node after the current one. Because
@@ -272,7 +277,12 @@ public class InsertAction extends Action {
       // and then insert prior to that. We don't have to
       // worry about getNextSibling() returning null - see
       // the insertBefore() doc
-      existingNode.getParentNode().insertBefore(newnode, existingNode.getNextSibling());
+      Node parent = existingNode.getParentNode();
+      if (parent == null) {
+        System.err.println("Attempt to insert after root node");
+        return false;
+        }
+      parent.insertBefore(newnode, existingNode.getNextSibling());
     }
     return true;
   }

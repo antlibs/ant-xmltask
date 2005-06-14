@@ -87,15 +87,26 @@ public class XmlReplacement {
    * @throws Exception
    */
   private void output() throws Exception {
+  output("Document", doc);
+  }
+
+  /**
+   * outputs the given document (with label) to standard out
+   *
+   * @param label
+   * @param dc
+   * @throws Exception
+   */
+  private void output(final String label, final Document dc) throws Exception {
     // Set up an identity transformer to use as serializer.
-    task.log("Document -->");
+    task.log(label + " -->");
     Transformer serializer = TransformerFactory.newInstance().newTransformer();
     serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
     // and output
-    serializer.transform(new DOMSource(doc), new StreamResult(System.out));
+    serializer.transform(new DOMSource(dc), new StreamResult(System.out));
     task.log("");
-    task.log("Document <--");
+    task.log(label + " <--");
   }
 
   /**
