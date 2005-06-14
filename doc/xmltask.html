@@ -221,6 +221,7 @@ reads from the previously populated buffer <code>servlet</code> and writes to <c
       &lt;cut path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
       &lt;cut path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;
   </pre>
+  Only text nodes, attributes and comment text can be copied to a property.<p/>
 
 <!-- copy attributes -->
   <li>The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property.
@@ -251,6 +252,7 @@ reads from the previously populated buffer <code>servlet</code> and writes to <c
       &lt;copy path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;
       &lt;copy path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;
   </pre>
+  Only text nodes, attributes and comment text can be copied to a property.<p/>
 
   <li>The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> or a property to be pasted into an XML document. This
   is a <b>synonym</b> for the insert section (see below)<p>
