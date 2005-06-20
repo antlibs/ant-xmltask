@@ -75,6 +75,7 @@ public class BufferStore {
     list.add(newnode);
 
     // some buffer debugging
+    /*
     try {
     System.out.println("--> Buffer '" + name + "'");
       Transformer serializer = TransformerFactory.newInstance().newTransformer();
@@ -90,6 +91,7 @@ public class BufferStore {
       log("Problem during buffer output", task);
       e.printStackTrace();
     }
+    */
   }
 
   public static void clear(String name, Task task) {

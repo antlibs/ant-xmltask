@@ -44,6 +44,15 @@ public class XmlReplace implements XPathAnalyserClient {
   }
 
   public int apply(final Document doc) throws Exception {
+  // some actions don't take a path. In this situation we
+  // call them with a null node and return
+  if (path == null) {
+    log("Applying " + action, Project.MSG_VERBOSE);
+    action.apply(null);
+    action.complete();
+    log("Applied " + action, Project.MSG_VERBOSE);
+    return 1;
+  }
     log("Applying " + action + " to " + path, Project.MSG_VERBOSE);
 
     action.setDocument(doc);

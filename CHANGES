@@ -1,12 +1,13 @@
 $Id$
 
-1.10.8 --/--/----
+1.11 --/--/----
 
 Now uses java.version to identify VM and thus XPath usage
 Errors when inserting before/after root nodes
 Fixed source packaging wrt. XMLCatalog.class
 Fixed possible infinite loop in insert statement
 Added 'destbuffer' to permit in-buffer XML manipulation
+Added <print> capability
 
 1.10.7 24/05/2005
 

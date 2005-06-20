@@ -869,6 +869,10 @@ public class XmlTask extends Task {
     return new Entity(this);
   }
 
+  public void addConfiguredPrint(final Print print) {
+    print.process(this);
+  }
+
   public void registerEntity(final String remote, final String local) {
     resolver.registerEntity(this, remote, local);
   }

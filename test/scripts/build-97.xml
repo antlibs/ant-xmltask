@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="bufferInsert" basedir="." default="main">
+<!-- this test checks printing from buffers and
+     directly from the path -->
+    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+    <target name="main">
+        <!-- copy from the input -->
+        <xmltask source="97.xml">
+          <!-- prints directly from the path -->
+          <print path="/" comment="root node"/>
+          <print path="/a/b[@id='1']"/>
+          <print path="/a/b"/>
+          <!-- prints a buffer -->
+          <copy path="/a/b[@id='2']" buffer="b1"/>
+          <print buffer="b1" comment="This is buffer b1"/>
+          <!-- a non-existant buffer -->
+          <print buffer="b2"/>
+        </xmltask>
+    </target>
+</project>
