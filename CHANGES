@@ -8,6 +8,7 @@ Fixed source packaging wrt. XMLCatalog.class
 Fixed possible infinite loop in insert statement
 Added 'destbuffer' to permit in-buffer XML manipulation
 Added <print> capability
+Added default="" to the <call> <param> statements
 
 1.10.7 24/05/2005
 

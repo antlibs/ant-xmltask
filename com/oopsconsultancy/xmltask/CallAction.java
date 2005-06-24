@@ -72,6 +72,15 @@ public class CallAction extends Action implements XPathAnalyserClient {
     param.set(task, str);
   }
 
+  /**
+   * iterates through the parameters, executing the XPath
+   * engine where necessary and creating new properties
+   * in the sub target, then calls on that.
+   *
+   * @param node
+   * @return success
+   * @throws Exception
+   */
   public boolean apply(Node node) throws Exception {
     init();
      resetParams();

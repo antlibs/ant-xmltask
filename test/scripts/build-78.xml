@@ -30,6 +30,8 @@
         <param name="1" path="text()"/>
         <param name="2" path="@attr"/>
         <param name="3" value="${os.name}"/>
+        <param name="4" path="@attr2"/>
+        <param name="5" path="@attr2" default="missing attr"/>
       </call>
     </xmltask>
   </target>
@@ -39,6 +41,8 @@
       <insert path="/root">[1 = ${1}]</insert>
       <insert path="/root">[2 = ${2}]</insert>
       <insert path="/root">[3 = ${3}]</insert>
+      <insert path="/root">[4 = ${4}]</insert>
+      <insert path="/root">[5 = ${5}]</insert>
     </xmltask>
   </target>
 
