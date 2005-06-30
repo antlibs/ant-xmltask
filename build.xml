@@ -133,7 +133,7 @@
     <echo>Created ${v_jarfile}, ${v_jarfile.1.4}, ${v_tarfile}.gz</echo>
 
     <!-- sends the files to Sourceforge.net -->
-    <echo>FTPing to upload.sorceforge.net</echo>
+    <echo>FTPing to upload.sourceforge.net</echo>
     <ftp server="upload.sourceforge.net"
      password="xmltask@oopsconsultancy.com"
      userid="anonymous"
