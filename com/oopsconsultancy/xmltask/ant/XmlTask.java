@@ -795,6 +795,10 @@ public class XmlTask extends Task {
       e.printStackTrace();
       throw new BuildException("Can't create " + dest);
     }
+    catch (BuildException e) {
+      // this is thrown by Ant earlier. I don't want to print this
+      throw e;
+    }
     catch (Exception e) {
       e.printStackTrace();
       throw new BuildException(e.getMessage());
