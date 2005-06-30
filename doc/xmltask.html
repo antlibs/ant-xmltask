@@ -80,6 +80,14 @@ function MM_showHideLayers() { //v6.0
     <span class="bodyBold">Recent Changes</span><br />
     <span class="bodyText">A mailing list now exists for &lt;xmltask&gt;. See <a href="#support">Support</a> for more info. </span> </p>
   <p class="bodyText">Current version @VERSION@</p>
+  <p class="bodyText">Since v1.10</p>
+  <ul class="mixedList">
+    <li class="bodyList">Added &lt;print&gt; to allow XPath and buffer debugging</li>
+    <li class="bodyList">Added <span class="codeText">default</span> to the &lt;call&gt; instruction</li>
+    <li class="bodyList">Added <span class="codeText">destbuffer</span> to permit in-buffer XML manipulation</li>
+    <li class="bodyList">Fixed source packaging wrt. <span class="codeText">XMLCatalog.class</span></li>
+    <li class="bodyList">Fix for inserting before/after root nodes</li>
+  </ul>
   <p class="bodyText">Since v1.9</p>
   <ul class="mixedList">
     <li class="bodyList">Logs less by default</li>
@@ -90,19 +98,7 @@ function MM_showHideLayers() { //v6.0
     <li class="bodyList">&lt;fileset&gt; capability as for standard Ant tasks. The wildcarded </span><span class="codeText">source</span> <span class="bodyList">attribute will be deprecated</span></li>
     <li class="bodyList">Now compatible with JDK 1.3</li>
   </ul>
-  <span class="bodyText">Since v1.8</span>
-  <ul class="bodyList">
-    <li>&lt;call&gt; operation to call Ant targets for XML nodes identified by &lt;xmltask&gt;</li>
-    <li>&lt;xmltask&gt; can now use a <a href="#buffers">buffer</a> as an input source</li>
-    <li>&lt;xmltask&gt; can now build/run under JDK 1.5 (since 1.9.1)</li>
-  </ul>
-  <p class="bodyText">Since v1.7</p>
-  <ul class="mixedList">
-    <li class="bodyList">Various minor bug fixes</li>
-    <li class="bodyList">Logging overhaul and reduction in verbose output</li>
-    <li class="bodyList">Enabling use of XPath functions such as </span><span class="codeText">count()</span><span class="bodyList"> etc.</span></li>
-    <li class="bodyList">Buffer clearing via the </span><span class="codeText">clearBuffers</span><span class="bodyList"> instruction</span></li>
-  </ul>
+
   <p><span class="bodyText">See the </span><span class="codeText">CHANGES</span><span class="bodyText"> file in the download for a comprehensive list of changes for each version</span></p>
   <p class="bodyText"> <a href="#top">Top</a></p>
   <a name="download" id="download"></a>
@@ -204,7 +200,7 @@ JDK 1.4 - none</p>
       </tr>
       <tr>
         <td align="left" valign="middle"><p class="bodyText">indent</p></td>
-        <td class="bodyText">when set to true enables indented formatting of the resultant document. This <i>defaults</i> to true</td>
+        <td class="bodyText">when set to true enables indented formatting of the resultant document. This defaults to true</td>
         <td align="center" valign="middle"><p class="bodyText">no</p></td>
       </tr>
       <tr>
@@ -513,9 +509,9 @@ JDK 1.4 - none</p>
                   <span class="codeText"><br />
 &lt;rename path="a/b/c[@id='1']" to="d"/&gt;<br />
 &lt;rename path="a/b/@c" to="d"/&gt;</span>
-                  <!-- call documentation -->
               </p>
           </li>
+          <!-- call documentation -->
           <li> <span class="bodyText">The &lt;call&gt; section allows you to call Ant targets in the same <code class="codeText">build.xml</code> file for nodes identified by an XPath. </span>
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
@@ -558,13 +554,52 @@ JDK 1.4 - none</p>
               <p class="bodyText"> Properties can be set for the target being called using XPath syntax or simply as existing properties or static strings. eg. </p>
               <p class="codeText"> &lt;call path="a/b/c" target="CNode" buffer="abc"&gt;<br />
 &nbsp;&nbsp;&lt;param name="val" path="text()"/&gt; <br />
-&nbsp;&nbsp;&lt;param name="id" path="@id"/&gt; <br />
+&nbsp;&nbsp;&lt;param name="id" path="@id" default="n/a"/&gt; <br />
 &nbsp;&nbsp;&lt;param name="os" value="${os.name}"/&gt; <br />
 &lt;/call&gt; </p>
-              <span class="bodyText">will call the Ant target <code class="codeText">CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code class="codeText">C</code>, and the property id is set to the corresponding id attribute. <i>os</i> is set to the OS.<br />
+              <span class="bodyText">will call the Ant target <code class="codeText">CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code class="codeText">C</code>, and the property id is set to the corresponding id attribute. If the id attribute is missing then "n/a" will be substituted. <i>os</i> is set to the OS.<br />
               </span>
-              <!-- xmltask xmlcatalog settings -->
           </li>
+          <br/>
+
+
+          <!-- print documentation -->
+          <li> <span class="bodyText">The &lt;print&gt; section allows you to dump out to standard output the XML matching a given XPath expression, or the contents of a buffer. This is a considerable help in performing debugging of scripts</span>
+              <p class="smallHeadline">Parameters </p>
+              <table width="662" border="1" cellpadding="2" cellspacing="0">
+                <tr>
+                  <td width="60" align="left" valign="middle"><p class="smallHeadline">Attribute</p></td>
+                  <td width="506"><p class="smallHeadline">Description</p></td>
+                  <td width="76" align="center" valign="middle"><p class="smallHeadline">Required</p></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">path</td>
+                  <td class="bodyText">the XPath reference of the element(s) to be identified</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">buffer</td>
+                  <td class="bodyText">the buffer to print out</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">comment</td>
+                  <td class="bodyText">a corresponding comment to print out</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+              </table>
+              <p class="bodyText">e.g..<br />
+                  <br />
+                  <span class="codeText">&lt;print path="a/b/c" comment="Nodes matching a/b/c"/&gt;</span><br />
+                  <span class="codeText">&lt;print buffer="buffer1" comment="Contents of buffer 1"/&gt;</span><br />
+                  <br />
+                  This instruction has no effect on the documents being scanned or generated.
+              </span>
+          </li>
+
+
+
+          <!-- xmltask xmlcatalog settings -->
           <li><span class="bodyList"><code class="codeText">xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). </span>
               <p class="bodyText">e.g. </p>
               <p class="codeText"><br />
@@ -808,14 +843,24 @@ JDK 1.4 - none</p>
     </pre>
         <p> </p>
     </li>
-    <li class="bodyList">Call the <i>deploy</i> task for each servlet entry in a <span class="codeText">web.xml</span>. For each invocation the <code class="codeText">servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id. The <span class="codeText">servletDef</span> buffer can be used in suceeding <span class="codeText">xmltask</span> invocations.</li>
+    <li class="bodyList">Call the <i>deploy</i> task for each servlet entry in a <span class="codeText">web.xml</span>. For each invocation the <code class="codeText">servletDef</code> buffer contains the complete servlet specification from the deployment file, and the property <i>id</i> contains the servlet id (if there is no id attribute then <i>NO ID</i> will be substituted). The <span class="codeText">servletDef</span> buffer can be used in suceeding <span class="codeText">xmltask</span> invocations.</li>
     <pre class="codeText">
     &lt;xmltask source="web.xml"&gt;
       &lt;call path="web/servlet" target="deploy" buffer="servletDef"/&gt;
-        &lt;param name="id" path="@id"/&gt;
+        &lt;param name="id" path="@id" default="NO ID"/&gt;
       &lt;/call&gt;  
     &lt;/xmltask&gt;  
    </pre>
+    <li><span class="bodyList">Cutting a section of XML to a buffer, and displaying the buffer to confirm to the developer that a suitable XML fragment has been identified/stored</span>
+        <pre class="codeText">
+    &lt;xmltask source="input.xml"&gt;
+      &lt;cut path="web/servlet[@id='1']" buffer="servlet"/&gt;
+      &lt;print buffer="servlet" comment="Copied to 'servlet' buffer"/&gt;
+        ...
+    </pre>
+        <p> </p>
+    </li>
+
   </ul>
 <p class="bodyText"><a href="#top">Top</a></p>
 
