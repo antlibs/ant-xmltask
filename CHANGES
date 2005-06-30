@@ -1,7 +1,8 @@
 $Id$
 
-1.11 --/--/----
+1.11 30/06/2005
 
+New web page
 Now uses java.version to identify VM and thus XPath usage
 Errors when inserting before/after root nodes
 Fixed source packaging wrt. XMLCatalog.class
