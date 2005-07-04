@@ -168,6 +168,11 @@ JDK 1.4 - none</p>
         <td align="center" valign="middle"><p class="bodyText">no</p></td>
       </tr>
       <tr>
+        <td align="left" valign="middle"><p class="bodyText">destbuffer</p></td>
+        <td class="bodyText">the output buffer to write to</td>
+        <td align="center" valign="middle"><p class="bodyText">no</p></td>
+      </tr>
+      <tr>
         <td align="left" valign="middle"><p class="bodyText">todir</p></td>
         <td class="bodyText">the output directory to write to</td>
         <td align="center" valign="middle"><p class="bodyText">no</p></td>
@@ -239,6 +244,11 @@ JDK 1.4 - none</p>
     <p></p>
     <p class="codeText">&lt;xmltask sourcebuffer="servlet" output="servlet.xml"&gt;</p>
     <p><span class="bodyText">reads from the previously populated buffer </span> <span class="codeText">servlet</span> <span class="bodyText"> and writes to </span> <span class="codeText">output.xml</span></p>
+
+
+    <p class="codeText">&lt;xmltask source="input.xml" destbuffer="output"&gt;</p>
+    <p><span class="bodyText">reads from a file</span> <span class="codeText">input.xml</span> <span class="bodyText"> and writes to the buffer called </span> <span class="codeText">output</span>.</p>
+
     <li><span class="bodyText">Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info</span>.
         <p> </p>
         <ul>
