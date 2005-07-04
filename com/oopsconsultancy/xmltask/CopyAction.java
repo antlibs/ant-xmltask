@@ -18,7 +18,7 @@ public class CopyAction extends Action {
   final protected Task task;
   final protected boolean isProperty;
 
-  public CopyAction(String buffer, boolean append, boolean attrValue, Task task, boolean isProperty) {
+  public CopyAction(final String buffer, final boolean append, final boolean attrValue, final Task task, final boolean isProperty) {
     this.buffer = buffer;
     this.append = append;
     this.attrValue = attrValue;
@@ -48,6 +48,9 @@ public class CopyAction extends Action {
       }
       else {
         task.log("Can only copy/cut text() nodes and attribute values to properties", Project.MSG_WARN);
+      }
+      if (append) {
+        task.log("Cannot append values to properties", Project.MSG_WARN);
       }
     }
   }
