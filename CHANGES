@@ -1,5 +1,9 @@
 $Id$
 
+1.11.1 09/08/2005
+
+Now handles an <xmltask> invocation without source or dest (test 98)
+
 1.11 30/06/2005
 
 New web page

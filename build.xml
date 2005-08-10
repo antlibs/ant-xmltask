@@ -141,9 +141,13 @@
      remotedir="/incoming"
      depends="yes">
       <fileset dir=".">
+        <!--
         <include name="${v_jarfile}"/>
+        -->
         <include name="${v_jarfile.1.4}"/>
+        <!--
         <include name="${v_tarfile}.gz"/>
+        -->
       </fileset>
     </ftp>
   </target>

@@ -47,6 +47,8 @@ public class InsertAction extends Action {
   protected Task task = null;
 
   {
+    // why do I do this ? Causes problems with
+    // Pete Hale and namespace-scoped insertions
     dfactory.setNamespaceAware(true);
   }
 
@@ -152,6 +154,7 @@ public class InsertAction extends Action {
   protected void readXml(final String xml) throws Exception {
     StringReader sr = new StringReader(xml);
     DocumentBuilder db = getBuilder();
+    System.out.println("READING NA=" + db.isNamespaceAware());
     doc2 = db.parse(new InputSource(sr));
   }
 
@@ -235,6 +238,8 @@ public class InsertAction extends Action {
       // place the new node under the selected one
       if (existingNode instanceof Document) {
         log("Building a root element", Project.MSG_VERBOSE);
+        System.out.println(existingNode);
+        System.out.println(newnode);
         existingNode.appendChild(newnode);
       }
       else if (existingNode instanceof Element) {

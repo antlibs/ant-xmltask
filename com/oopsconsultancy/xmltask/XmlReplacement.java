@@ -62,7 +62,9 @@ public class XmlReplacement {
           failures++;
           task.log(xr + " failed to match", Project.MSG_VERBOSE);
         }
-        doc.getDocumentElement().normalize();
+        if (doc.getDocumentElement() != null) {
+          doc.getDocumentElement().normalize();
+        }
         if (report) {
           output();
         }
