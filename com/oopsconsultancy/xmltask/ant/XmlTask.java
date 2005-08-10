@@ -65,7 +65,6 @@ public class XmlTask extends Task {
 
   public XmlTask() {
     super();
-    System.out.println("CLASSLAODER=" + this.getClass().getClassLoader());
   }
 
   public Project getProject() {
