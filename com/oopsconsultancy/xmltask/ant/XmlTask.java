@@ -37,6 +37,7 @@ public class XmlTask extends Task {
   private boolean todir = false;
   private boolean tobuffer = false;
   private boolean reporting = false;
+  private boolean expandEntityReferences = true;
   private String doctype_public = null;
   private String doctype_system = null;
   private String dir = null;
@@ -116,6 +117,10 @@ public class XmlTask extends Task {
    */
   public void setSourceBuffer(final String buffer) throws Exception {
     docs.add(new InputBuffer(buffer));
+  }
+
+  public void setExpandEntityReferences(final boolean expandEntityReferences) {
+    this.expandEntityReferences = expandEntityReferences;
   }
 
   /**
@@ -338,7 +343,7 @@ public class XmlTask extends Task {
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
     dfactory.setNamespaceAware(true);
-    dfactory.setExpandEntityReferences(false);
+    dfactory.setExpandEntityReferences(expandEntityReferences);
 
     DocumentBuilder builder = dfactory.newDocumentBuilder();
     if (resolver.registeredEntities() > 0) {

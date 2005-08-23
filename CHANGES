@@ -1,5 +1,9 @@
 $Id$
 
+1.11.1b 23/08/2005
+
+Now allows expansion of entity references to be enabled/disabled (tests 40/99)
+
 1.11.1 09/08/2005
 
 Now handles an <xmltask> invocation without source or dest (test 98)
