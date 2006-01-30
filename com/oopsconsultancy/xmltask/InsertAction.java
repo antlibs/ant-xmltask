@@ -194,6 +194,9 @@ public class InsertAction extends Action {
     if (buffer != null) {
       Node[] n2 = BufferStore.get(buffer);
       if (n2 != null) {
+        // note the reverse iteration here to preserve ordering
+        // (ceetainly for position="after". What about other
+        // positions?)
         for (int n =  n2.length - 1; n >= 0;  n--) {
           log("Inserting " + n2[n], Project.MSG_VERBOSE);
           newnode = doc.importNode(n2[n], true);
