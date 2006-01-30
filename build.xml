@@ -9,7 +9,6 @@
     <property name="jarfile"              value="xmltask.jar"/>
     <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
     <property name="tarfile"              value="xmltask.tar"/>
-    <property name="webdir"               value="/home/brian/oops/software/xmltask/"/>
 
     <!-- prepare dirs -->
     <mkdir dir="classes"/>
@@ -86,8 +85,8 @@
     <echo>Created .jar and .tar.gz</echo>
   </target>
 
-  <target name="deliver" depends="package" description="Delivers to the OOPS website dir">
-    <!-- perform my local deployment for writing to the web page -->
+  <target name="deliver" depends="package" description="Delivers to the Sourceforge site">
+    <!-- perform my local deployment for writing to Sourceforge -->
     <!-- create a web page with the correct version -->
     <checksum file="${tarfile}.gz" property="GZ_MD5"/>
     <checksum file="${jarfile}" property="JAR_MD5"/>
@@ -103,28 +102,13 @@
     <replace file="/tmp/xmltask.html" token="@JAR_14_MD5@" value="${JAR_14_MD5}"/>
 
     <!-- get and confirm the xmltask version -->
-    <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to the web dir " validargs="y,n" addproperty="distribute"/>
+    <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to Sourceforge " validargs="y,n" addproperty="distribute"/>
     <condition property="do.abort">
       <equals arg1="n" arg2="${distribute}"/>
     </condition>
     <fail if="do.abort"/>
 
-    <echo>Created version stamped documentation page</echo>
-    <echo>Copying .tar.gz</echo>
-    <copy file="${tarfile}.gz" todir="${webdir}"/>
-    <echo>Copying .jar and 1.4 .jar</echo>
-    <copy file="${jarfile}"       todir="${webdir}"/>
-    <copy file="${jarfile.1.4}"    todir="${webdir}"/>
-    <echo>Copying version-stamped .jar and 1.4 .jar</echo>
-    <copy file="${jarfile}"       tofile="${webdir}/${v_jarfile}"/>
-    <copy file="${jarfile.1.4}"   tofile="${webdir}/${v_jarfile.1.4}"/>
-    <echo>Copying documentation</echo>
-    <copy file="/tmp/xmltask.html" tofile="${webdir}/index.html"/>
-    <delete file="/tmp/xmltask.html"/>
-    <copy todir="${webdir}">
-      <fileset dir="doc/" includes="*.gif"/>
-      <fileset dir="doc/" includes="*.jpg"/>
-    </copy>
+    <echo>Created version stamped documentation page /tmp/xmltask.html</echo>
 
     <!-- generate versioned files for Sourceforge dispatch -->
     <copy file="${jarfile}"       tofile="${v_jarfile}"/>
@@ -141,13 +125,9 @@
      remotedir="/incoming"
      depends="yes">
       <fileset dir=".">
-        <!--
         <include name="${v_jarfile}"/>
-        -->
         <include name="${v_jarfile.1.4}"/>
-        <!--
         <include name="${v_tarfile}.gz"/>
-        -->
       </fileset>
     </ftp>
   </target>
