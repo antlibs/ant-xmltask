@@ -1,5 +1,9 @@
 $Id$
 
+1.11.1c 30/01/2006
+
+Reversed ordering of element insertion from buffers. Now intuitive
+
 1.11.1b 23/08/2005
 
 Now allows expansion of entity references to be enabled/disabled (tests 40/99)

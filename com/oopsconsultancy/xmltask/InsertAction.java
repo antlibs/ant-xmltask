@@ -154,7 +154,6 @@ public class InsertAction extends Action {
   protected void readXml(final String xml) throws Exception {
     StringReader sr = new StringReader(xml);
     DocumentBuilder db = getBuilder();
-    System.out.println("READING NA=" + db.isNamespaceAware());
     doc2 = db.parse(new InputSource(sr));
   }
 
@@ -195,7 +194,7 @@ public class InsertAction extends Action {
     if (buffer != null) {
       Node[] n2 = BufferStore.get(buffer);
       if (n2 != null) {
-        for (int n = 0; n < n2.length; n++) {
+        for (int n =  n2.length - 1; n >= 0;  n--) {
           log("Inserting " + n2[n], Project.MSG_VERBOSE);
           newnode = doc.importNode(n2[n], true);
           insertNode(node, newnode);
@@ -238,8 +237,8 @@ public class InsertAction extends Action {
       // place the new node under the selected one
       if (existingNode instanceof Document) {
         log("Building a root element", Project.MSG_VERBOSE);
-        System.out.println(existingNode);
-        System.out.println(newnode);
+  //      System.out.println(existingNode);
+  //      System.out.println(newnode);
         existingNode.appendChild(newnode);
       }
       else if (existingNode instanceof Element) {
