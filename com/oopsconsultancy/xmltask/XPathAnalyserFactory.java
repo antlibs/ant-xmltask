@@ -17,6 +17,9 @@ public class XPathAnalyserFactory {
     if (System.getProperty("java.version").indexOf("1.5") != -1) {
       analyser = (XPathAnalyser)Class.forName("com.oopsconsultancy.xmltask.jdk15.XPathAnalyser15").newInstance();
     }
+    else if (System.getProperty("java.version").indexOf("1.6") != -1) {
+      analyser = (XPathAnalyser)Class.forName("com.oopsconsultancy.xmltask.jdk15.XPathAnalyser15").newInstance();
+    }
     else {
       analyser = (XPathAnalyser)Class.forName("com.oopsconsultancy.xmltask.jdk14.XPathAnalyser14").newInstance();
     }
