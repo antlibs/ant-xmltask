@@ -1,5 +1,9 @@
 $Id$
 
+1.11.3 16/02/2006
+
+Changes to cope with JDK 1.6 beta
+
 1.11.2 30/01/2006
 
 Reversed ordering of element insertion from buffers. Now intuitive
