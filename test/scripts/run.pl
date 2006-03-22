@@ -42,7 +42,7 @@ foreach $i ( @tests ) {
     `ant -buildfile $build $args`;
     my $res = $i."-out.xml";
     my $cmp = "results/".$res;
-    if ($jv =~ /1.[56]/ && -e "results/".$i."-1.5-out.xml") {
+    if ($jv =~ /1\.[56]/ && -e "results/".$i."-1.5-out.xml") {
       # swap in a 1.5/6 file if it exists
       $cmp = "results/".$i."-1.5-out.xml";
     }
