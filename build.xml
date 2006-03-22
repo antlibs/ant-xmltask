@@ -19,13 +19,13 @@
     <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
   </target>
 
-  <target name="javac" depends="init" source="1.4" description="Java source build">
+  <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
-    <javac srcdir="." destdir="." debug="on" nowarn="true">
+    <javac srcdir="." destdir="." debug="on" nowarn="true" source="1.4">
       <include name="**/XMLCatalog.java"/>
     </javac>
-    <javac srcdir="." destdir="classes" debug="on" nowarn="true">
+    <javac srcdir="." destdir="classes" debug="on" nowarn="true" source="1.4">
       <include name="**/*.java"/>
     </javac>
     <copy file="xmltask.properties" todir="classes"/>
