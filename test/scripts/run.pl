@@ -34,7 +34,7 @@ foreach $i ( @tests ) {
     $args = "test test";
   }
   my $build = "build-$i.xml";
-  if (`grep "JIS" $build` && $jv =~ /1.3/) {
+  if (`grep "JIS" $build` && ($jv =~ /1.3/ || $jv =~ /ibm_sdk50/)) {
     print "Skipping $build due to unsupported encoding in this JVM\n";
   }
   else {
