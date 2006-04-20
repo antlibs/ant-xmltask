@@ -688,8 +688,8 @@ JDK 1.4 - none</p>
   </pre>
   <span class="bodyText">so the buffer <i>storedXml</i> is maintained across multiple targets. </span>
 
-  <p>Note: specifying <span class="codeText">xmltask</span> in a <span class="codeText">taskdef</span> with an additional <span class="codeText">classpath</span> reference thus:<p>
-  <span class="codeText">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" <b>classpath="..."</b>/&gt;</span></p>will result in different classloaders being used to load different <span class="codeText">xmltask</span> instances, and the ability to transfer buffers between calls will be lost. It's recommended that you <i>don't</i> use this particular method of loading <span class="codeText">xmltask</span> but rather specify the .jar location via <span class="codeText">CLASSPATH</span> or inserting the .jar in <span class="codeText">$ANTHOME/lib</span></p>
+  <p><span class="bodyText">Note: specifying <span class="codeText">xmltask</span> in a <span class="codeText">taskdef</span> with an additional <span class="codeText">classpath</span> reference thus:<p>
+  <span class="codeText">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" <b>classpath="..."</b>/&gt;</span></p>will result in different classloaders being used to load different <span class="codeText">xmltask</span> instances, and the ability to transfer buffers between calls will be lost. It's recommended that you <i>don't</i> use this particular method of loading <span class="codeText">xmltask</span> but rather specify the .jar location via <span class="codeText">CLASSPATH</span> or inserting the .jar in <span class="codeText">$ANTHOME/lib</span></span></p>
   <p class="bodyText">Buffers are simply defined by names. eg. valid buffers would be <i>servlet</i>, <i>buffer100</i> etc.</p>
   <p class="bodyText"> A buffer can record <i>multiple</i> nodes (either resulting from multiple matches or multiple &lt;cut&gt; / &lt;copy&gt; operations). This operation is enabled through use of the <code>append</code> attribute. e.g.</p>
   <p><span class="codeText">&lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;</span><br />
@@ -944,7 +944,7 @@ JDK 1.4 - none</p>
     <a href="http://sourceforge.net"> <img src="http://sourceforge.net/sflogo.php?group_id=27398&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo" /></a>
   </center>
   <p></p>
-  <p class="bodyText"><small>Copyright &copy; 1997-2005 OOPS Consultancy Ltd</small></p>
+  <p class="bodyText"><small>Copyright &copy; 1997-2006 OOPS Consultancy Ltd</small></p>
 </div>
 
 <div id="oppsBanner" style="position:absolute; width:794px; height:160px; z-index:7; left: 109px; top: 9px; visibility: visible;"><img src="../../bannerSlice3.jpg" width="794" height="165" /></div>
