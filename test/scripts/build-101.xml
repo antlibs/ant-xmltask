@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <property name="node" value="C"/>
+    <xmltask source="101.xml" dest="101-out.xml" report="true">
+      <replace path="/a/b[@id='1']/text()" expandProperties="true">
+        <![CDATA[
+          <${node}/>
+        ]]>
+      </replace>
+      <replace path="/a/b[@id='2']" expandProperties="false"><![CDATA[
+          <D>${node}</D>
+          <D>${node}</D>
+        ]]></replace>
+      <replace path="/a/b[@id='3']" withFile="ab.xml"></replace>
+    </xmltask>
+  </target>
+</project>

@@ -64,8 +64,20 @@ urchinTracker();
     </a><a href="#changes">Recent Changes<br />
     </a><a href="#download">Download<br />
     </a><a href="#support">Support<br />
-    </a><a href="#usage">Usage<br />
-    </a><a href="#buffers">Buffers<br />
+    </a><a href="#usage">Usage<br /></a>
+&nbsp;&nbsp;&nbsp;<a href="#usage.xmltask">XmlTask</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.cut">Cut</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.copy">Copy</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.paste">Paste</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.insert">Insert</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.replace">Replace</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.attr">Attr</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.remove">Remove</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.rename">Rename</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.call">Call</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.print">Print</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.xmlcatalog">XmlCatalog</a><br />
+    <a href="#buffers">Buffers<br />
     </a><a href="#formatting">Formatting<br />
     </a><a href="#examples">Examples<br />
     </a><a href="#issues">Known Issues<br />
@@ -155,7 +167,7 @@ JDK 1.4 - none</p>
   <p class="bodyText"> <a href="#top">Top</a></p>
     <span class="bodyBold">Usage<a name="usage" id="usage"></a></span>
   <span class="codeText"><br />
-  </span><span class="bodyText">xmltask</span> <span class="bodyText">allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.</span>
+  </span><a name="usage.xmltask"/><span class="bodyText">xmltask</span> <span class="bodyText">allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.</span>
   <ul class="mixedList">
     <li><span class="bodyText">The main &lt;xmltask&gt; section takes arguments to define an XML source and a destination file or directory. Note that the XML source is optional if you're creating a new document via &lt;xmltask&gt; instructions.</span> <span class="codeText">dest</span><span class="bodyText"> and </span><span class="codeText">todir</span><span class="bodyText"> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).</span></li>
     <p><span class="bodyText"> &lt;fileset&gt;s are used to define sets of files for </span><span class="codeText">xmltask</span><span class="bodyText"> to operate on. See the standard Ant documentation for information on using filesets.</span>
@@ -273,7 +285,7 @@ JDK 1.4 - none</p>
     <li><span class="bodyText">Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info</span>.
         <p> </p>
         <ul>
-          <li><span class="bodyText">The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property.</span>
+          <li><a name="usage.cut"/><span class="bodyText">The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property.</span>
               <!-- cut attributes -->
               <p class="smallHeadline">Parameters </p>
               <p> </p>
@@ -313,7 +325,7 @@ JDK 1.4 - none</p>
               <p class="codeText"> &lt;cut path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;<br/> &lt;cut path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;</p>
               <!-- copy attributes -->
           </li>
-          <li class="bodyText">The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property.</li>
+          <li class="bodyText"><a name="usage.copy"/>The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property.</li>
           <p class="smallHeadline">Parameters </p>
           <table width="661" border="1" cellpadding="2" cellspacing="0">
             <tr>
@@ -350,10 +362,10 @@ JDK 1.4 - none</p>
           <p class="bodyText">e.g. </p>
           <p class="codeText"> &lt;copy path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;<br />
 &lt;copy path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;</p>
-          <li class="bodyText">The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> or a property to be pasted into an XML document. This is a <b>synonym</b> for the insert section (see below)
+          <li class="bodyText"><a name="usage.paste"/>The &lt;paste&gt; section allows the contents of a <a href="#buffers">buffer</a> or a property to be pasted into an XML document. This is a <b>synonym</b> for the insert section (see below)
               <p> </p>
           </li>
-          <li class="bodyText"> The &lt;insert&gt; section allows you to specify an XML node and the XML to insert below or alongside it</li>
+          <li class="bodyText"><a name="usage.insert"/> The &lt;insert&gt; section allows you to specify an XML node and the XML to insert below or alongside it</li>
           <!-- paste/insert attributes -->
           <p class="smallHeadline">Parameters </p>
           <table width="662" border="1" cellpadding="2" cellspacing="0">
@@ -384,7 +396,7 @@ JDK 1.4 - none</p>
             </tr>
             <tr>
               <td align="left" valign="middle" class="bodyText">expandProperties</td>
-              <td class="bodyText">indicates whether properties in literal XML are expanded or not. Defaults to <code class="codeText">true</code></td>
+              <td class="bodyText">indicates whether properties in body text XML are expanded or not. Defaults to <code class="codeText">true</code></td>
               <td align="center" valign="middle" class="bodyText">no</td>
             </tr>
             <tr>
@@ -403,15 +415,15 @@ JDK 1.4 - none</p>
           <span class="bodyText">(a well formed document)</span>
           <p class="codeText">&lt;servlet-mapping id="1"/&gt;&lt;servlet-mapping id="2"/&gt;</p>
           <span class="bodyText">(a well-formed document without a root node)</span>
-          <p class="bodyText"> The XML to insert can be specified as body text within the &lt;insert&gt; task eg. </p>
+          <p class="bodyText"> The XML to insert can be specified as <i>body text</i> within the &lt;insert&gt; task eg. </p>
           <p class="codeText"> &lt;insert path="web/servlet/context/root[@id='2']/text()"&gt; <br />
 &lt;![CDATA[ <br />
 &nbsp;&lt;node/&gt; <br />
         ]]&gt; <br />
 &lt;/insert&gt; </p>
-          <span class="bodyText">Note that the XML has to be specified within a <code>CDATA</code> section. Ant properties are expanded within these sections, unless <code class="codeText">expandProperties</code> is set to <code class="codeText">false</code> . Insert a property using this body test method. </span>
+          <span class="bodyText">Note that the XML has to be specified within a <code>CDATA</code> section. Ant properties are expanded within these sections, unless <code class="codeText">expandProperties</code> is set to <code class="codeText">false</code></span>
           <p class="bodyText"> You can create a new document by not specifying a source file, and making the first instruction for &lt;xmltask&gt; an &lt;insert&gt; or &lt;paste&gt; with the appropriate root node (and any subnodes).</p>
-          <li><span class="bodyList"> The &lt;replace&gt; section allows you to specify an XML node and what to replace it with </span>
+          <li><span class="bodyList"><a name="usage.replace"/> The &lt;replace&gt; section allows you to specify an XML node and what to replace it with </span>
               <!-- replace attributes -->
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
@@ -445,6 +457,11 @@ JDK 1.4 - none</p>
                   <td class="bodyText">the buffer containing XML to insert in place of the nominated nodes</td>
                   <td align="center" valign="middle" class="bodyText">no</td>
                 </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">expandProperties</td>
+                  <td class="bodyText">indicates whether properties in body text XML are expanded or not. Defaults to <code class="codeText">true</code></td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
               </table>
               <p class="bodyText">e.g. </p>
               <p class="codeText"> &lt;replace path="web/servlet/context/root[@id='2']/text()" withText="2"/&gt;<br />
@@ -452,16 +469,16 @@ JDK 1.4 - none</p>
 &lt;replace path="web/servlet/context/root[@id='2']/" withFile="substitution.xml"/&gt;<br />
 &lt;replace path="web/servlet/context/root[@id='2']/" withBuffer="namedBuffer"/&gt;</p>
               <p></p>
-              <span class="bodyText">(note that to include literal XML using <code class="codeText">withXml</code>, angle brackets have to be replaced with entities). The XML can be a well-formed document <i>without</i> any root node. The XML to insert can be specified as body text within the &lt;replace&gt; task eg. </span>
+              <span class="bodyText">(note that to include literal XML using <code class="codeText">withXml</code>, angle brackets have to be replaced with entities). The XML can be a well-formed document <i>without</i> any root node. The XML to insert can be specified as <i>body text</i> within the &lt;replace&gt; task eg. </span>
               <p class="codeText"> &lt;replace path="web/servlet/context/root[@id='2']/text()"&gt;<br />
 &lt;![CDATA[ <br />
 &nbsp;&lt;node/&gt; <br />
           ]]&gt; <br />
 &lt;/replace&gt;</p>
-              <span class="bodyText">Note that the XML has to be specified within a <code class="codeText">CDATA</code> section, and Ant properties <i>are</i> expanded within these sections.</span>
+              <span class="bodyText">Note that the XML has to be specified within a <code class="codeText">CDATA</code> section. Ant properties are expanded within these sections, unless <code class="codeText">expandProperties</code> is set to <code class="codeText">false</code></span>
               <p> </p>
           </li>
-          <li><span class="bodyText"> The &lt;attr&gt; section allows you to specify an XML node and how to add, change or remove its attributes
+          <li><span class="bodyText"><a name="usage.attr"/> The &lt;attr&gt; section allows you to specify an XML node and how to add, change or remove its attributes
                 <!-- attr attributes -->
             </span>
               <p class="smallHeadline">Parameters </p>
@@ -501,7 +518,7 @@ JDK 1.4 - none</p>
             <p class="bodyText"><span class="bodyList">Note that in the first example, if the attribute <code class="codeText">id</code> doesn't exist, it will be added. </span> </p>
             <p> </p>
           </li>
-          <li><span class="bodyList"> The &lt;remove&gt; section allows you to specify an XML section to remove
+          <li><span class="bodyList"><a name="usage.remove"/> The &lt;remove&gt; section allows you to specify an XML section to remove
                 <!-- remove attributes -->
             </span>
               <p class="smallHeadline">Parameters </p>
@@ -521,7 +538,7 @@ JDK 1.4 - none</p>
                   <br />
                   <span class="codeText">&lt;remove path="web/servlet/context[@id='redundant']"/&gt;</span></p>
           </li>
-          <li> <span class="bodyList">The &lt;rename&gt; section allows you to specify an XML element or attribute to rename </span>
+          <li> <span class="bodyList"><a name="usage.rename"/>The &lt;rename&gt; section allows you to specify an XML element or attribute to rename </span>
               <!-- rename attributes -->
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
@@ -548,7 +565,7 @@ JDK 1.4 - none</p>
               </p>
           </li>
           <!-- call documentation -->
-          <li> <span class="bodyText">The &lt;call&gt; section allows you to call Ant targets in the same <code class="codeText">build.xml</code> file for nodes identified by an XPath. </span>
+          <li> <span class="bodyText"><a name="usage.call"/>The &lt;call&gt; section allows you to call Ant targets in the same <code class="codeText">build.xml</code> file for nodes identified by an XPath. </span>
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
                 <tr>
@@ -600,7 +617,7 @@ JDK 1.4 - none</p>
 
 
           <!-- print documentation -->
-          <li> <span class="bodyText">The &lt;print&gt; section allows you to dump out to standard output the XML matching a given XPath expression, or the contents of a buffer. This is a considerable help in performing debugging of scripts</span>
+          <li> <span class="bodyText"><a name="usage.print"/>The &lt;print&gt; section allows you to dump out to standard output the XML matching a given XPath expression, or the contents of a buffer. This is a considerable help in performing debugging of scripts</span>
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
                 <tr>
@@ -636,7 +653,7 @@ JDK 1.4 - none</p>
 
 
           <!-- xmltask xmlcatalog settings -->
-          <li><span class="bodyList"><code class="codeText">xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). </span>
+          <li><span class="bodyList"><a name="usage.xmlcatalog"/><code class="codeText">xmltask</code> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). </span>
               <p class="bodyText">e.g. </p>
               <p class="codeText"><br />
 &lt;xmlcatalog id="<b>dtds</b>"&gt;<br />
@@ -676,7 +693,7 @@ JDK 1.4 - none</p>
   <p> <a href="#top" class="bodyText">Top</a></p>
     <span class="bodyBold">Buffers<a name="buffers" id="buffers"></a></span>
   <span class="bodyText"><br />
-  Buffers are used to store nodes found by &lt;cut&gt; and &lt;copy&gt; operations, and those nodes can be inserted into a document using &lt;insert&gt; / &lt;paste&gt;. </span>
+  Buffers are used to store nodes found by <a href="#usage.cut">&lt;cut&gt;</a> and <a href="#usage.copy">&lt;copy&gt;</a> operations, and those nodes can be inserted into a document using <a href="#usage.insert">&lt;insert&gt; / &lt;paste&gt;</a>. </span>
   <p class="bodyText"> Buffers exist for the duration of the Ant process and consequently can be used across multiple invocations of &lt;xmltask&gt;. eg. the following is possible:</p>
   <pre class="codeText">
   &lt;target name="cut"&gt;

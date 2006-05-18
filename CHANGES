@@ -2,7 +2,7 @@ $Id$
 
 1.11.5 18/05/2006
 
-Added expandProperties attribute to <insert>
+Added expandProperties attribute to <insert> and <replace>
 
 1.11.4 22/03/2006
 

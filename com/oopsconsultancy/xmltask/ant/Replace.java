@@ -15,6 +15,7 @@ public class Replace {
   private XmlTask task = null;
   private Action action = null;
   private String path = null;
+  private boolean expandProperties = true;
 
   public void setPath(String path) {
     this.path = path;
@@ -29,6 +30,11 @@ public class Replace {
     register();
   }
 
+  public void setExpandProperties(final boolean expandProperties) {
+    this.expandProperties = expandProperties;
+    register();
+  }
+
   /**
    * used to insert literal text placed within the build.xml under
    * the replace element
@@ -37,7 +43,9 @@ public class Replace {
    * @throws Exception
    */
   public void addText(String text) throws Exception {
-    text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+    if (expandProperties) {
+      text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+    }
     action = XmlAction.xmlActionfromString(text, task);
     register();
   }
