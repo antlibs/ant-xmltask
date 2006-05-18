@@ -17,6 +17,7 @@ public class Insert {
   private String path = null;
   private InsertAction action = null;
   private InsertAction.Position position = InsertAction.Position.UNDER;
+  private boolean expandProperties = true;
 
   public void setPath(String path) {
     this.path = path;
@@ -59,6 +60,12 @@ public class Insert {
     action = InsertAction.fromFile(to, task);
     register();
   }
+
+  public void setExpandProperties(final boolean expandProperties) {
+    this.expandProperties = expandProperties;
+    register();
+  }
+
   /**
    * used to insert literal text placed within the build.xml under
    * the insert element
@@ -67,7 +74,10 @@ public class Insert {
    * @throws Exception
    */
   public void addText(String text) throws Exception {
-    text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+    if (expandProperties) {
+      // we expand properties by default...
+      text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+    }
     action = InsertAction.fromString(text, task);
     register();
   }

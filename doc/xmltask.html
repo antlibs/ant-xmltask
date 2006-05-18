@@ -383,6 +383,11 @@ JDK 1.4 - none</p>
               <td align="center" valign="middle" class="bodyText">no</td>
             </tr>
             <tr>
+              <td align="left" valign="middle" class="bodyText">expandProperties</td>
+              <td class="bodyText">indicates whether properties in literal XML are expanded or not. Defaults to <code class="codeText">true</code></td>
+              <td align="center" valign="middle" class="bodyText">no</td>
+            </tr>
+            <tr>
               <td align="left" valign="middle" class="bodyText">position</td>
               <td><span class="bodyText">where the XML is to be inserted in relation to the XML highlighted by </span><span class="codeText">path</span><span class="bodyText">. The allowed positions are </span><span class="codeText">before, after</span><span class="bodyText">, or </span><span class="codeText">under</span><span class="bodyText">. The default position is </span><span class="codeText">under</span>. </td>
               <td align="center" valign="middle" class="bodyText">no</td>
@@ -404,7 +409,7 @@ JDK 1.4 - none</p>
 &nbsp;&lt;node/&gt; <br />
         ]]&gt; <br />
 &lt;/insert&gt; </p>
-          <span class="bodyText">Note that the XML has to be specified within a <code>CDATA</code> section, and Ant properties <i>are</i> expanded within these sections. Insert a property using this body test method. </span>
+          <span class="bodyText">Note that the XML has to be specified within a <code>CDATA</code> section. Ant properties are expanded within these sections, unless <code class="codeText">expandProperties</code> is set to <code class="codeText">false</code> . Insert a property using this body test method. </span>
           <p class="bodyText"> You can create a new document by not specifying a source file, and making the first instruction for &lt;xmltask&gt; an &lt;insert&gt; or &lt;paste&gt; with the appropriate root node (and any subnodes).</p>
           <li><span class="bodyList"> The &lt;replace&gt; section allows you to specify an XML node and what to replace it with </span>
               <!-- replace attributes -->

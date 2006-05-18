@@ -1,5 +1,9 @@
 $Id$
 
+1.11.5 18/05/2006
+
+Added expandProperties attribute to <insert>
+
 1.11.4 22/03/2006
 
 Now handles IBM JVM and related classloading issues
