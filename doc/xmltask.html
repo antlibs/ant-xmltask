@@ -106,6 +106,8 @@ urchinTracker();
   <ul class="mixedList">
     <li class="bodyList">Compatibility with JSE 1.6 and IBM JVMs</li>
     <li class="bodyList">Element order in buffer maintained when pasting from buffer</li>
+    <li class="bodyList"><a href="#usage.insert">&lt;insert&gt;</a> and <a href="#usage.replace">&lt;replace&gt;</a> has a <span class="codeText">expandProperties</span> attribute</li>
+    <li class="bodyList"><a href="#usage.call">&lt;call&gt;</a> now supports embedded actions</li>
   </ul>
   <p class="bodyText">Since v1.10</p>
   <ul class="mixedList">
@@ -114,16 +116,6 @@ urchinTracker();
     <li class="bodyList">Added <span class="codeText">destbuffer</span> to permit in-buffer XML manipulation</li>
     <li class="bodyList">Fixed source packaging wrt. <span class="codeText">XMLCatalog.class</span></li>
     <li class="bodyList">Fix for inserting before/after root nodes</li>
-  </ul>
-  <p class="bodyText">Since v1.9</p>
-  <ul class="mixedList">
-    <li class="bodyList">Logs less by default</li>
-    <li class="bodyList"><span class="codeText">omitHeader</span> <span class="bodyList">capability to remove the XML header on output</span></li>
-    <li class="bodyList"><span class="codeText">standalone</span> <span class="bodyList">capability to allow standalone XML documents</span></li>
-    <li class="bodyList">&lt;copy&gt; and &lt;cut&gt; can now copy/cut text from comments to a nominated property</li>
-    <li class="bodyList">&lt;call&gt; can now take properties and static strings as parameters</li>
-    <li class="bodyList">&lt;fileset&gt; capability as for standard Ant tasks. The wildcarded </span><span class="codeText">source</span> <span class="bodyList">attribute will be deprecated</span></li>
-    <li class="bodyList">Now compatible with JDK 1.3</li>
   </ul>
 
   <p><span class="bodyText">See the </span><span class="codeText">CHANGES</span><span class="bodyText"> file in the download for a comprehensive list of changes for each version</span></p>
@@ -565,7 +557,7 @@ JDK 1.4 - none</p>
               </p>
           </li>
           <!-- call documentation -->
-          <li> <span class="bodyText"><a name="usage.call"/>The &lt;call&gt; section allows you to call Ant targets in the same <code class="codeText">build.xml</code> file for nodes identified by an XPath. </span>
+          <li> <span class="bodyText"><a name="usage.call"/>The &lt;call&gt; section allows you to perform actions or call Ant targets in the same <code class="codeText">build.xml</code> file for nodes identified by an XPath. </span>
               <p class="smallHeadline">Parameters </p>
               <table width="662" border="1" cellpadding="2" cellspacing="0">
                 <tr>
@@ -581,7 +573,7 @@ JDK 1.4 - none</p>
                 <tr>
                   <td align="left" valign="middle" class="bodyText">target</td>
                   <td class="bodyText">the Ant target to call for each identified node</td>
-                  <td align="center" valign="middle" class="bodyText">yes</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
                 </tr>
                 <tr>
                   <td align="left" valign="middle" class="bodyText">buffer</td>
@@ -603,6 +595,18 @@ JDK 1.4 - none</p>
                   <br />
                   <span class="codeText">&lt;call path="a/b/c" target="CNode" buffer="abc"/&gt;</span><br />
                   <br />
+                  In the below example, Ant actions are <i>embedded</i> within the <code class="codeText">&lt;call&gt;</code> action:
+                  <br />
+                  <br />
+                  <span class="codeText">
+                  &lt;call path="a/b/c"&gt;<br/>
+                  &nbsp;&nbsp;&lt;actions&gt;<br/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;echo&gt;Found a node under a/b/c&lt;/echo&gt;<br/>
+                  &nbsp;&nbsp;&lt;/actions&gt;<br/>
+                  &lt;/call&gt;<br/>
+                  </span><br />
+                  <br />
+
           This mechanism can be used to drive Ant builds from existing XML resources such as <span class="codeText"><code>web.xml</code> </span>or<span class="codeText"> <code>struts.xml</code></span>, or to provide a <code class="codeText">meta-build</code> facility for Ant, by driving the <code class="codeText">build.xml</code> from a higher level proprietary XML config. </p>
               <p class="bodyText"> Properties can be set for the target being called using XPath syntax or simply as existing properties or static strings. eg. </p>
               <p class="codeText"> &lt;call path="a/b/c" target="CNode" buffer="abc"&gt;<br />
@@ -610,7 +614,18 @@ JDK 1.4 - none</p>
 &nbsp;&nbsp;&lt;param name="id" path="@id" default="n/a"/&gt; <br />
 &nbsp;&nbsp;&lt;param name="os" value="${os.name}"/&gt; <br />
 &lt;/call&gt; </p>
-              <span class="bodyText">will call the Ant target <code class="codeText">CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code class="codeText">C</code>, and the property id is set to the corresponding id attribute. If the id attribute is missing then "n/a" will be substituted. <i>os</i> is set to the OS.<br />
+              <span class="bodyText">will call the Ant target <code class="codeText">CNode</code> as above, but for each invocation, the property <i>val</i> is set to the value of the text node under <code class="codeText">C</code>, and the property id is set to the corresponding id attribute. If the id attribute is missing then "n/a" will be substituted. <i>os</i> is set to the OS.<p />
+              The same can be done for <i>embedded</i> actions:<p/>
+              <p class="codeText"> &lt;call path="a/b/c"&gt;<br />
+&nbsp;&nbsp;&lt;param name="val" path="text()"/&gt; <br />
+&nbsp;&nbsp;&lt;param name="id" path="@id" default="n/a"/&gt; <br />
+&nbsp;&nbsp;&lt;param name="os" value="${os.name}"/&gt; <br />
+&nbsp;&nbsp;&lt;actions&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;echo&gt;val = @{val}&lt;/echo&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;echo&gt;id = @{id}&lt;/echo&gt;<br/>
+&nbsp;&nbsp;&lt;/actions&gt; <br />
+&lt;/call&gt; </p>
+Note how the parameters are dereferenced in this example (using <b>@{...}</b>). Note also that for embedded actions each property <i>must</i> have a value assigned to it. If in doubt use the <code class="codeText">default</code> attribute in the <code class="codeText">&lt;param&gt;</code> instruction.
               </span>
           </li>
           <br/>
@@ -907,6 +922,21 @@ JDK 1.4 - none</p>
       &lt;/call&gt;  
     &lt;/xmltask&gt;  
    </pre>
+    <li class="bodyList">Performs actions for each servlet entry in a <span class="codeText">web.xml</span>. For each invocation the embedded actions are performed.</li>
+    <pre class="codeText">
+    &lt;xmltask source="web.xml"&gt;
+      &lt;call path="web/servlet"/&gt;
+        &lt;param name="id" path="@id" default="NO ID"/&gt;
+        &lt;actions&gt;
+          &lt;echo&gt;Found a servlet @{id}&lt;/echo&gt;
+          &lt;!-- perform deployment actions --&gt;
+          ....
+        &lt;/actions&gt;
+      &lt;/call&gt;  
+    &lt;/xmltask&gt;  
+   </pre>
+
+
     <li><span class="bodyList">Cutting a section of XML to a buffer, and displaying the buffer to confirm to the developer that a suitable XML fragment has been identified/stored</span>
         <pre class="codeText">
     &lt;xmltask source="input.xml"&gt;
@@ -923,6 +953,8 @@ JDK 1.4 - none</p>
   
   <p><span class="bodyBold">Known Issues<a name="issues" id="issues"></a></span>
     <br />
+
+    <span class="bodyList">Importing &lt;xmltask&gt; into an Ant script using the optional <span class="codeText">classpath</span> attribute of &lt;taskdef&gt; will result in problems using buffers between individual invocations of &lt;xmltask&gt;. In particular buffer contents will not be preserved. Import as per the <a href="#usage">usage instructions</a> will work fine.</span></p>
     <span class="bodyList">The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:</span></p>
   <p class="bodyText">/root/branch/</p>
   <p class="bodyText">and should be replaced with</p>

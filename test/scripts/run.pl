@@ -7,7 +7,7 @@
 # The script below handles all of that, but should be re-written
 # as a data-set-driven test suite
 
-my @tests = (1..101);
+my @tests = (1..102);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }

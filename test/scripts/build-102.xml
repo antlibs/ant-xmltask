@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests calling ant targets for nodes identified by xmltask. This
+       checks the param mechanism for the call instruction and
+       interaction with the standard antcall task
+
+       This is like test 78 except we're not calling to subtasks
+       but executing using the macroDef stuff
+       
+       -->
+  <target name="main">
+    <antcall target="test">
+      <param name="p1" value="1"/>
+      <param name="p2" value="2"/>
+    </antcall>
+  </target>
+
+  <target name="test">
+    <!-- first create an output file -->
+    <xmltask dest="102-out.xml">
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+    </xmltask>
+
+    <!-- then call subtargets using 102.xml as the driver -->
+    <xmltask source="102.xml">
+      <call path="/a/b" inheritAll="true">
+        <param name="1" path="text()"/>
+        <param name="2" path="@attr"/>
+        <param name="3" value="${os.name}"/>
+        <!--
+          Note that missing values are not tolerated in this mode...
+        <param name="4" path="@attr2"/>
+        -->
+        <param name="5" path="@attr2" default="missing attr"/>
+        <actions>
+          <xmltask source="102-out.xml" dest="102-out.xml">
+            <insert path="/root">[1 = @{1}]</insert>
+            <insert path="/root">[2 = @{2}]</insert>
+            <insert path="/root">[3 = @{3}]</insert>
+            <insert path="/root">[4 = @{4}]</insert>
+            <insert path="/root">[5 = @{5}]</insert>
+          </xmltask>
+        </actions>
+      </call>
+    </xmltask>
+  </target>
+</project>

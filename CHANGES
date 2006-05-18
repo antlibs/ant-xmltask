@@ -1,8 +1,10 @@
 $Id$
 
-1.11.5 18/05/2006
+1.12 18/05/2006
 
 Added expandProperties attribute to <insert> and <replace>
+The <call> mechanism now supports embedded actions i.e. you
+don't have to call out to a subtarget. Thanks to Maarten Coene
 
 1.11.4 22/03/2006
 

@@ -3,6 +3,8 @@ package com.oopsconsultancy.xmltask.ant;
 import com.oopsconsultancy.xmltask.*;
 import java.util.*;
 
+import org.apache.tools.ant.taskdefs.MacroDef;
+
 /**
  * the Ant call task
  *
@@ -17,6 +19,7 @@ public class Call {
   private boolean inheritAll = true;
   private boolean inheritRefs = false;
   private List params = new ArrayList();
+  private MacroDef macro;
 
   /**
    * executes a target for a set of nodes
@@ -48,9 +51,16 @@ public class Call {
     params.add(param);
   }
 
+  public Object createActions() {
+   macro = new MacroDef();
+   return macro.createSequential();
+  }
+
   protected void process(XmlTask task) {
     if (path != null && target != null) {
       task.add(new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs, buffer, params)));
+    } else if (path != null && macro != null) {
+     task.add(new XmlReplace(path, new AnonymousCallAction(macro, task, buffer, params)));
     }
   }
 }
