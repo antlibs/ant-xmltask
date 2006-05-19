@@ -107,7 +107,7 @@ urchinTracker();
     <li class="bodyList">Compatibility with JSE 1.6 and IBM JVMs</li>
     <li class="bodyList">Element order in buffer maintained when pasting from buffer</li>
     <li class="bodyList"><a href="#usage.insert">&lt;insert&gt;</a> and <a href="#usage.replace">&lt;replace&gt;</a> has a <span class="codeText">expandProperties</span> attribute</li>
-    <li class="bodyList"><a href="#usage.call">&lt;call&gt;</a> now supports embedded actions</li>
+    <li class="bodyList"><a href="#usage.call">&lt;call&gt;</a> now supports embedded actions (Ant 1.6 and above)</li>
   </ul>
   <p class="bodyText">Since v1.10</p>
   <ul class="mixedList">
@@ -595,7 +595,7 @@ JDK 1.4 - none</p>
                   <br />
                   <span class="codeText">&lt;call path="a/b/c" target="CNode" buffer="abc"/&gt;</span><br />
                   <br />
-                  In the below example, Ant actions are <i>embedded</i> within the <code class="codeText">&lt;call&gt;</code> action:
+                  In the below example, Ant actions are <i>embedded</i> within the <code class="codeText">&lt;call&gt;</code> action (Ant 1.6 and above only):
                   <br />
                   <br />
                   <span class="codeText">
@@ -922,7 +922,7 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
       &lt;/call&gt;  
     &lt;/xmltask&gt;  
    </pre>
-    <li class="bodyList">Performs actions for each servlet entry in a <span class="codeText">web.xml</span>. For each invocation the embedded actions are performed.</li>
+    <li class="bodyList">Performs actions for each servlet entry in a <span class="codeText">web.xml</span>. For each invocation the embedded actions are performed (Ant 1.6 and above only).</li>
     <pre class="codeText">
     &lt;xmltask source="web.xml"&gt;
       &lt;call path="web/servlet"/&gt;
