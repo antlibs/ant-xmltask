@@ -15,6 +15,7 @@ import org.apache.tools.ant.types.*;
 import com.oopsconsultancy.xmltask.*;
 import com.oopsconsultancy.xmltask.output.*;
 import org.apache.tools.ant.filters.*;
+import java.net.*;
 
 /**
  * the basic Ant xml task. Records a set of actions to
@@ -356,13 +357,41 @@ public class XmlTask extends Task {
     }
 
     InputSource in = new InputSource(is);
-    Document doc = builder.parse(in);
+    try {
+      Document doc = builder.parse(in);
 
-    // mmm. always get null here. Must investigate sometime
-    encoding = in.getEncoding();
+      // mmm. always get null here. Must investigate sometime
+      encoding = in.getEncoding();
 
-    doc.getDocumentElement().normalize();
-    return doc;
+      doc.getDocumentElement().normalize();
+      return doc;
+    }
+    catch (UnknownHostException e) {
+      // this is quite common
+      reportNetworkError();
+      throw new BuildException(e.getMessage(), e);
+    }
+    catch (ConnectException e) {
+      // this is quite common
+      reportNetworkError();
+      throw new BuildException(e.getMessage(), e);
+    }
+
+  }
+
+  /**
+   * report a common mistake
+   */
+  private void reportNetworkError() {
+    log("It looks like you've got a network error. The probable cause", Project.MSG_ERR);
+    log("is that you're trying to resolve a DTD on the internet although", Project.MSG_ERR);
+    log("you don't know it! Check your XML for DTDs external to your network", Project.MSG_ERR);
+    log("and read the Ant documentation for <xmlcatalog>. XMLTask will support", Project.MSG_ERR);
+    log("usage of <xmlcatalog>. See the following:", Project.MSG_ERR);
+    log("http://ant.apache.org/manual/CoreTypes/xmlcatalog.html", Project.MSG_ERR);
+    log("http://www.oopsconsultancy.com/software/xmltask", Project.MSG_ERR);
+    log("If this isn't the problem, then please report this error to the support", Project.MSG_ERR);
+    log("mailing list. Thanks!", Project.MSG_ERR);
   }
 
   /**
