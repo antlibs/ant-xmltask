@@ -428,7 +428,7 @@ JDK 1.4 - none</p>
                 </tr>
                 <tr>
                   <td align="left" valign="middle" class="bodyText">path</td>
-                  <td class="bodyText">the XPath reference of the element(s) to replace</td>
+                  <td class="bodyText">the XPath reference of the element(s) to replace. If this represents an attribute, then the value of the attribute will be changed. In this scenario you can only specify text as replacement</td>
                   <td align="center" valign="middle" class="bodyText">yes</td>
                 </tr>
                 <tr>
@@ -459,6 +459,7 @@ JDK 1.4 - none</p>
               </table>
               <p class="bodyText">e.g. </p>
               <p class="codeText"> &lt;replace path="web/servlet/context/root[@id='2']/text()" withText="2"/&gt;<br />
+              <p class="codeText"> &lt;replace path="web/servlet/context/root[@id='2']/@id" withText="3"/&gt;<br />
 &lt;replace path="web/servlet/context/root[@id='2']/text()" withXml="&amp;lt;id&amp;gt;"/&gt;<br />
 &lt;replace path="web/servlet/context/root[@id='2']/" withFile="substitution.xml"/&gt;<br />
 &lt;replace path="web/servlet/context/root[@id='2']/" withBuffer="namedBuffer"/&gt;</p>
@@ -507,9 +508,7 @@ JDK 1.4 - none</p>
                   <span class="codeText"><br />
 &lt;attr path="web/servlet/context[@id='4']/" attr="id" value="test"/&gt;<br />
 &lt;attr path="web/servlet/context[@id='4']/" attr="id" remove="true"/&gt;</span></p>
-          </li>
-          <li>
-            <p class="bodyText"><span class="bodyList">Note that in the first example, if the attribute <code class="codeText">id</code> doesn't exist, it will be added. </span> </p>
+            <p class="bodyText">Note that in the first example, if the attribute <code class="codeText">id</code> doesn't exist, it will be added. </p>
             <p> </p>
           </li>
           <li><span class="bodyList">The <a name="usage.remove">&lt;remove&gt;</a> section allows you to specify an XML section to remove
@@ -819,12 +818,19 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
     </pre>
         <p> </p>
     </li>
-    <li><span class="bodyList">Changing an attribute:</span>
+    <li><span class="bodyList">Changing an attribute (method number 1):</span>
         <pre class="codeText">
     &lt;attr path="//div[@id='1']" attr="id" value="2"/&gt;
     </pre>
         <p> </p>
     </li>
+    <li><span class="bodyList">Changing an attribute (method number 2):</span>
+        <pre class="codeText">
+    &lt;replace path="//div[@id='1']/@id" withText="2"/&gt;
+    </pre>
+        <p> </p>
+    </li>
+
     <li><span class="bodyList">Removing an attribute: </span>
         <pre class="codeText">
     &lt;remove path="//div[@id='1']/@id"/&gt;

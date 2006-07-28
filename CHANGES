@@ -3,6 +3,7 @@ $Id$
 1.12.1 24/07/2006
 
 Added <xmlcatalog> error message
+Fixed NPE and allowed <replace> to insert into attribute values
 
 1.12 18/05/2006
 

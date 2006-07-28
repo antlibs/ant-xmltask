@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <!-- $Id$ -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="103.xml" dest="103-out.xml">
+      <replace path="/a/b/@id" withText="new id"/>
+    </xmltask>
+  </target>
+</project>

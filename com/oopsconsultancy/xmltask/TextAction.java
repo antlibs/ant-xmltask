@@ -4,9 +4,10 @@ import org.w3c.dom.*;
 
 /**
  * modifies the text nodes nominated. If the node
- * is a text node then it's modified, otherwise
- * it is removed and a text node inserted in its
- * place
+ * is a text node then it's modified. If it's
+ * an attribute then set the attribute.
+ * Otherwise it is removed and a text node
+ * inserted in its place
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
@@ -27,8 +28,10 @@ public class TextAction extends Action {
     if (isTextNode(n)) {
       n.setNodeValue(str);
     }
+    else if (n instanceof Attr) {
+      ((Attr)n).setValue(str);
+    }
     else {
-      // TODO - handle attributes...
       remove(n);
 
       Node nn = doc.createTextNode(str);
