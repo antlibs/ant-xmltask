@@ -883,6 +883,10 @@ public class XmlTask extends Task {
     return new Insert(this);
   }
 
+  public void addConfiguredUncomment(final Uncomment uncomment) {
+    uncomment.process(this);
+  }
+
   public void addConfiguredCopy(final Copy copy) {
     copy.process(this);
   }

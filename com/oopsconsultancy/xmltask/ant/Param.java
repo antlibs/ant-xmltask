@@ -1,7 +1,5 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import org.apache.tools.ant.taskdefs.*;
-
 /**
  * name + value (XPath expression) for the call instruction. The
  * value can be specified instead of the XPath to provide non-XML

@@ -79,6 +79,7 @@ urchinTracker();
 &nbsp;&nbsp;&nbsp;<a href="#usage.call">Call</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.print">Print</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.xmlcatalog">XmlCatalog</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.uncomment">Uncomment</a><br />
     <a href="#buffers">Buffers<br />
     </a><a href="#formatting">Formatting<br />
     </a><a href="#examples">Examples<br />
@@ -104,20 +105,16 @@ urchinTracker();
     <span class="bodyBold">Recent Changes</span><br />
     <span class="bodyText">A mailing list now exists for &lt;xmltask&gt;. See <a href="#support">Support</a> for more info. </span> </p>
   <p class="bodyText">Current version @VERSION@</p>
+  <p class="bodyText">Since v1.12</p>
+  <ul class="mixedList">
+    <li class="bodyList">Added the <a href="#usage.uncomment">&lt;uncomment&gt;</a> capability</li>
+  </ul>
   <p class="bodyText">Since v1.11</p>
   <ul class="mixedList">
     <li class="bodyList">Compatibility with JSE 1.6 and IBM JVMs</li>
     <li class="bodyList">Element order in buffer maintained when pasting from buffer</li>
     <li class="bodyList"><a href="#usage.insert">&lt;insert&gt;</a> and <a href="#usage.replace">&lt;replace&gt;</a> has a <span class="codeText">expandProperties</span> attribute</li>
     <li class="bodyList"><a href="#usage.call">&lt;call&gt;</a> now supports embedded actions (Ant 1.6 and above)</li>
-  </ul>
-  <p class="bodyText">Since v1.10</p>
-  <ul class="mixedList">
-    <li class="bodyList">Added &lt;print&gt; to allow XPath and buffer debugging</li>
-    <li class="bodyList">Added <span class="codeText">default</span> to the &lt;call&gt; instruction</li>
-    <li class="bodyList">Added <span class="codeText">destbuffer</span> to permit in-buffer XML manipulation</li>
-    <li class="bodyList">Fixed source packaging wrt. <span class="codeText">XMLCatalog.class</span></li>
-    <li class="bodyList">Fix for inserting before/after root nodes</li>
   </ul>
 
   <p><span class="bodyText">See the </span><span class="codeText">CHANGES</span><span class="bodyText"> file in the download for a comprehensive list of changes for each version</span></p>
@@ -161,7 +158,8 @@ JDK 1.4 - none</p>
   <p class="bodyText"> <a href="#top">Top</a></p>
     <span class="bodyBold">Usage<a name="usage" id="usage"></a></span>
   <span class="codeText"><br />
-  </span><span class="bodyText"><a name="usage.xmltask">xmltask</a></span> <span class="bodyText">allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.</span>
+  </span>
+  <span class="bodyText"><a name="usage.xmltask">xmltask</a></span> <span class="bodyText">allows you to specify sections of an XML file to append to, replace, remove or modify. The sections of the XML document to be modified are specified by XPath references, and the XML to insert can be specified in-line in the Ant build.xml, or loaded from files.</span>
   <ul class="mixedList">
     <li><span class="bodyText">The main &lt;xmltask&gt; section takes arguments to define an XML source and a destination file or directory. Note that the XML source is optional if you're creating a new document via &lt;xmltask&gt; instructions.</span> <span class="codeText">dest</span><span class="bodyText"> and </span><span class="codeText">todir</span><span class="bodyText"> can be omitted if you're reading a document and storing subsections in buffers for use by another task (see below).</span></li>
     <p><span class="bodyText"> &lt;fileset&gt;s are used to define sets of files for </span><span class="codeText">xmltask</span><span class="bodyText"> to operate on. See the standard Ant documentation for information on using filesets.</span>
@@ -669,7 +667,7 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
 
 
           <!-- xmltask xmlcatalog settings -->
-          <li><span class="bodyList">The <a name="usage.xmlcatalog"><code class="codeText">xmltask</code></a> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). </span>
+          <li><span class="bodyList"><a name="usage.xmlcatalog"><code class="codeText">xmltask</code></a> now supports the Ant 1.5 <a href="http://jakarta.apache.org/ant/manual/CoreTypes/xmlcatalog.html">&lt;xmlcatalog&gt;</a> element, which allows you to specify local copies of DTDs. This allows you to specify a DOCTYPE referred to in the original document, and the local DTD to use instead (useful if you're behind firewalls and the like). </span>
               <p class="bodyText">e.g. </p>
               <p class="codeText"><br />
 &lt;xmlcatalog id="<b>dtds</b>"&gt;<br />
@@ -690,6 +688,34 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
         </ul>
         <p> </p>
     </li>
+
+          <!-- xmltask uncomment settings -->
+          <li><span class="bodyList">The <a name="usage.uncomment"><code class="codeText">uncomment</code></a> instruction allows you to uncomment sections of XML. This means you can maintain different XML fragments within one document and enable a subset. For instance you can maintain different configs and only enable one at deployment</span>
+              <p class="smallHeadline">Parameters </p>
+              <table width="662" border="1" cellpadding="2" cellspacing="0">
+                <tr>
+                  <td width="60" align="left" valign="middle"><p class="smallHeadline">Attribute</p></td>
+                  <td width="506"><p class="smallHeadline">Description</p></td>
+                  <td width="76" align="center" valign="middle"><p class="smallHeadline">Required</p></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">path</td>
+                  <td class="bodyText">the path of the comment to uncomment. This must resolve to a comment within the input document</td>
+                  <td align="center" valign="middle" class="bodyText">yes</td>
+                </tr>
+            </table>
+              <p class="bodyText">e.g. </p>
+              <p class="codeText"><br />
+&lt;xmltask source="server.xml" dest="server.xml" report="true"&gt;<br />
+&nbsp;&nbsp;&lt;!-- enables a servlet configuration --&gt;<br />
+&nbsp;&nbsp;&lt;uncomment path="/server/service[@name='Tomcat-Standalone']/comment()"/&gt;<br />
+&nbsp;...<br />
+&lt;/xmltask&gt;</p>
+
+    </li>
+
+
+    <!-- stringing together bits -->
     <li><span class="bodyList">The sections above can be chained together to provide successive modifications to an XML file eg.</span>
         <p><span class="codeText"> &lt;target name="main"&gt;<br />
 &nbsp;&lt;xmltask source="input.xml" <br />
@@ -941,6 +967,14 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
           ....
         &lt;/actions&gt;
       &lt;/call&gt;  
+    &lt;/xmltask&gt;  
+   </pre>
+
+    <li class="bodyList">Uncomment and thus enable a set of users in a <span class="code">tomcat-users.xml</span> file. The users are set up in the first 2 comments</li>
+    <pre class="codeText">
+    &lt;xmltask source="tomcat-users.xml"&gt;
+      &lt;uncomment path="tomcat-users/comment()[1]"/&gt;
+      &lt;uncomment path="tomcat-users/comment()[2]"/&gt;
     &lt;/xmltask&gt;  
    </pre>
 

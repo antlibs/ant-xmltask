@@ -1,8 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.ant.*;
-import com.oopsconsultancy.xmltask.*;
-
+import com.oopsconsultancy.xmltask.PrintAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * allows diagnostic printing of path matching, buffers etc.

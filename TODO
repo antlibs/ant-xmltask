@@ -1,6 +1,15 @@
 Stuff to do in XmlTask
 ----------------------
 
+I want to comment and uncomment. e.g.
+ <!-- <a/> -->
+
+to
+
+      <a/>
+
+and vice versa.
+
 cut/copy and append doesn't work with a property. Document!
 classloading issues ?
 Can I set / add simple text to a buffer ?

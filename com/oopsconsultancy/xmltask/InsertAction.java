@@ -12,6 +12,9 @@ import org.apache.tools.ant.*;
  * XML documents under a given node. The document may not have
  * a root node, in which case we can insert the given document
  * as the root node
+ * 
+ * Note that this has donated huge chunks of code to the uncomment
+ * task and both deserve refactoring
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
@@ -195,7 +198,7 @@ public class InsertAction extends Action {
       Node[] n2 = BufferStore.get(buffer);
       if (n2 != null) {
         // note the reverse iteration here to preserve ordering
-        // (ceetainly for position="after". What about other
+        // (certainly for position="after". What about other
         // positions?)
         for (int n =  n2.length - 1; n >= 0;  n--) {
           log("Inserting " + n2[n], Project.MSG_VERBOSE);

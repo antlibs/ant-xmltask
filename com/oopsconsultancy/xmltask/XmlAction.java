@@ -1,9 +1,7 @@
 package com.oopsconsultancy.xmltask;
 
 import org.w3c.dom.*;
-import org.xml.sax.*;
 import java.io.*;
-import javax.xml.parsers.*;
 import org.apache.tools.ant.*;
 
 /**

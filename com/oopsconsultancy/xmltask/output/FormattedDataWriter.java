@@ -4,7 +4,6 @@ import java.io.Writer;
 import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import javax.xml.transform.*;
 import org.xml.sax.ext.*;
 

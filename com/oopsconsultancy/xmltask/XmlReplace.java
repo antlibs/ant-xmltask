@@ -57,7 +57,7 @@ public class XmlReplace implements XPathAnalyserClient {
 
     action.setDocument(doc);
 
-    List removals = new ArrayList();
+  //   List removals  = new ArrayList();
 
     XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
     xpa.registerClient(this, null);
