@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <path id="cp">
+    <pathelement location="../../classes"/>
+  </path>
+
+  <taskdef name="xmltask" 
+           classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+           <classpath refid="cp"/>
+  </taskdef>
+
+  <target name="main" depends="copy,paste"/>
+
+  <!-- tests copying across xmltask instances -->
+  <target name="copy">
+    <xmltask source="106.xml" report="true">
+      <copy path="/a/b/comment()" property="prop"/>
+    </xmltask>
+    <echo>Copied to '${prop}'</echo>
+  </target>  
+
+  <target name="paste">
+    <xmltask source="106.xml" dest="106-out.xml" report="true">
+      <paste path="/a">
+        <![CDATA[${prop}]]>
+      </paste>
+    </xmltask>
+  </target>
+
+</project>

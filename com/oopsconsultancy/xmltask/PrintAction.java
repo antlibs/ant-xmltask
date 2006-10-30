@@ -64,7 +64,7 @@ public class PrintAction extends Action {
         System.err.println("No buffer specified");
         return false;
       }
-      nodes = BufferStore.get(buffer);
+      nodes = BufferStore.get(buffer, task);
       if (nodes == null) {
         System.err.println("Couldn't find any entries for buffer '"+ buffer +"'");
         return false;

@@ -1,8 +1,5 @@
 package com.oopsconsultancy.xmltask;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;

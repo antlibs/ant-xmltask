@@ -5,6 +5,7 @@ import org.w3c.dom.*;
 import com.oopsconsultancy.xmltask.ant.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.taskdefs.*;
+import org.apache.tools.ant.types.Reference;
 import org.w3c.dom.traversal.*;
 
 /**
@@ -126,6 +127,14 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.setTarget(target);
     callee.setInheritAll(inheritAll);
     callee.setInheritRefs(inheritRefs);
+    
+    // make sure we always pass the buffers!
+    Ant.Reference buffers = new Ant.Reference();
+    buffers.setProject(task.getProject());
+    buffers.setRefId(BufferStore.BUFFERS_PROJECT_REF);
+    buffers.setToRefid(BufferStore.BUFFERS_PROJECT_REF);
+    callee.addReference(buffers);
+    
     callee.execute();
 
     return true;

@@ -1,5 +1,9 @@
 $Id$
 
+1.14b 30/10/2006
+
+Now buffers are preserved across instances of xmltask
+
 1.13 17/09/2006
 
 Added the <uncomment> task

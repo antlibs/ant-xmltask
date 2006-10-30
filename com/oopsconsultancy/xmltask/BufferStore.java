@@ -3,9 +3,6 @@ package com.oopsconsultancy.xmltask;
 import java.util.*;
 import org.w3c.dom.*;
 import org.apache.tools.ant.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 
 /**
  * stores a list of nodes vs. buffer name. We clone the given node on
@@ -16,13 +13,30 @@ import javax.xml.transform.stream.*;
  * @version $Id$
  */
 public class BufferStore {
-
-  private final static Map buffers = new HashMap();
+	
+  /** The key used to store the buffers as a reference in the project. */
+  public static final String BUFFERS_PROJECT_REF = "xmltask.buffers";
 
   /**
    * standard singleton-type approach
    */
   private BufferStore() {
+  }
+
+  /**
+   * returns the map containing all the buffers
+   * 
+   * @param task the task for which the buffers are needed
+   * @return the buffers
+   */
+  private static Map getBuffers(Task task) {
+    Map buffers = (Map) task.getProject().getReference(BUFFERS_PROJECT_REF);
+    if (buffers == null) {
+        log(" (adding buffers container to project)", task);
+        buffers = new HashMap();
+        task.getProject().addReference(BUFFERS_PROJECT_REF, buffers);
+    }
+    return buffers;
   }
 
   /**
@@ -32,7 +46,8 @@ public class BufferStore {
    * @param name the buffer name
    * @return the array of nodes (elements/text/attributes whatever)
    */
-  public static Node[] get(String name) {
+  public static Node[] get(String name, Task task) {
+    Map buffers = getBuffers(task);
     List res = (List)buffers.get(name);
     if (res == null) {
       return null;
@@ -53,6 +68,7 @@ public class BufferStore {
    * @param append set to true if appending required
    */
   public static void set(String name, Node xml, boolean append, Task task) {
+    Map buffers = getBuffers(task);
     // create a deep copy of this...
     Node newnode = xml.cloneNode(true);
     log("Storing " + newnode + " against buffer (" + name + ")", task);
@@ -96,6 +112,7 @@ public class BufferStore {
 
   public static void clear(String name, Task task) {
     log("Clearing buffer (" + name + ")", task);
+    Map buffers = getBuffers(task);
     buffers.put(name, new ArrayList());
   }
 

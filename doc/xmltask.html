@@ -142,7 +142,9 @@ JDK 1.4 - none</p>
   <p><span class="bodyText">Reference the </span><span class="codeText">xmltask</span><span class="bodyText"> in your </span><span class="codeText">build.xml</span><span class="bodyText"> eg.</span>
   </p>
   <p><span class="codeText">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/&gt;</span> </p>
+  <!--
   <p><span class="bodyText">Note that if you use the above with an additional <span class="codeText">classpath</span> attribute then you will have problems with using buffers across multiple <span class="codeText">xmltask</span> calls. See <a href="#buffers">Buffers</a> for more information.<span class="bodyText"></span>
+  -->
   <p><span class="bodyText">Reference the </span><span class="codeText">xmltask</span><span class="bodyText"> task as part of your build eg.</span>
   </p>
   <p class="codeText"> &lt;target name="main"&gt;</p>
@@ -685,7 +687,6 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
 &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local="web.dtd"/&gt;<br />
 &lt;entity remote="-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" local=""/&gt;</p>
               <span class="bodyText">The first version above specifies a local version of the DTD. The second indicates that the remote entity will be ignored completely. Note that the <code class="codeText">remote</code> attribute can take either the PUBLIC specification or the SYSTEM specification. </span></li>
-        </ul>
         <p> </p>
     </li>
 
@@ -711,6 +712,7 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
 &nbsp;&nbsp;&lt;uncomment path="/server/service[@name='Tomcat-Standalone']/comment()"/&gt;<br />
 &nbsp;...<br />
 &lt;/xmltask&gt;</p>
+        </ul>
 
     </li>
 
@@ -752,8 +754,10 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
   </pre>
   <span class="bodyText">so the buffer <i>storedXml</i> is maintained across multiple targets. </span>
 
+<!--
   <p><span class="bodyText">Note: specifying <span class="codeText">xmltask</span> in a <span class="codeText">taskdef</span> with an additional <span class="codeText">classpath</span> reference thus:<p>
   <span class="codeText">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" <b>classpath="..."</b>/&gt;</span></p>will result in different classloaders being used to load different <span class="codeText">xmltask</span> instances, and the ability to transfer buffers between calls will be lost. It's recommended that you <i>don't</i> use this particular method of loading <span class="codeText">xmltask</span> but rather specify the .jar location via <span class="codeText">CLASSPATH</span> or inserting the .jar in <span class="codeText">$ANTHOME/lib</span></span></p>
+  -->
   <p class="bodyText">Buffers are simply defined by names. eg. valid buffers would be <i>servlet</i>, <i>buffer100</i> etc.</p>
   <p class="bodyText"> A buffer can record <i>multiple</i> nodes (either resulting from multiple matches or multiple &lt;cut&gt; / &lt;copy&gt; operations). This operation is enabled through use of the <code>append</code> attribute. e.g.</p>
   <p><span class="codeText">&lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;</span><br />
@@ -996,7 +1000,9 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
   <p><span class="bodyBold">Known Issues<a name="issues" id="issues"></a></span>
     <br />
 
+<!--
     <span class="bodyList">Importing &lt;xmltask&gt; into an Ant script using the optional <span class="codeText">classpath</span> attribute of &lt;taskdef&gt; will result in problems using buffers between individual invocations of &lt;xmltask&gt;. In particular buffer contents will not be preserved. Import as per the <a href="#usage">usage instructions</a> will work fine.</span></p>
+    -->
     <span class="bodyList">The Java 1.4.2 release as of June 2003 has tightened up XPath parsing and what is regarded as acceptable XPath syntax. In particular, the following usage of trailing path separators is now regarded as incorrect:</span></p>
   <p class="bodyText">/root/branch/</p>
   <p class="bodyText">and should be replaced with</p>

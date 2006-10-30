@@ -246,7 +246,7 @@ public class XmlTask extends Task {
       super(name);
     }
     public Document getDocument() throws Exception {
-      Node[] nodes = BufferStore.get(getName());
+      Node[] nodes = BufferStore.get(getName(), XmlTask.this);
       if (nodes == null) {
         return createDocument();
       }

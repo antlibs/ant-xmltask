@@ -195,7 +195,7 @@ public class InsertAction extends Action {
   protected boolean insert(final Node node) throws Exception {
     Node newnode = null;
     if (buffer != null) {
-      Node[] n2 = BufferStore.get(buffer);
+      Node[] n2 = BufferStore.get(buffer, task);
       if (n2 != null) {
         // note the reverse iteration here to preserve ordering
         // (certainly for position="after". What about other

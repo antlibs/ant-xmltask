@@ -7,7 +7,7 @@
 # The script below handles all of that, but should be re-written
 # as a data-set-driven test suite
 
-my @tests = (1..105);
+my @tests = (1..106);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -39,6 +39,10 @@ foreach $i ( @tests ) {
   }
   else {
     print "Running $build\n";
+    if ($i == 106) {
+      print "Modifying classpath!\n";
+      $ENV{'CLASSPATH'}="/home/brian/java/jakarta-ant/1.6.3//lib/ant.jar:/home/brian/java/jakarta-ant/1.6.3//lib/ant-commons-net.jar";
+    }
     `ant -buildfile $build $args`;
     my $res = $i."-out.xml";
     my $cmp = "results/".$res;
