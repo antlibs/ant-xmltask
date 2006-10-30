@@ -981,7 +981,6 @@ public class XMLWriter extends XMLFilterImpl
         prefix == null || nsSupport.getURI(prefix) != null;
         prefix = "__NS" + ++prefixCounter)
       ;
-      System.out.println("USING " + prefix + " FROM " + uri);
     nsSupport.declarePrefix(prefix, uri);
     doneDeclTable.put(uri, prefix);
     return prefix;
