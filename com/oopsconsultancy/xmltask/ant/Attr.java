@@ -8,7 +8,7 @@ import com.oopsconsultancy.xmltask.*;
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class Attr {
+public class Attr implements Instruction {
 
   private XmlTask task = null;
 
@@ -19,17 +19,14 @@ public class Attr {
 
   public void setPath(String path) {
     this.path = path;
-    register();
   }
 
   public void setAttr(String attr) {
     this.attr = attr;
-    register();
   }
 
   public void setValue(String value) {
     this.value = value;
-    register();
   }
 
   public void setRemove(String remove) {
@@ -39,7 +36,6 @@ public class Attr {
     else {
       this.remove = Boolean.FALSE;
     }
-    register();
   }
 
   private void register() {
@@ -48,8 +44,9 @@ public class Attr {
     }
   }
 
-  public Attr(XmlTask task) {
+  public void process(final XmlTask task) {
     this.task = task;
+    register();
   }
 }
 

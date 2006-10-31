@@ -5,7 +5,6 @@ import java.util.*;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.w3c.dom.*;
-import org.xml.sax.helpers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import javax.xml.transform.dom.*;
@@ -867,20 +866,40 @@ public class XmlTask extends Task {
 
   // create the task elements below
 
-  public Replace createReplace() {
-    return new Replace(this);
+ // public Replace createReplace() {
+ //   return new Replace(this);
+//  }
+  
+  public void addConfiguredReplace(final Replace replace) {
+    replace.process(this);
   }
 
-  public Remove createRemove() {
-    return new Remove(this);
+//  public Remove createRemove() {
+//    return new Remove(this);
+//  }
+  
+  public void addConfiguredRemove(final Remove remove) {
+    remove.process(this);
   }
 
-  public Attr createAttr() {
-    return new Attr(this);
+ // public Attr createAttr() {
+  //  return new Attr(this);
+ // }
+  
+  public void addConfiguredAttr(final Attr attr) {
+    attr.process(this);
   }
 
-  public Insert createInsert() {
-    return new Insert(this);
+  //public Insert createInsert() {
+   // return new Insert(this);
+  //}
+  
+  public void addConfiguredInsert(final Insert insert) {
+    insert.process(this);
+  }
+  
+  public void addConfiguredPaste(final Paste paste) {
+    paste.process(this);
   }
 
   public void addConfiguredUncomment(final Uncomment uncomment) {
@@ -899,12 +918,13 @@ public class XmlTask extends Task {
     cut.process(this);
   }
 
-  public Insert createPaste() {
-    return new Insert(this);
-  }
-
-  public Rename createRename() {
-    return new Rename(this);
+//  public Insert createPaste() {
+//    Insert insert = new Insert();
+//    insert.process(this);
+//    return insert;
+//  }
+  public void addConfiguredRename(final Rename rename) {
+    rename.process(this);
   }
 
   public Entity createEntity() {

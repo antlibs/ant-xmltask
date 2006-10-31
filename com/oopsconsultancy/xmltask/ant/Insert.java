@@ -6,22 +6,42 @@ import org.apache.tools.ant.*;
 
 /**
  * the Ant insertion task
- *
+ * 
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class Insert {
+public class Insert implements Instruction {
 
   private XmlTask task = null;
 
   private String path = null;
+
+  private String text = null; // text to insert (can be null)
+
   private InsertAction action = null;
+
   private InsertAction.Position position = InsertAction.Position.UNDER;
+
   private boolean expandProperties = true;
+
+  /**
+   * the buffer to insert
+   */
+  private String buffer;
+
+  /**
+   * the raw XML to insert
+   */
+  private String xml;
+
+  /**
+   * the file to insert
+   */
+  private File file;
 
   public void setPath(String path) {
     this.path = path;
-    register();
+    // register();
   }
 
   public void setPosition(String pos) {
@@ -42,7 +62,7 @@ public class Insert {
     }
   }
 
-  private void log(String msg, int level) {
+  private void log(final String msg, final int level) {
     if (task != null) {
       task.log(msg, level);
     }
@@ -51,50 +71,67 @@ public class Insert {
     }
   }
 
-  public void setXml(String to) throws Exception {
-    action = InsertAction.fromString(to, task);
-    register();
+  public void setXml(final String xml) throws Exception {
+    this.xml = xml;
+    // register();
   }
 
-  public void setFile(File to) throws Exception {
-    action = InsertAction.fromFile(to, task);
-    register();
+  public void setFile(final File file) throws Exception {
+    this.file = file;
+    // register();
   }
 
   public void setExpandProperties(final boolean expandProperties) {
     this.expandProperties = expandProperties;
-    register();
+    // register();
   }
 
   /**
-   * used to insert literal text placed within the build.xml under
-   * the insert element
-   *
+   * used to insert literal text placed within the build.xml under the insert
+   * element
+   * 
    * @param text
    * @throws Exception
    */
-  public void addText(String text) throws Exception {
-    if (expandProperties) {
-      // we expand properties by default...
-      text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
-    }
-    action = InsertAction.fromString(text, task);
-    register();
+  public void addText(final String text) throws Exception {
+    this.text = text;
+    // register();
   }
 
-  public void setBuffer(String buffer) throws Exception {
-    action = InsertAction.fromBuffer(buffer, task);
-    register();
+  public void setBuffer(final String buffer) throws Exception {
+    this.buffer = buffer;
   }
+
   private void register() {
+    try {
+      if (xml != null) {
+		    action = InsertAction.fromString(xml, task);
+      }
+      if (file != null) {
+		    action = InsertAction.fromFile(file, task);
+      }
+      else if (buffer != null) {
+        action = InsertAction.fromBuffer(buffer, task);
+      }
+      else if (text != null) {
+        if (expandProperties) {
+          // we expand properties by default...
+          text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+        }
+        action = InsertAction.fromString(text, task);
+      }
+    }
+    catch (Exception e) {
+      throw new BuildException("Failed to add text to insert/paste", e);
+    }
     if (action != null && path != null) {
       action.setPosition(position);
       task.add(new XmlReplace(path, action));
     }
   }
 
-  public Insert(XmlTask task) {
+  public void process(final XmlTask task) {
     this.task = task;
+    register();
   }
 }
-

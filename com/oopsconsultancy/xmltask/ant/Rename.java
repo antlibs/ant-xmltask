@@ -8,7 +8,7 @@ import com.oopsconsultancy.xmltask.*;
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
-public class Rename {
+public class Rename implements Instruction {
 
   private XmlTask task = null;
 
@@ -17,21 +17,20 @@ public class Rename {
 
   public void setPath(String path) {
     this.path = path;
-    process();
   }
   public void setTo(String to) {
     this.to = to;
-    process();
   }
 
-  void process() {
+  void register() {
     if (path != null && to != null) {
       task.add(new XmlReplace(path, new RenameAction(to)));
     }  
   }
 
-  public Rename(XmlTask task) {
+  public void process(final XmlTask task) {
     this.task = task;
+    register();
   }
 }
 

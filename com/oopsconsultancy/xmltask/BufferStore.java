@@ -30,6 +30,12 @@ public class BufferStore {
    * @return the buffers
    */
   private static Map getBuffers(Task task) {
+    if (task == null) {
+      throw new IllegalArgumentException("Can't get buffers for a null task");
+    }
+    if (task.getProject() == null) {
+      throw new IllegalArgumentException("Can't get buffers for a task with no associated project");
+    }
     Map buffers = (Map) task.getProject().getReference(BUFFERS_PROJECT_REF);
     if (buffers == null) {
         log(" (adding buffers container to project)", task);
