@@ -38,7 +38,6 @@ public class BufferStore {
     }
     Map buffers = (Map) task.getProject().getReference(BUFFERS_PROJECT_REF);
     if (buffers == null) {
-        log(" (adding buffers container to project)", task);
         buffers = new HashMap();
         task.getProject().addReference(BUFFERS_PROJECT_REF, buffers);
     }

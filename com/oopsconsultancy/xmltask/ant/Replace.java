@@ -40,6 +40,10 @@ public class Replace implements Instruction {
    */
   private String buffer;
 
+  private String ifProperty;
+
+  private String unlessProperty;
+
   public void setPath(String path) {
     this.path = path;
   }
@@ -97,12 +101,23 @@ public class Replace implements Instruction {
       throw new BuildException("Failed to specify text in replace", e);
     }
     if (path != null && action != null) {
-      task.add(new XmlReplace(path, action));
+      XmlReplace xmlReplace = new XmlReplace(path, action);
+      xmlReplace.setIf(ifProperty);
+      xmlReplace.setUnless(unlessProperty);
+      task.add(xmlReplace);
     }
   }
 
   public void process(final XmlTask task) {
     this.task = task;
     register();
+  }
+
+  public void setIf(final String ifProperty) {
+    this.ifProperty = ifProperty;
+  }
+
+  public void setUnless(final String unlessProperty) {
+    this.unlessProperty = unlessProperty;
   }
 }

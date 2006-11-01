@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+<!-- tests replace and if/unless properties -->
+<property name="yes" value="SET"/>
+  <target name="main">
+    <xmltask source="110.xml" dest="110-out.xml" report="true" failWithoutMatch="true">
+     <!-- set a text element to a value -->
+      <replace path="//a/b[@id='FROM']/text()" withText="TO" if="yes"/>
+      <replace path="//a/b[@id='FROM2']/text()" withText="TO2" unless="no"/>
+    </xmltask>
+  </target>
+</project>

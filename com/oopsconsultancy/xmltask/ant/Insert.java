@@ -39,9 +39,12 @@ public class Insert implements Instruction {
    */
   private File file;
 
+  private String ifProperty;
+
+  private String unlessProperty;
+
   public void setPath(String path) {
     this.path = path;
-    // register();
   }
 
   public void setPosition(String pos) {
@@ -73,17 +76,14 @@ public class Insert implements Instruction {
 
   public void setXml(final String xml) throws Exception {
     this.xml = xml;
-    // register();
   }
 
   public void setFile(final File file) throws Exception {
     this.file = file;
-    // register();
   }
 
   public void setExpandProperties(final boolean expandProperties) {
     this.expandProperties = expandProperties;
-    // register();
   }
 
   /**
@@ -95,7 +95,6 @@ public class Insert implements Instruction {
    */
   public void addText(final String text) throws Exception {
     this.text = text;
-    // register();
   }
 
   public void setBuffer(final String buffer) throws Exception {
@@ -126,12 +125,29 @@ public class Insert implements Instruction {
     }
     if (action != null && path != null) {
       action.setPosition(position);
-      task.add(new XmlReplace(path, action));
+      XmlReplace xmlReplace = new XmlReplace(path, action);
+      xmlReplace.setIf(ifProperty);
+      xmlReplace.setUnless(unlessProperty);
+      task.add(xmlReplace);
     }
   }
 
   public void process(final XmlTask task) {
     this.task = task;
     register();
+  }
+
+  /* (non-Javadoc)
+   * @see com.oopsconsultancy.xmltask.ant.Instruction#setIf(java.lang.String)
+   */
+  public void setIf(final String ifProperty) {
+    this.ifProperty = ifProperty;
+  }
+
+  /* (non-Javadoc)
+   * @see com.oopsconsultancy.xmltask.ant.Instruction#setUnless(java.lang.String)
+   */
+  public void setUnless(final String unlessProperty) {
+    this.unlessProperty = unlessProperty;
   }
 }

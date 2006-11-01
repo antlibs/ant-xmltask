@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests rename and if/unless properties -->
+  <property name="yes" value="SET"/>
+
+  <target name="main">
+    <xmltask source="109.xml" dest="109-out.xml" report="true">
+      <rename if="yes" path="/a/b/@c" to="x"/>
+      <rename unless="no" path="/a/b/@d" to="y"/>
+      <rename unless="yes" path="/a/b/@e" to="z"/>
+    </xmltask>
+  </target>
+</project>

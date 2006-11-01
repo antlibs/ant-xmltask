@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- this tests remove and if/unless properties -->
+  <target name="main">
+
+    <property name="yes" value="SET"/>
+
+    <xmltask source="108.xml" dest="108-out.xml" report="true">
+     <!-- set a text element to a value -->
+      <remove if="yes" path="//a/b/@id"/>
+      <remove unless="no" path="//a/b/@id2"/>
+      <remove unless="yes" path="//a/b/@id3"/>
+    </xmltask>
+  </target>
+</project>

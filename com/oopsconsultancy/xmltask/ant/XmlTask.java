@@ -865,34 +865,21 @@ public class XmlTask extends Task {
   }
 
   // create the task elements below
-
- // public Replace createReplace() {
- //   return new Replace(this);
-//  }
   
   public void addConfiguredReplace(final Replace replace) {
     replace.process(this);
   }
 
-//  public Remove createRemove() {
-//    return new Remove(this);
-//  }
   
   public void addConfiguredRemove(final Remove remove) {
     remove.process(this);
   }
 
- // public Attr createAttr() {
-  //  return new Attr(this);
- // }
   
   public void addConfiguredAttr(final Attr attr) {
     attr.process(this);
   }
 
-  //public Insert createInsert() {
-   // return new Insert(this);
-  //}
   
   public void addConfiguredInsert(final Insert insert) {
     insert.process(this);
@@ -917,12 +904,7 @@ public class XmlTask extends Task {
   public void addConfiguredCut(final Cut cut) {
     cut.process(this);
   }
-
-//  public Insert createPaste() {
-//    Insert insert = new Insert();
-//    insert.process(this);
-//    return insert;
-//  }
+  
   public void addConfiguredRename(final Rename rename) {
     rename.process(this);
   }

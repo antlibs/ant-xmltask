@@ -4,7 +4,7 @@ import com.oopsconsultancy.xmltask.*;
 
 /**
  * the Ant cut task
- *
+ * 
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -14,15 +14,20 @@ public class Cut extends Copy {
   }
 
   /**
-   * cuts a nominated node and copies to either a
-   * buffer or a property
+   * cuts a nominated node and copies to either a buffer or a property
    */
-  protected void process(XmlTask task) {
+  public void process(final XmlTask task) {
+    XmlReplace xmlReplace = null;
     if (path != null && buffer != null) {
-      task.add(new XmlReplace(path, new CutAction(buffer, append, attrValue, task, false)));
+      xmlReplace = new XmlReplace(path, new CutAction(buffer, append, attrValue, task, false));
     }
     else if (path != null && property != null) {
-      task.add(new XmlReplace(path, new CutAction(property, append, attrValue, task, true)));
+      xmlReplace = new XmlReplace(path, new CutAction(property, append, attrValue, task, true));
+    }
+    if (xmlReplace != null) {
+      xmlReplace.setIf(ifProperty);
+      xmlReplace.setUnless(unlessProperty);
+      task.add(xmlReplace);
     }
   }
 }
