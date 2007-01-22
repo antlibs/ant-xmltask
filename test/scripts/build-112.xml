@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- test for https://sourceforge.net/tracker/?func=detail&atid=390335&aid=1641432&group_id=27398 -->
+  <target name="main">
+    <xmltask source="112.xml" report="true">
+      <copy path="//*[local-name()='classpath']/*[local-name()='classpathentry' and @kind='src' and not(starts-with(@path,'/'))]/@path"
+property="dirSrc" attrValue="true"/>
+    </xmltask>
+    <echo>Got ${dirSrc}</echo>
+  </target>
+
+</project>

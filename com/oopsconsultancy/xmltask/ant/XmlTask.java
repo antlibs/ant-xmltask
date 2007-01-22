@@ -521,10 +521,12 @@ public class XmlTask extends Task {
    * </pre>
    * @param version
    */
+  /*
   private void setVersion(final String xmlVersion) {
     this.xmlVersion = xmlVersion;
     settingVersion = true;
   }
+  */
 
 
 

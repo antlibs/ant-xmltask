@@ -5,8 +5,6 @@ import org.w3c.dom.*;
 import com.oopsconsultancy.xmltask.ant.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.taskdefs.*;
-import org.apache.tools.ant.types.Reference;
-import org.w3c.dom.traversal.*;
 
 /**
  * The nominated target is called for

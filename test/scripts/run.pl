@@ -9,7 +9,7 @@
 
 my $CP=$ENV{'CLASSPATH'};
 
-my @tests = (1..111);
+my @tests = (1..112);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
@@ -27,7 +27,7 @@ if (-e $xmlcatalog) {
 foreach $i ( @tests ) {
   my $nofile = 0;
   my $args = "";
-  if ($i == 62 || $i == 75 || $i == 81 || $i == 87 || $i == 94 || $i == 97 || $i == 98) {
+  if ($i == 62 || $i == 75 || $i == 81 || $i == 87 || $i == 94 || $i == 97 || $i == 98 || $i == 112) {
     # which tests shouldn't return results ?
     $nofile = 1;
     print "No output expected for #" . $i . "\n";

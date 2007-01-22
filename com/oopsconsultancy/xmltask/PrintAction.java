@@ -16,7 +16,6 @@ import org.apache.tools.ant.*;
 public class PrintAction extends Action {
 
 
-  private final String path;
   private final String buffer;
   private final String ident;
   private final Task task;
@@ -24,7 +23,6 @@ public class PrintAction extends Action {
   private PrintAction(final Task task, final String path, final String buffer, final String ident) {
   this.task = task;
     // any of the below can be null (!)
-    this.path = path;
     this.buffer = buffer;
     this.ident = ident;
   }
@@ -36,6 +34,7 @@ public class PrintAction extends Action {
   public static PrintAction newInstanceFromPath(final Task task, final String path, final String ident) {
     return new PrintAction(task, path, null, ident);
   }
+
   /**
    * @param path
    * @return a print action matching against this buffer
