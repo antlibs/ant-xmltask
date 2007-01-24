@@ -90,7 +90,7 @@ public class XmlReplacement {
    * @throws Exception
    */
   private void output() throws Exception {
-  output("Document", doc);
+	  output("Document", doc);
   }
 
   /**

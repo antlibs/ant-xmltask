@@ -35,7 +35,9 @@ public class CopyAction extends Action {
    */
   protected void record(Node node) throws Exception {
     if (node instanceof Attr && attrValue) {
-      node = node.getOwnerDocument().createTextNode(((Attr)node).getValue());
+      Document doc = node.getOwnerDocument();
+      String value = ((Attr)node).getValue();
+      node = doc.createTextNode(value);
     }
 
     if (!isProperty) {
@@ -59,7 +61,7 @@ public class CopyAction extends Action {
     record(node);
     return true;
   }
-
+  
   public String toString() {
     return "CopyAction(" + buffer + ")";
   }
