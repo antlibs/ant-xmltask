@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- illustrates https://sourceforge.net/tracker/index.php?func=detail&aid=1609305&group_id=27398&atid=390335
+       The buffer contents get lost across 'antcall' calls
+    -->
+  <target name="cut">
+    <xmltask source="113.xml" dest="113-out.xml" report="true">
+      <cut path="/a/b" buffer="storedXml" />
+      <print buffer="storedXml"/>
+    </xmltask>
+  </target>
+
+  <target name="main">
+    <antcall target="cut"/>
+    <xmltask source="113-out.xml" dest="113-out.xml" >
+      <print buffer="storedXml"/>
+      <paste path="/" buffer="storedXml" />
+    </xmltask>
+  </target>
+
+</project>
