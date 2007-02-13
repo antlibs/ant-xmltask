@@ -12,7 +12,7 @@ import org.apache.tools.ant.*;
  * XML documents under a given node. The document may not have
  * a root node, in which case we can insert the given document
  * as the root node
- * 
+ *
  * Note that this has donated huge chunks of code to the uncomment
  * task and both deserve refactoring
  *
@@ -243,8 +243,6 @@ public class InsertAction extends Action {
       // place the new node under the selected one
       if (existingNode instanceof Document) {
         log("Building a root element", Project.MSG_VERBOSE);
-  //      System.out.println(existingNode);
-  //      System.out.println(newnode);
         existingNode.appendChild(newnode);
       }
       else if (existingNode instanceof Element) {

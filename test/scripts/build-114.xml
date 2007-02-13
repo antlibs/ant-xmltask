@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- illustrates Stacey Murphy's issue with comment insertion -->
+  <target name="main">
+    <xmltask source="114.xml" dest="114-out.xml" report="true">
+       <insert path="/a"
+                    position="under"
+                    xml="&lt;!-- Inline comment --&gt;">
+            </insert>
+
+    </xmltask>
+  </target>
+</project>

@@ -6,7 +6,7 @@ import org.apache.tools.ant.*;
 
 /**
  * the Ant insertion task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -89,7 +89,7 @@ public class Insert implements Instruction {
   /**
    * used to insert literal text placed within the build.xml under the insert
    * element
-   * 
+   *
    * @param text
    * @throws Exception
    */
@@ -104,10 +104,10 @@ public class Insert implements Instruction {
   private void register() {
     try {
       if (xml != null) {
-		    action = InsertAction.fromString(xml, task);
+      action = InsertAction.fromString(xml, task);
       }
-      if (file != null) {
-		    action = InsertAction.fromFile(file, task);
+      else if (file != null) {
+      action = InsertAction.fromFile(file, task);
       }
       else if (buffer != null) {
         action = InsertAction.fromBuffer(buffer, task);
