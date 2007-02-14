@@ -329,7 +329,9 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
   public void startDocument() throws SAXException {
     reset();
     String encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
-    write("<?xml version=\"1.0\" " + (encoding == null ? "UTF-8" : "encoding=\""+encoding+"\"") + "?>\n\n");
+    String standalone = transformer.getOutputProperty(OutputKeys.STANDALONE);
+    write("<?xml version=\"1.0\" " + (encoding == null ? "UTF-8" : "encoding=\""
+      +encoding+"\" ") + "standalone=\""+standalone+"\"" + "?>\n\n");
   }
 
 
