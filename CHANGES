@@ -1,5 +1,9 @@
 $Id$
 
+1.14.1 --/02/2007
+
+Bug fixes for literal XML insertion and 'standalone' output
+
 1.14 11/11/2006
 
 Now buffers are preserved across instances of xmltask
