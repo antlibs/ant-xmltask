@@ -1,6 +1,6 @@
 # $Id$
 
-Thanks to those who have contributed suggestions, comments etc.
+Thanks to those who have contributed suggestions, comments and fixes.
 
 Jules Gosnell           - jules@mortbay.com
 Kyle Adams              - kadams@gfs.com
@@ -28,6 +28,7 @@ Ephemeris Lappis        - ephemeris.lappis@gmail.com
 Bernd Eckenfels         - b.eckenfels@seeburger.de
 I Wayan Saryada         - wsaryada@balicamp.com
 Maarten Coene           - maarten_coene@yahoo.com
+Stacey Murphy           - stacey.murphy@ericsson.com
 
 Thanks to Dave Megginson (info@megginson.com) for the use
 of the XMLWriter and DataWriter classes (now somewhat
