@@ -78,7 +78,7 @@
           excludes="**/test/**/*,**/pre1.5/*"/>
     <tar tarfile="${tarfile}"
          basedir="." 
-         includes="**/*.java,com/oopsconsultancy/xmltask/pre1.5/XMLCatalog.class,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties"/>
+         includes="**/*.java,com/oopsconsultancy/xmltask/pre1.5/XMLCatalog.class,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties" excludes="samples/**/*"/>
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
     <delete file="classes/org/apache/tools/ant/types/XMLCatalog.class"/>     
     <delete file="${tarfile}"/>
