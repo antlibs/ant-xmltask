@@ -1,6 +1,10 @@
 $Id$
 
-1.14.1 --/02/2007
+1.14.2 26/04/2007
+
+Build tweaks. Directory exclusion
+
+1.14.1 14/02/2007
 
 Bug fixes for literal XML insertion and 'standalone' output
 
