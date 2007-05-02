@@ -38,6 +38,19 @@ function MM_showHideLayers() { //v6.0
 
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
+<script language="Javascript">
+function showSubMenu() {
+        var m = document.getElementById("submenu");
+        if (m) {
+                if (m.style.display == 'none') {
+                        m.style.display = 'block';
+                }
+                else {
+                        m.style.display = 'none';
+                }
+        }
+}
+</script>
 <script type="text/javascript">
 _uacct = "UA-75272-1";
 urchinTracker();
@@ -61,12 +74,31 @@ urchinTracker();
   <p align="right"><span class="quoteText"><br />
     "...too essential to be left out of the Ant distribution..."</span><i><br />
   </i><span class="bodyText">Ant User mailing list, August 2002</span></p>
+
+<!-- blatant unashamed plug here -->
+<div class="adv">
+<p class="bodyText">
+<b>New Product!</b> OOPS Consultancy has just released <a href="http://veduta.oopsconsultancy.com" target="_blank">Veduta 1.1</a> - the innovative, intuitive and unique means to view complex system logs
+</p>
+<div align="center">
+<a href="http://veduta.oopsconsultancy.com/" target="_blank">
+<img border="0" src="http://veduta.oopsconsultancy.com/imgs/examples/chart-excerpt.png"/>
+<img border="0" src="http://veduta.oopsconsultancy.com/imgs/examples/chart-excerpt2.png"/>
+</a>
+</div>
+<p class="bodyText">
+<a href="http://veduta.oopsconsultancy.com/trial.html" target="_blank">Download a trial edition today!</a>. Register for the beta program to qualify for discounts.
+</p>
+</div>
+
+
   <p><span class="bodyBold">Contents<br />
     </span>  <span class="bodyText"><a href="#intro">Introduction<br />
     </a><a href="#changes">Recent Changes<br />
     </a><a href="#download">Download<br />
     </a><a href="#support">Support<br />
-    </a><a href="#usage">Usage<br /></a>
+    </a><a href="javascript:showSubMenu()">Usage<br /></a>
+    <div id="submenu" style="display:none;">
 &nbsp;&nbsp;&nbsp;<a href="#usage.xmltask">XmlTask</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.cut">Cut</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.copy">Copy</a><br />
@@ -80,6 +112,7 @@ urchinTracker();
 &nbsp;&nbsp;&nbsp;<a href="#usage.print">Print</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.xmlcatalog">XmlCatalog</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.uncomment">Uncomment</a><br />
+</div>
     <a href="#buffers">Buffers<br />
     </a><a href="#formatting">Formatting<br />
     </a><a href="#examples">Examples<br />

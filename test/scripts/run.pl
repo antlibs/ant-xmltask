@@ -9,10 +9,12 @@
 
 my $CP=$ENV{'CLASSPATH'};
 
-my @tests = (1..115);
+my @tests = (1..116);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
+
+
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
 print "Java version = $jv\n";
 
@@ -25,6 +27,10 @@ if (-e $xmlcatalog) {
 }
 
 foreach $i ( @tests ) {
+  # clear the temp dir
+  rmdir "temp";
+  mkdir "temp";
+
   my $nofile = 0;
   my $args = "";
   if ($i == 62 || $i == 75 || $i == 81 || $i == 87 || $i == 94 || $i == 97 || $i == 98 || $i == 112) {

@@ -4,19 +4,26 @@
 
   <!-- illustrates https://sourceforge.net/tracker/index.php?func=detail&aid=1609305&group_id=27398&atid=390335
        The buffer contents get lost across 'antcall' calls
+       This is now fixed
     -->
+
+  <property name="buf" value="file://storedXml"/>
+
   <target name="cut">
-    <xmltask source="113.xml" dest="113-out.xml" report="true">
-      <cut path="/a/b" buffer="storedXml" />
-      <print buffer="storedXml"/>
+    <xmltask source="113.xml" report="true">
+      <cut path="/a/b" buffer="${buf}" />
     </xmltask>
   </target>
 
   <target name="main">
     <antcall target="cut"/>
-    <xmltask source="113-out.xml" dest="113-out.xml" >
-      <print buffer="storedXml"/>
-      <paste path="/" buffer="storedXml" />
+    <xmltask dest="113-out.xml" >
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+      <paste path="/root" buffer="${buf}"/>
     </xmltask>
   </target>
 
