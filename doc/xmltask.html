@@ -138,6 +138,10 @@ urchinTracker();
     <span class="bodyBold">Recent Changes</span><br />
     <span class="bodyText">Read the new <a href="http://today.java.net/pub/a/today/2006/11/01/xml-manipulation-using-xmltask.html" target="_blank">tutorial</a> on &lt;xmltask&gt; at <a href="http://java.net" target="_blank">java.net</a></span> </p>
   <p class="bodyText">Current version @VERSION@</p>
+  <p class="bodyText">Since v1.14</p>
+  <ul class="mixedList">
+    <li class="bodyList"><a href="#buffers">Buffers</a> can now be written to files, allowing buffer persistence across <span class="codeText">xmltask</span> invocatios and even Ant invocations.
+    </ul>
   <p class="bodyText">Since v1.13</p>
   <ul class="mixedList">
     <li class="bodyList">Added the <span class="codeText">if</span> and <span class="codeText">unless</span> attributes to each instruction</li>
@@ -147,13 +151,6 @@ urchinTracker();
   <ul class="mixedList">
     <li class="bodyList">Added the <a href="#usage.uncomment">&lt;uncomment&gt;</a> capability</li>
   </ul>
-  <p class="bodyText">Since v1.11</p>
-  <ul class="mixedList">
-    <li class="bodyList">Compatibility with JSE 1.6 and IBM JVMs</li>
-    <li class="bodyList">Element order in buffer maintained when pasting from buffer</li>
-    <li class="bodyList"><a href="#usage.insert">&lt;insert&gt;</a> and <a href="#usage.replace">&lt;replace&gt;</a> has a <span class="codeText">expandProperties</span> attribute</li>
-    <li class="bodyList"><a href="#usage.call">&lt;call&gt;</a> now supports embedded actions (Ant 1.6 and above)</li>
-  </ul>
 
   <p><span class="bodyText">See the </span><span class="codeText">CHANGES</span><span class="bodyText"> file in the download for a comprehensive list of changes for each version</span></p>
   <p class="bodyText"> <a href="#top">Top</a></p>
@@ -161,7 +158,7 @@ urchinTracker();
     <span class="bodyBold">Download</span><br />
       <span class="bodyText">Version @VERSION@ - release @TODAY@</span>
   </p>
-  <p class="bodyText">xmltask is released under the Apache license. Right-click and choose <i>Save As</i> if your browser doesn't offer you the option.</p>
+  <p class="bodyText"><span class="codeText">xmltask</span> is released under the Apache license. Right-click and choose <i>Save As</i> if your browser doesn't offer you the option.</p>
   <p class="bodyText"> <b><a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@.jar?download">xmltask.jar</a></b> - the .jar file to use in Ant (use <a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@-ant1.4.jar?download">this version</a> for Ant version 1.4.x - <span class="codeText">&lt;xmlcatalog&gt;</span> disabled).</p>
   <p class="bodyText"> <b><a href="http://prdownloads.sourceforge.net/xmltask/xmltask-v@VERSION@.tar.gz?download">xmltask.tar.gz</a></b> - the source code and tests</p>
   <p> <font size="-1"> <span class="bodyText">Checksums: <br />
@@ -882,18 +879,19 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
   </pre>
   <span class="bodyText">so the buffer <i>storedXml</i> is maintained across multiple targets. </span>
 
-<!--
-  <p><span class="bodyText">Note: specifying <span class="codeText">xmltask</span> in a <span class="codeText">taskdef</span> with an additional <span class="codeText">classpath</span> reference thus:<p>
-  <span class="codeText">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" <b>classpath="..."</b>/&gt;</span></p>will result in different classloaders being used to load different <span class="codeText">xmltask</span> instances, and the ability to transfer buffers between calls will be lost. It's recommended that you <i>don't</i> use this particular method of loading <span class="codeText">xmltask</span> but rather specify the .jar location via <span class="codeText">CLASSPATH</span> or inserting the .jar in <span class="codeText">$ANTHOME/lib</span></span></p>
-  -->
   <p class="bodyText">Buffers are simply defined by names. eg. valid buffers would be <i>servlet</i>, <i>buffer100</i> etc.</p>
   <p class="bodyText"> A buffer can record <i>multiple</i> nodes (either resulting from multiple matches or multiple &lt;cut&gt; / &lt;copy&gt; operations). This operation is enabled through use of the <code>append</code> attribute. e.g.</p>
-  <p><span class="codeText">&lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;</span><br />
+  <p><pre class="codeText">&lt;cut path="web/servlet/context/config" buffer="storedXml" append="true" /&gt;</pre>
       <br />
       <span class="bodyText">A buffer can store all types of XML nodes e.g. text / elements / attributes. Note that when recording an attribute node, both the name of the attribute and the value will be recorded. To store the value alone of an attribute, the <code>attrValue</code> attribute can be used e.g.</span></p>
-  <p><span class="codeText">&lt;copy path="web/servlet/@id" buffer="id" attrValue="true" /&gt;</span><br />
+  <p><pre class="codeText">&lt;copy path="web/servlet/@id" buffer="id" attrValue="true" /&gt;</pre>
       <br />
-      <span class="bodyText">This will store the value of the <code class="codeText">id</code> attribute. The value can be used as a text node in a subsequent &lt;insert&gt; / &lt;paste&gt;. </span></p>
+      <span class="bodyText">This will store the value of the <code class="codeText">id</code> attribute. The value can be used as a text node in a subsequent <a href="#usage.insert">&lt;insert&gt;</a> / <a href="#usage.paste">&lt;paste&gt;</a>. </span></p>
+      <p>Buffers can be persisted to files. This permits buffers to be used across Ant invocations, and uses of <span class="codeTest"><a href="http://ant.apache.org/manual/CoreTasks/antcall.html" target="_blank">&lt;antcall&gt;</a></span>. To persist a buffer to a file, simply name it using a file URL. e.g.
+      <pre class="codeText">
+        &lt;cut path="/a/b" buffer="file://build/buffers/1"/&gt;
+      </pre>
+      and the operation will write the cut XML to a file <span class="codeText">build/buffers/1</span>. This file will persist after Ant exits, so care should be taken to remove this if required. The file will be created automatically, but any directories required must exist prior to the buffer being used.
   <p> <a href="#top" class="bodyText">Top</a></p>
     <span class="bodyBold">Formatting<a name="formatting" id="formatting"></a></span>
   <span class="bodyText"><br />
@@ -1118,7 +1116,14 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
       &lt;print buffer="servlet" comment="Copied to 'servlet' buffer"/&gt;
         ...
     </pre>
-        <p> </p>
+
+  <li><span class="bodyList">Cutting a section of XML to a persisted buffer (the file <span class="codeText">buffers/servlet</span>) for later use</span>
+        <pre class="codeText">
+    &lt;xmltask source="input.xml"&gt;
+      &lt;cut path="web/servlet[@id='1']" buffer="file://build/buffers/servlet"/&gt;
+        ...
+    </pre>
+   
     </li>
 
   </ul>
