@@ -68,13 +68,9 @@ public class XmlTask extends Task {
     super();
   }
 
-  public Project getProject() {
-    return project;
-  }
-
   public void init() throws BuildException {
     super.init();
-    xmlCatalog.setProject(project);
+    xmlCatalog.setProject(getProject());
   }
 
   protected EntityResolver getEntityResolver() {

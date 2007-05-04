@@ -1,9 +1,7 @@
 package com.oopsconsultancy.xmltask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -52,8 +50,6 @@ public class BufferStore {
     if (task.getProject() == null) {
       throw new IllegalArgumentException("Can't get buffers for a task with no associated project");
     }
-    // System.out.println("PROJ=" + task.getProject());
-    // System.out.println("TASK=" + task);
     Map buffers = (Map) task.getProject().getReference(BUFFERS_PROJECT_REF);
     if (buffers == null) {
       buffers = new HashMap();
@@ -134,6 +130,7 @@ public class BufferStore {
     Map buffers = getBuffers(task);
     return (List) buffers.get(name);
   }
+  
 
   /**
    * saves the given buffer
@@ -143,9 +140,6 @@ public class BufferStore {
    * @param task
    */
   private static void setBuffer(final String name, final List list, final Task task) {
-    Map buffers = getBuffers(task);
-    buffers.put(name, list);
-
     if (isFileBuffer(name)) {
       File f = new File(getFilenameFromBuffer(name));
       try {
@@ -153,14 +147,15 @@ public class BufferStore {
         ObjectOutput out = new ObjectOutputStream(new FileOutputStream(f));
         out.writeObject(list);
         out.close();
-        System.out.println("Written to  " + f);
-
+        return;
       }
       catch (IOException e) {
         e.printStackTrace();
         throw new IllegalStateException("Problem during serialization of " + f + " : " + e.getMessage());
       }
     }
+    Map buffers = getBuffers(task);
+    buffers.put(name, list);
   }
 
   /**
@@ -210,11 +205,21 @@ public class BufferStore {
      */
   }
 
+  /**
+   * clears the named buffer
+   * @param name
+   * @param task
+   */
   public static void clear(final String name, final Task task) {
     log("Clearing buffer (" + name + ")", task);
     setBuffer(name, new ArrayList(), task);
   }
 
+  /**
+   * logs messages
+   * @param msg
+   * @param task
+   */
   public static void log(final String msg, final Task task) {
     if (task != null) {
       task.log(msg, Project.MSG_VERBOSE);

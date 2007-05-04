@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests multiple copies with buffer resetting
+       inbetween -->
+  <target name="main">
+    <xmltask source="118.xml" report="true">
+      <copy path="/a/b" buffer="file://temp/count" append="true"/>
+    </xmltask>
+    <xmltask source="118.xml" clearBuffers="file://temp/dummy,file://temp/count" report="true">
+      <copy path="/a/b" buffer="file://temp/count" append="true"/>
+    </xmltask>
+    <xmltask dest="118-out.xml" report="true" >
+      <insert path="/">
+        <![CDATA[
+          <root/>
+        ]]>
+      </insert>
+      <paste path="/root" buffer="file://temp/count"/>
+    </xmltask>
+  </target>
+</project>
