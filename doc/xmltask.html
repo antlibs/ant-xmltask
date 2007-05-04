@@ -887,11 +887,11 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
   <p><pre class="codeText">&lt;copy path="web/servlet/@id" buffer="id" attrValue="true" /&gt;</pre>
       <br />
       <span class="bodyText">This will store the value of the <code class="codeText">id</code> attribute. The value can be used as a text node in a subsequent <a href="#usage.insert">&lt;insert&gt;</a> / <a href="#usage.paste">&lt;paste&gt;</a>. </span></p>
-      <p>Buffers can be persisted to files. This permits buffers to be used across Ant invocations, and uses of <span class="codeTest"><a href="http://ant.apache.org/manual/CoreTasks/antcall.html" target="_blank">&lt;antcall&gt;</a></span>. To persist a buffer to a file, simply name it using a file URL. e.g.
+      <p><span class="bodyText">Buffers can be persisted to files. This permits buffers to be used across Ant invocations, and uses of <span class="codeTest"><a href="http://ant.apache.org/manual/CoreTasks/antcall.html" target="_blank">&lt;antcall&gt;</a></span>. To persist a buffer to a file, simply name it using a file URL. e.g.</span>
       <pre class="codeText">
         &lt;cut path="/a/b" buffer="file://build/buffers/1"/&gt;
-      </pre>
-      and the operation will write the cut XML to a file <span class="codeText">build/buffers/1</span>. This file will persist after Ant exits, so care should be taken to remove this if required. The file will be created automatically, but any directories required must exist prior to the buffer being used.
+      </pre><span class="bodyText">
+      and the operation will write the cut XML to a file <span class="codeText">build/buffers/1</span>. This file will persist after Ant exits, so care should be taken to remove this if required. The file will be created automatically, but any directories required must exist prior to the buffer being used.</span>
   <p> <a href="#top" class="bodyText">Top</a></p>
     <span class="bodyBold">Formatting<a name="formatting" id="formatting"></a></span>
   <span class="bodyText"><br />
