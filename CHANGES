@@ -1,5 +1,9 @@
 $Id$
 
+1.15.1 23/06/2007
+
+Corrected buffer pasting ordering
+
 1.15   04/05/2007
 
 Buffers now persisted to file systems when
