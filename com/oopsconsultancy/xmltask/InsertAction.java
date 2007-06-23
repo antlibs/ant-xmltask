@@ -200,13 +200,21 @@ public class InsertAction extends Action {
         // note the reverse iteration here to preserve ordering
         // (certainly for position="after". What about other
         // positions?)
-        for (int n =  n2.length - 1; n >= 0;  n--) {
+        if (pos == Position.AFTER) {
+	        for (int n =  n2.length - 1; n >= 0;  n--) {
+	          log("Inserting " + n2[n], Project.MSG_VERBOSE);
+	          newnode = doc.importNode(n2[n], true);
+	          insertNode(node, newnode);
+	        }
+        }
+        else 
+        for (int n = 0; n < n2.length;  n++) {
           log("Inserting " + n2[n], Project.MSG_VERBOSE);
           newnode = doc.importNode(n2[n], true);
           insertNode(node, newnode);
         }
-        return true;
       }
+	    return true;
     }
     else if (doc2 != null) {
       newnode = doc.importNode(doc2.getDocumentElement(), true);

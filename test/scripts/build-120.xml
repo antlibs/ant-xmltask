@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests pasting / insertion order and node reversal -->
+  <target name="main">
+    <xmltask source="120.xml" report="true">
+      <copy path="/source/a" append="true" buffer="1"/>
+      <copy path="/source/b" append="true" buffer="1"/>
+      <copy path="/source/c" append="true" buffer="1"/>
+    </xmltask>
+
+    <xmltask dest="120-out.xml" report="true">
+      <insert path="/">
+        <![CDATA[
+          <dest/>
+        ]]>
+      </insert>
+      <paste path="/dest" buffer="1" position="under"/>
+    </xmltask>
+  </target>
+</project>

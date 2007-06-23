@@ -87,7 +87,7 @@ urchinTracker();
 </a>
 </div>
 <p class="bodyText">
-<a href="http://veduta.oopsconsultancy.com/trial.html" target="_blank">Download a trial edition today!</a>. Register for the beta program to qualify for discounts.
+<a href="http://veduta.oopsconsultancy.com/trial.html" target="_blank">Download a trial edition today!</a>
 </p>
 </div>
 
@@ -314,7 +314,8 @@ JDK 1.4 - none</p>
     <li><span class="bodyText">Nested elements allow replacements to take place, and are applied in the order that they're specified in. Each subsection may match zero or more nodes. Standard XPath paths are used here. If you're not familiar with these, the examples below will provide some hints. See <a href="#tutorials">here</a> for more info</span>.
         <p> </p>
         <ul>
-          <li><span class="bodyText">The <a name="usage.cut">&lt;cut&gt;</a> section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property.</span>
+          <li><span class="bodyText">The <a name="usage.cut">&lt;cut&gt;</a> section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property. Multiple XML nodes or elements can be cut to a buffer by using the <span class="codeText">append</span> attribute</li>
+</span>
               <!-- cut attributes -->
               <p class="smallHeadline">Parameters </p>
               <p> </p>
@@ -364,7 +365,7 @@ JDK 1.4 - none</p>
               <p class="codeText"> &lt;cut path="web/servlet/context/root[@id='2']/text()" buffer="namedBuffer"/&gt;<br/> &lt;cut path="web/servlet/context/root[@id='2']/text()" property="property1"/&gt;</p>
               <!-- copy attributes -->
           </li>
-          <li class="bodyText">The <a name="usage.copy">&lt;copy&gt;</a> section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property.</li>
+          <li class="bodyText">The <a name="usage.copy">&lt;copy&gt;</a> section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property. Multiple XML nodes or elements can be copied to a buffer by using the <span class="codeText">append</span> attribute</li>
           <p class="smallHeadline">Parameters </p>
           <table width="661" border="1" cellpadding="2" cellspacing="0">
             <tr>

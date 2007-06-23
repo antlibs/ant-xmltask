@@ -9,7 +9,7 @@
 
 my $CP=$ENV{'CLASSPATH'};
 
-my @tests = (1..119);
+my @tests = (1..122);
 if (@ARGV > 0) {
   @tests = @ARGV;
 }
