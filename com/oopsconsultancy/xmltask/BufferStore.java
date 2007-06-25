@@ -16,7 +16,7 @@ import org.apache.tools.ant.*;
  * stores a list of nodes vs. buffer name. We clone the given node on storage,
  * and then clone on each retrieval (otherwise we can only insert the stored
  * nodes once into a document)
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -24,7 +24,7 @@ public class BufferStore {
 
   /** The key used to store the buffers as a reference in the project. */
   public static final String BUFFERS_PROJECT_REF = "xmltask.buffers";
-  
+
   /**
    * indicates that a buffer will be a file
    */
@@ -38,7 +38,7 @@ public class BufferStore {
 
   /**
    * returns the map containing all the buffers
-   * 
+   *
    * @param task
    *          the task for which the buffers are needed
    * @return the buffers
@@ -61,7 +61,7 @@ public class BufferStore {
   /**
    * returns an array of nodes stored in a buffer or null if nothing recorded in
    * the buffer
-   * 
+   *
    * @param name
    *          the buffer name
    * @return the array of nodes (elements/text/attributes whatever)
@@ -81,14 +81,14 @@ public class BufferStore {
 
   /**
    * is the buffer name a file ?
-   * 
+   *
    * @param name
    * @return true if it's a file
    */
   private static boolean isFileBuffer(final String name) {
     return name.startsWith(FILE_PREFIX);
   }
-  
+
   /**
    * given a buffer name, returns a filename
    * @param name
@@ -100,7 +100,7 @@ public class BufferStore {
     }
     return name.substring(FILE_PREFIX.length());
   }
-   
+
   /**
    * @param name
    * @param task
@@ -130,11 +130,11 @@ public class BufferStore {
     Map buffers = getBuffers(task);
     return (List) buffers.get(name);
   }
-  
+
 
   /**
    * saves the given buffer
-   * 
+   *
    * @param name
    * @param list
    * @param task
@@ -160,7 +160,7 @@ public class BufferStore {
 
   /**
    * records the given node against the nominated buffer
-   * 
+   *
    * @param name
    *          the buffer name
    * @param xml
@@ -170,6 +170,10 @@ public class BufferStore {
    */
   public static void set(final String name, final Node xml, final boolean append, final Task task) {
 
+    if (xml == null) {
+      log("No XML to store in buffer '" + name + "'", task);
+      return;
+    }
     // create a deep copy of this...
     Node newnode = xml.cloneNode(true);
     log("Storing " + newnode + " against buffer (" + name + ")", task);

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests a null buffer -->
+  <target name="main">
+    <xmltask destbuffer="foo" report="true">
+    </xmltask>
+  </target>
+</project>
