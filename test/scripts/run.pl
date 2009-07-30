@@ -9,10 +9,22 @@
 
 my $CP=$ENV{'CLASSPATH'};
 
+my $cont=0;
+my @failures=();
+
 my @tests = (1..123);
 if (@ARGV > 0) {
-  @tests = @ARGV;
+  while ($ARGV[0]=~/^-/) {
+    if ($ARGV[0] eq "-c") {
+      $cont=1;
+      shift @ARGV;
+    }
+  }
+  if ($#ARGV >= 0) {
+    @tests = @ARGV;
+  }  
 }
+
 
 
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
@@ -65,8 +77,9 @@ foreach $i ( @tests ) {
       if (! -e $res) {
         if ($nofile == 0) {
           print STDERR "ant -buildfile $build failed to create $res\n";
-          print STDERR "TESTS FAIL\n";
-          exit(1);
+          exit(1) unless $cont;
+          push @failures, $i;
+          
         }
         else {
           # no file produced, as expected
@@ -76,14 +89,14 @@ foreach $i ( @tests ) {
         print "Comparing $res vs $cmp\n";
         if (! -e $cmp) {
           print STDERR "Nothing to compare $res to\n";
-          print STDERR "TESTS FAIL\n";
-          exit(1);
+          exit(1) unless $cont;
+          push @failures, $i;
         }
         `diff $res $cmp`;
         if (($? >> 8) != 0) {
           print STDERR "$res and $cmp differ!\n";
-          print STDERR "TESTS FAIL\n";
-          exit(1);
+          exit(1) unless $cont;
+          push @failures, $i;
         }
         else {
           unlink $res;
@@ -96,18 +109,28 @@ foreach $i ( @tests ) {
         # check for no file produced
         if (-e $res) {
           print STDERR "Erroneously produced an output file. Unexpected for this test!\n";
-          print STDERR "TESTS FAIL\n";
-          exit(1);
+          exit(1) unless $cont;
+          push @failures, $i;
         }
         else {
           print "EXPECTED RESULT\n";
         }
       }
       else {
-        exit(1);
+        exit(1) unless $cont;
+        push @failures, $i;
       }  
     }
   }
 }
-print "------------------\nSCRIPTED TESTS OK\n";
-exit(0);
+if ($#failures >= 0) {
+  print "------------------\n$failed TEST(S) FAILED\n";
+  foreach $f (@failures) {
+    print "FAILED : $f\n";
+  }
+  exit(0);
+}
+else {
+  print "------------------\nSCRIPTED TESTS OK\n";
+  exit(0);
+}

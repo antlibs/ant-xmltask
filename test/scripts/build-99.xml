@@ -2,8 +2,7 @@
 <project name="test" default="test" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
-  <!-- tests entity expansion and the disabling therof. Note this
-       only appears to function in jdk 1.5!  -->
+  <!-- tests entity expansion and the disabling therof -->
      <target name="test">
        <xmltask source="99.xml" dest="99-out.xml" expandEntityReferences="false"/>
    </target>
