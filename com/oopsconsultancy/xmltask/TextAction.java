@@ -23,7 +23,7 @@ public class TextAction extends Action {
     this.str = str;
   }
 
-  public boolean apply(Node n) throws Exception {
+  public boolean apply(final Node n) throws Exception {
     // we replace either a text node, or a subset of nodes...
     if (isTextNode(n)) {
       n.setNodeValue(str);
@@ -40,7 +40,7 @@ public class TextAction extends Action {
     return true;
   }
 
-  private boolean isTextNode(Node n) {
+  public static boolean isTextNode(Node n) {
     if (n == null) {
       return false;
     }

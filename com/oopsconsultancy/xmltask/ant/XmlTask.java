@@ -120,19 +120,6 @@ public class XmlTask extends Task {
   }
 
   /**
-   * records the source property. See the comments
-   * re. InputProperty for why this doesn't work!
-   *
-   * @param property
-   * @throws Exception
-   */
-   /*
-  public void setProperty(String property) throws Exception {
-    docs.add(new InputProperty(property));
-  }
-  */
-
-  /**
    * records the source file(s). These can be wildcarded
    *
    * @param source
@@ -881,6 +868,10 @@ public class XmlTask extends Task {
 
   public void addConfiguredInsert(final Insert insert) {
     insert.process(this);
+  }
+  
+  public void addConfiguredRegexp(final Regexp regexp) {
+	  regexp.process(this);
   }
 
   public void addConfiguredPaste(final Paste paste) {
