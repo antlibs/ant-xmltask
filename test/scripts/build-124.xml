@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests a null buffer -->
+  <target name="main">
+    <xmltask source="124.xml" dest="124-out.xml">
+      <regexp path="/a/b/text()" pattern=";" replace=":"/>
+      <regexp path="/a/c/@d" pattern="b" replace="-"/>
+      <regexp path="/a/e" pattern="([a-z])[a-z]([a-z])" replace="$2-$1"/>
+    </xmltask>
+  </target>
+</project>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests a null buffer -->
+  <target name="main" depends="match">
+    <xmltask dest="125-out.xml">
+      <insert path="/">
+        <![CDATA[
+          <${abc}/>
+        ]]>
+      </insert>
+    </xmltask>
+  </target>
+  <target name="match">
+    <xmltask source="125.xml">
+      <regexp path="/a/b/text()" pattern="choose element (.*)" property="abc"/>
+    </xmltask>
+  </target>
+</project>
