@@ -11,11 +11,13 @@
         ]]>
       </insert>
       <insert path="/abc" buffer="abc"/>
+      <insert path="/abc" buffer="abc2"/>
     </xmltask>
   </target>
   <target name="match">
     <xmltask source="126.xml">
       <regexp path="/a/b/text()" pattern="choose element (.*)" buffer="abc"/>
+      <regexp path="/a/c" pattern="A.*C" buffer="abc2"/>
     </xmltask>
   </target>
 </project>

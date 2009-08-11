@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <target name="main">
+    <xmltask source="127.xml" dest="127-out.xml">
+      <regexp path="/a/c/@d" pattern="b" replace="-" casesensitive="false"/>
+      <regexp path="/a/c/@e" pattern="b" replace="-" casesensitive="true"/>
+      <regexp path="/a/c/@f" pattern="b" replace="-"/>
+    </xmltask>
+  </target>
+</project>

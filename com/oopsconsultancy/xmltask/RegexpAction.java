@@ -20,11 +20,13 @@ import com.oopsconsultancy.xmltask.ant.XmlTask;
  */
 public class RegexpAction extends Action {
 
-	private final Pattern pattern;
+	private final String ptrn;
 	private final String replace;
 	private final String property;
 	private final String buffer;
 	private XmlTask task;
+	private boolean caseInsensitive;
+	private boolean unicodeCase;
 
 	/**
 	 * ctor
@@ -37,22 +39,10 @@ public class RegexpAction extends Action {
 		if (pattern == null) {
 			throw new IllegalArgumentException("Must specify a pattern");
 		}
-		this.pattern = Pattern.compile(pattern);
+		this.ptrn = pattern;
 		this.replace = replace;
 		this.property = property;
 		this.buffer = buffer;
-	}
-
-	/**
-	 * factory for replacement method
-	 * 
-	 * @param pattern
-	 * @param replace
-	 * @return
-	 */
-	public static RegexpAction createReplacement(final XmlTask task,
-			final String pattern, final String replace) {
-		return new RegexpAction(task, pattern, replace, null, null);
 	}
 
 	/**
@@ -92,6 +82,15 @@ public class RegexpAction extends Action {
 	 * @return
 	 */
 	private String performRegexp(final Node node) {
+		
+		int flags = 0;
+		if (caseInsensitive) {
+			flags |= Pattern.CASE_INSENSITIVE;
+		}
+		if (unicodeCase) {
+			flags |= Pattern.UNICODE_CASE;
+		}
+		Pattern pattern = Pattern.compile(ptrn, flags);
 		String str = node.getNodeValue();
 		if (str == null) {
 			return null;
@@ -108,7 +107,7 @@ public class RegexpAction extends Action {
 		} else if (property != null) {
 			Matcher m = pattern.matcher(str);
 			if (m.matches()) {
-				String value = m.group(1);
+				String value = getGroupedOrMatched(m);
 				task.log("Setting property " + property + "=" + value
 						+ " using '" + pattern.pattern() + "'",
 						Project.MSG_VERBOSE);
@@ -121,7 +120,7 @@ public class RegexpAction extends Action {
 		} else if (buffer != null) {
 			Matcher m = pattern.matcher(str);
 			if (m.matches()) {
-				String value = m.group(1);
+				String value = getGroupedOrMatched(m);
 				task.log("Setting buffer " + buffer + "=" + value + " using '"
 						+ pattern.pattern() + "'", Project.MSG_VERBOSE);
 				Text newnode = node.getOwnerDocument().createTextNode(value);
@@ -133,6 +132,13 @@ public class RegexpAction extends Action {
 			}
 		}
 		return null;
+	}
+
+	private String getGroupedOrMatched(final Matcher m) {
+		if (m.groupCount() > 0) {
+			return m.group(1);
+		}
+		return m.group();
 	}
 
 	public String toString() {
@@ -152,6 +158,18 @@ public class RegexpAction extends Action {
 	}
 
 	/**
+	 * factory for replacement method
+	 * 
+	 * @param pattern
+	 * @param replace
+	 * @return
+	 */
+	public static RegexpAction createReplacement(final XmlTask task,
+			final String pattern, final String replace) {
+		return new RegexpAction(task, pattern, replace, null, null);
+	}
+
+	/**
 	 * builds a regexp action to copy to a property
 	 * 
 	 * @param pattern
@@ -161,5 +179,13 @@ public class RegexpAction extends Action {
 	public static RegexpAction createCopyToBuffer(final XmlTask task,
 			final String pattern, final String buffer) {
 		return new RegexpAction(task, pattern, null, null, buffer);
+	}
+
+	public void setCaseInsensitive(final boolean caseInsensitive) {
+		this.caseInsensitive = caseInsensitive;
+	}
+	
+	public void setUnicodeCase(final boolean unicodeCase) {
+		this.unicodeCase = unicodeCase;
 	}
 }

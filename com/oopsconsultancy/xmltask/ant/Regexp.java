@@ -1,5 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
+import sun.tools.tree.CaseStatement;
+
 import com.oopsconsultancy.xmltask.RegexpAction;
 import com.oopsconsultancy.xmltask.XmlReplace;
 
@@ -19,6 +21,8 @@ public class Regexp implements Instruction {
 	private String property;
 	private String buffer;
 	private String replace;
+	private boolean caseSensitive = true;
+	private boolean unicodeCase = false;
 
 	public void process(final XmlTask xmltask) {
 		this.task = xmltask;
@@ -41,6 +45,14 @@ public class Regexp implements Instruction {
 		this.replace = replace;
 	}
 
+	public void setCaseSensitive(final boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
+	}
+	
+	public void setUnicodeCase(final boolean unicodeCase) {
+		this.unicodeCase = unicodeCase;
+	}
+	
 	public void setPath(final String path) {
 		this.path = path;
 	}
@@ -68,6 +80,11 @@ public class Regexp implements Instruction {
 			}
 			action = RegexpAction.createCopyToBuffer(task, pattern, buffer);
 		}
+		if (action == null) {
+			throw new IllegalStateException("Failed to build a regexp action from inputs");
+		}
+		action.setCaseInsensitive(!caseSensitive);
+		action.setUnicodeCase(unicodeCase);
 		XmlReplace xmlReplace = new XmlReplace(path, action);
 		xmlReplace.setIf(ifProperty);
 		xmlReplace.setUnless(unlessProperty);
