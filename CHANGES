@@ -1,5 +1,11 @@
 $Id$
 
+1.16b  13/08/2009
+
+Regular expression implementation
+Copy/Cut on attributes to properties no longer requires 'attrValue'
+Better logging
+
 1.15.1 23/06/2007
 
 Corrected buffer pasting ordering

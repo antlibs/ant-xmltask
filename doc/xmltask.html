@@ -100,12 +100,13 @@ urchinTracker();
     </a><a href="javascript:showSubMenu()">Usage<br /></a>
     <div id="submenu" style="display:none;">
 &nbsp;&nbsp;&nbsp;<a href="#usage.xmltask">XmlTask</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.attr">Attr</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.cut">Cut</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.copy">Copy</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.paste">Paste</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.insert">Insert</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.replace">Replace</a><br />
-&nbsp;&nbsp;&nbsp;<a href="#usage.attr">Attr</a><br />
+&nbsp;&nbsp;&nbsp;<a href="#usage.regexp">Regexp</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.remove">Remove</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.rename">Rename</a><br />
 &nbsp;&nbsp;&nbsp;<a href="#usage.call">Call</a><br />
@@ -347,7 +348,7 @@ JDK 1.4 - none</p>
                 </tr>
                 <tr>
                   <td align="left" valign="middle" class="bodyText">attrValue</td>
-                  <td class="bodyText">Cutting an attribute will result in the <i>whole</i> attribute plus value being cut. When <span class="codeText">attrValue</span> is set to true then only the attribute's <i>value</i> is cut</td>
+                  <td class="bodyText">Cutting an attribute will result in the <i>whole</i> attribute plus value being cut. When <span class="codeText">attrValue</span> is set to true then only the attribute's <i>value</i> is cut. This is <i>implicit</i> for cutting to properties</td>
                   <td align="center" valign="middle" class="bodyText">no</td>
                 </tr>
                 <tr>
@@ -395,7 +396,7 @@ JDK 1.4 - none</p>
             </tr>
             <tr>
               <td align="left" valign="middle" class="bodyText">attrValue</td>
-              <td class="bodyText">Copying an attribute will result in the <i>whole</i> attribute plus value being cut. When <span class="codeText">attrValue</span> is set to true then only the attribute's <i>value</i> is copied</td>
+              <td class="bodyText">Copying an attribute will result in the <i>whole</i> attribute plus value being cut. When <span class="codeText">attrValue</span> is set to true then only the attribute's <i>value</i> is copied. This is now <i>implicit</i> for copying to properties</td>
               <td align="center" valign="middle" class="bodyText">no</td>
             </tr>
                 <tr>
@@ -627,6 +628,71 @@ JDK 1.4 - none</p>
                   <br />
                   <span class="codeText">&lt;remove path="web/servlet/context[@id='redundant']"/&gt;</span></p>
           </li>
+
+         <li><span class="bodyList">The <a name="usage.regexp">&lt;regexp&gt;</a> section allows you to specify XML text to change via regular expressions.
+                <!-- regexp attributes -->
+            </span>
+              <p class="smallHeadline">Parameters </p>
+              <table width="662" border="1" cellpadding="2" cellspacing="0">
+                <tr>
+                  <td width="82"><p class="smallHeadline">Attribute</p></td>
+                  <td width="484"><p class="smallHeadline">Description</p></td>
+                  <td width="76" align="center" valign="middle"><p class="smallHeadline">Required</p></td>
+                </tr>
+                <tr>
+                  <td class="bodyText">path</td>
+                  <td class="bodyText">the XPath reference of the element(s) to be changed or copied</td>
+                  <td align="center" valign="middle" class="bodyText">yes</td>
+                </tr>
+                <tr>
+                  <td class="bodyText">pattern</td>
+                  <td class="bodyText">The regular expression to apply to the text node or attribute value</td>
+                  <td align="center" valign="middle" class="bodyText">yes</td>
+                </tr>
+                <tr>
+                  <td class="bodyText">replace</td>
+                  <td class="bodyText">The text to replace the matched expression with</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td class="bodyText">property</td>
+                  <td class="bodyText">The property to copy the matched expression into. A <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html#cg" target="_blank">capturing group</a> must be used to specify the text to capture</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td class="bodyText">buffer</td>
+                  <td class="bodyText">The buffer to copy the matched expression into. A <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html#cg" target="_blank">capturing group</a> must be used to specify the text to capture</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td class="bodyText">casesensitive</td>
+                  <td class="bodyText">Sets case sensitivity of the regular expression. Defaults to <i>true</i></td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">if</td>
+                  <td><span class="bodyText">only performed if the given property is set</span></td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle" class="bodyText">unless</td>
+                  <td span class="bodyText">performed <i>unless</i> the given property is set</td>
+                  <td align="center" valign="middle" class="bodyText">no</td>
+                </tr>
+              </table>
+              <p class="bodyText">
+              The <span class="codeText">&lt;regexp&gt;</span> task uses the standard <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html" target="_blank">Java regular expression mechanism</a>. Replacements can make use of <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html#cg" target="_blank">capturing groups</a>. When copying to a buffer or a property, a capturing group <i>must</i> be specified to determine the text to be copied.</p>
+              <p class="bodyText">e.g.<br />
+                  <br />
+                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="Test" replace="Prod"/&gt;</span><br/>
+                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="Servlet-([a-z])-([0-9]*)" replace="Servlet-$2-$1"/&gt;</span>
+                  <br />
+                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" property="servlet.name"/&gt;</span>
+                  <br />
+                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" buffer="servlet.name"/&gt;</span>
+                  <p/>Note the use of the capturing groups to reverse components of the servlet's name, or to determine the servlet name substring to copy to a buffer or property.
+          </li>
+
           <li> <span class="bodyList">The <a name="usage.rename">&lt;rename&gt;</a> section allows you to specify an XML element or attribute to rename </span>
               <!-- rename attributes -->
               <p class="smallHeadline">Parameters </p>
@@ -1000,9 +1066,16 @@ Note how the parameters are dereferenced in this example (using <b>@{...}</b>). 
     </pre>
         <p> </p>
     </li>
+    <li><span class="bodyList">Copying an attribute's value into a buffer:</span>
+        <pre class="codeText">
+    &lt;copy path="//div[@id='1']/@id" attrValue="true" buffer="bufferName"/&gt;
+    </pre>
+        <p> </p>
+    </li>
+ 
     <li><span class="bodyList">Copying an attribute's value into a property:</span>
         <pre class="codeText">
-    &lt;copy path="//div[@id='1']/@id" attrValue="true" property="value"/&gt;
+    &lt;copy path="//div[@id='1']/@id" property="propertyName"/&gt;
     </pre>
         <p> </p>
     </li>

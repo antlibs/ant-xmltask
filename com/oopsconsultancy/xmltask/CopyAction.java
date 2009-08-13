@@ -24,6 +24,9 @@ public class CopyAction extends Action {
     this.attrValue = attrValue;
     this.task = task;
     this.isProperty = isProperty;
+    if (attrValue && isProperty) {
+    	task.log("Specifying 'attr' for properties is now deprecated", Project.MSG_VERBOSE);
+    }
   }
 
   /**
@@ -35,6 +38,7 @@ public class CopyAction extends Action {
    */
   protected void record(Node node) throws Exception {
     if (node instanceof Attr && attrValue) {
+    	// this is only required for buffers...
       Document doc = node.getOwnerDocument();
       String value = ((Attr)node).getValue();
       node = doc.createTextNode(value);
@@ -45,11 +49,15 @@ public class CopyAction extends Action {
     }
     else {
       // this currently supports only text and comment nodes
-      if (node instanceof Text || node instanceof Comment) {
+      if (node instanceof Text || node instanceof Comment || node instanceof Attr) {
+    	task.log("Copying '"+ node.getNodeValue()+"' to property " + buffer, Project.MSG_VERBOSE);
         task.getProject().setNewProperty(buffer, node.getNodeValue());
       }
+      else if (node == null) {
+        task.log("Can only copy/cut text() nodes and attribute values to properties (found no node)", Project.MSG_WARN);
+      }
       else {
-        task.log("Can only copy/cut text() nodes and attribute values to properties", Project.MSG_WARN);
+        task.log("Can only copy/cut text() nodes and attribute values to properties (found "+node.getClass().getName()+")", Project.MSG_WARN);
       }
       if (append) {
         task.log("Cannot append values to properties", Project.MSG_WARN);

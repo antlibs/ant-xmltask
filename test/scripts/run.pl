@@ -12,7 +12,7 @@ my $CP=$ENV{'CLASSPATH'};
 my $cont=0;
 my @failures=();
 
-my @tests = (1..127);
+my @tests = (1..128);
 if (@ARGV > 0) {
   while ($ARGV[0]=~/^-/) {
     if ($ARGV[0] eq "-c") {

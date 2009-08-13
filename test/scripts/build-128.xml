@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests copying to properties -->
+  <target name="main">
+    <xmltask source="128.xml" report="true">
+      <copy path="/a/b/@attr1" property="prop"/>
+      <copy path="/a/c/@attr2" attrValue="true" property="prop"/>
+    </xmltask>
+    <xmltask dest="128-out.xml" report="true">
+      <paste path="/">
+        <![CDATA[
+          <root/>
+        ]]>  
+      </paste>
+
+      <!-- note that we paste in a new task otherwise
+           ${prop} won't get expanded properly -->
+      <paste path="/root" xml="${prop}"/>
+    </xmltask>
+    <echo>Copied to ${prop}</echo>
+  </target>
+</project>
