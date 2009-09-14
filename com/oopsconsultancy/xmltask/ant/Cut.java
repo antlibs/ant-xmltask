@@ -19,10 +19,10 @@ public class Cut extends Copy {
   public void process(final XmlTask task) {
     XmlReplace xmlReplace = null;
     if (path != null && buffer != null) {
-      xmlReplace = new XmlReplace(path, new CutAction(buffer, append, attrValue, task, false));
+      xmlReplace = new XmlReplace(path, new CutAction(buffer, append, attrValue, task, false, trim, propertySeparator));
     }
     else if (path != null && property != null) {
-      xmlReplace = new XmlReplace(path, new CutAction(property, append, attrValue, task, true));
+      xmlReplace = new XmlReplace(path, new CutAction(property, append, attrValue, task, true, trim, propertySeparator));
     }
     if (xmlReplace != null) {
       xmlReplace.setIf(ifProperty);

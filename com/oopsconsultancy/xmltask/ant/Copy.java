@@ -19,10 +19,13 @@ public class Copy implements Instruction {
   protected boolean append = false;
 
   protected boolean attrValue = false;
+  protected boolean trim = false;
 
   protected String ifProperty;
 
   protected String unlessProperty;
+
+   protected String propertySeparator;
 
   /**
    * copies a nominated node to either a buffer or a property
@@ -51,10 +54,10 @@ public class Copy implements Instruction {
   public void process(final XmlTask task) {
     XmlReplace xmlReplace = null;
     if (path != null && buffer != null) {
-      xmlReplace = new XmlReplace(path, new CopyAction(buffer, append, attrValue, task, false));
+      xmlReplace = new XmlReplace(path, new CopyAction(buffer, append, attrValue, task, false, trim, propertySeparator));
     }
     else if (path != null && property != null) {
-      xmlReplace = new XmlReplace(path, new CopyAction(property, append, attrValue, task, true));
+      xmlReplace = new XmlReplace(path, new CopyAction(property, append, attrValue, task, true, trim, propertySeparator));
     }
     if (xmlReplace != null) {
       xmlReplace.setIf(ifProperty);
@@ -75,6 +78,12 @@ public class Copy implements Instruction {
 
   public void setUnless(final String unlessProperty) {
     this.unlessProperty = unlessProperty;
-
+  }
+  public void setTrim(final boolean trim) {
+    this.trim = trim;
+  }
+  
+  public void setPropertySeparator(final String propertySeparator) {
+      this.propertySeparator = propertySeparator;
   }
 }

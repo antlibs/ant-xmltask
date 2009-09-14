@@ -51,6 +51,7 @@ public abstract class Action {
    * match is processed
    */
   protected final void complete() {
+      completeAction();
     for (int r = 0; r < removals.size(); r++) {
       Node rn = (Node)removals.get(r);
       if (rn.getNodeType() == Node.ATTRIBUTE_NODE) {
@@ -65,6 +66,13 @@ public abstract class Action {
     removals = new ArrayList();
   }
 
+  /**
+   * an action completion. Provided for actions to perform clean up
+   * etc.
+   */
+  protected void completeAction() {
+      
+  }
   public abstract boolean apply(Node node) throws Exception;
 }
 

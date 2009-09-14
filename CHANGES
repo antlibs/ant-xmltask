@@ -1,5 +1,11 @@
 $Id$
 
+1.16c  14/09/2009
+
+Copying/cutting to properties now supports the 'append' functionality. Additional
+'trim' and 'propertySeparator' functions for these.
+Pre 1.5 support removed
+
 1.16b  13/08/2009
 
 Regular expression implementation

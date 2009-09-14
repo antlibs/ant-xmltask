@@ -708,6 +708,7 @@ public class XmlTask extends Task {
           serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (omitHeader ? "yes":"no"));
 
           if (settingStandalone) {
+              System.out.println("Setting standalone");
             serializer.setOutputProperty(OutputKeys.STANDALONE, (standalone ? "yes":"no"));
           }
           if (settingVersion) {

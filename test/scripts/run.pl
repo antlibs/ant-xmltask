@@ -12,7 +12,7 @@ my $CP=$ENV{'CLASSPATH'};
 my $cont=0;
 my @failures=();
 
-my @tests = (1..128);
+my @tests = (1..130);
 if (@ARGV > 0) {
   while ($ARGV[0]=~/^-/) {
     if ($ARGV[0] eq "-c") {
@@ -29,14 +29,6 @@ if (@ARGV > 0) {
 
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
 print "Java version = $jv\n";
-
-my $xmlcatalog = "../../classes/org/apache/tools/ant/types/XMLCatalog.class";
-if (-e $xmlcatalog) {
-  # xmlcatalog.class found, so we may pick up
-  # the wrong XMLCatalog.class
-  print STDERR "XMLCatalog found. Possible XMLCatalog confusion. Removing .class file\n";
-  unlink $xmlcatalog;
-}
 
 foreach $i ( @tests ) {
   # clear the temp dir

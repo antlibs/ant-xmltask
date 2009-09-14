@@ -7,7 +7,6 @@
     -->
     <property name="build.compiler.emacs" value="true"/>
     <property name="jarfile"              value="xmltask.jar"/>
-    <property name="jarfile.1.4"          value="xmltask.1.4.jar"/>
     <property name="tarfile"              value="xmltask.tar"/>
 
     <!-- prepare dirs -->
@@ -15,17 +14,13 @@
 
     <property file="xmltask.properties"/>
     <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
-    <property name="v_jarfile.1.4"          value="xmltask-v${com.oopsconsultancy.xmltask.version}-ant1.4.jar"/>
     <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
   </target>
 
   <target name="javac" depends="init" description="Java source build">
     <mkdir dir="classes"/>
     <!-- then compile -->
-    <javac srcdir="." destdir="." debug="on" nowarn="true" source="1.4">
-      <include name="**/XMLCatalog.java"/>
-    </javac>
-    <javac srcdir="." destdir="classes" debug="on" nowarn="true" source="1.4">
+    <javac srcdir="." destdir="classes" debug="on" nowarn="true" source="1.5">
       <include name="**/*.java"/>
     </javac>
     <copy file="xmltask.properties" todir="classes"/>
@@ -42,13 +37,11 @@
       <fileset dir="." includes="TEST-*.txt"/>
     </delete>
     <delete>
-      <fileset dir="classes" includes="**/*.class" excludes="**/pre1.5/*"/>
+      <fileset dir="classes" includes="**/*.class"/>
     </delete>
     <delete file="tags"/>
     <delete file="${jarfile}"/>
-    <delete file="${jarfile.1.4}"/>
     <delete file="${v_jarfile}"/>
-    <delete file="${v_jarfile.1.4}"/>
     <delete file="${tarfile}"/>
     <delete file="${tarfile}.gz"/>
     <delete file="${v_tarfile}.gz"/>
@@ -68,17 +61,12 @@
   <target name="main" depends="javac,test" description="Complete build/test"/>
 
   <target name="package" depends="javac" description="Compiles the appropriate .jars">
-    <!-- move the compatibility XMLCatalog into place for the jar operation -->
-    <copy todir="classes/org/apache/tools/ant/types" file="com/oopsconsultancy/xmltask/pre1.5/XMLCatalog.class"/>
     <jar jarfile="${jarfile}" basedir="classes"
           includes="com/oopsconsultancy/**/*.class,xmltask.properties"
-          excludes="**/test/**/*,**/pre1.5/*"/>
-    <jar jarfile="${jarfile.1.4}" basedir="classes"
-          includes="**/*.class,xmltask.properties,org/apache/tools/ant/types/XMLCatalog.class"
-          excludes="**/test/**/*,**/pre1.5/*"/>
+          excludes="**/test/**/*"/>
     <tar tarfile="${tarfile}"
          basedir="." 
-         includes="**/*.java,com/oopsconsultancy/xmltask/pre1.5/XMLCatalog.class,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties" excludes="samples/**/*"/>
+         includes="**/*.java,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties" excludes="samples/**/*"/>
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
     <delete file="classes/org/apache/tools/ant/types/XMLCatalog.class"/>     
     <delete file="${tarfile}"/>
@@ -90,7 +78,6 @@
     <!-- create a web page with the correct version -->
     <checksum file="${tarfile}.gz" property="GZ_MD5"/>
     <checksum file="${jarfile}" property="JAR_MD5"/>
-    <checksum file="${jarfile.1.4}" property="JAR_14_MD5"/>
     <copy file="doc/xmltask.html" todir="/tmp"/>
     <tstamp>
       <format property="TODAY" pattern="dd-MMM-yyyy"/>
@@ -113,9 +100,8 @@
 
     <!-- generate versioned files for Sourceforge dispatch -->
     <copy file="${jarfile}"       tofile="${v_jarfile}"/>
-    <copy file="${jarfile.1.4}"   tofile="${v_jarfile.1.4}"/>
     <copy file="${tarfile}.gz"    tofile="${v_tarfile}.gz"/>
-    <echo>Created ${v_jarfile}, ${v_jarfile.1.4}, ${v_tarfile}.gz</echo>
+    <echo>Created ${v_jarfile}, ${v_tarfile}.gz</echo>
 
     <!-- sends the files to Sourceforge.net -->
     <echo>FTPing to upload.sourceforge.net</echo>
@@ -127,7 +113,6 @@
      depends="yes">
       <fileset dir=".">
         <include name="${v_jarfile}"/>
-        <include name="${v_jarfile.1.4}"/>
         <include name="${v_tarfile}.gz"/>
       </fileset>
     </ftp>
