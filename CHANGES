@@ -1,5 +1,9 @@
 $Id$
 
+1.16   22/09/2009
+
+Release of 1.16c
+
 1.16c  14/09/2009
 
 Copying/cutting to properties now supports the 'append' functionality. Additional
