@@ -691,12 +691,12 @@ urchinTracker();
               The <span class="codeText">&lt;regexp&gt;</span> task uses the standard <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html" target="_blank">Java regular expression mechanism</a>. Replacements can make use of <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html#cg" target="_blank">capturing groups</a>. When copying to a buffer or a property, a capturing group <i>must</i> be specified to determine the text to be copied.</p>
               <p class="bodyText">e.g.<br />
                   <br />
-                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="Test" replace="Prod"/&gt;</span><br/>
-                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="Servlet-([a-z])-([0-9]*)" replace="Servlet-$2-$1"/&gt;</span>
+                  <span class="codeText">&lt;regexp path="/web-app/servlet/servlet-name/text()" pattern="Test" replace="Prod"/&gt;</span><br/>
+                  <span class="codeText">&lt;regexp path="/web-app/servlet/servlet-name/text()" pattern="Servlet-([a-z])-([0-9]*)" replace="Servlet-$2-$1"/&gt;</span>
                   <br />
-                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" property="servlet.name"/&gt;</span>
+                  <span class="codeText">&lt;regexp path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" property="servlet.name"/&gt;</span>
                   <br />
-                  <span class="codeText">&lt;regepx path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" buffer="servlet.name"/&gt;</span>
+                  <span class="codeText">&lt;regexp path="/web-app/servlet/servlet-name/text()" pattern="(.*)Test" buffer="servlet.name"/&gt;</span>
                   <p/>Note the use of the capturing groups to reverse components of the servlet's name, or to determine the servlet name substring to copy to a buffer or property.
           </li>
 
