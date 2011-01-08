@@ -1,20 +1,52 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import org.xml.sax.*;
-import org.w3c.dom.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.sax.*;
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-import com.oopsconsultancy.xmltask.*;
-import com.oopsconsultancy.xmltask.output.*;
-import org.apache.tools.ant.filters.*;
-import java.net.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.Writer;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.filters.StringInputStream;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.XMLCatalog;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Node;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+
+import com.oopsconsultancy.xmltask.BufferStore;
+import com.oopsconsultancy.xmltask.XmlReplace;
+import com.oopsconsultancy.xmltask.XmlReplacement;
+import com.oopsconsultancy.xmltask.output.FormattedDataWriter;
+import com.oopsconsultancy.xmltask.output.Outputter;
 
 /**
  * the basic Ant xml task. Records a set of actions to
@@ -663,6 +695,9 @@ public class XmlTask extends Task {
 
     // and clear the doc list for the next invocation
     docs.clear();
+
+    // and further clearup...
+    replacements.clear();
   }
 
   /**
@@ -782,6 +817,7 @@ public class XmlTask extends Task {
 
             dw.setWriter(w);
             dw.setIndentStep(2);
+            dw.setOmitHeader(omitHeader);
             if (outputter.indexOf(":") != -1) {
               // looks like it's formatted as simple:{indent}...
               String fmt = outputter.substring(outputter.indexOf(":") + 1);
@@ -870,9 +906,9 @@ public class XmlTask extends Task {
   public void addConfiguredInsert(final Insert insert) {
     insert.process(this);
   }
-  
+
   public void addConfiguredRegexp(final Regexp regexp) {
-	  regexp.process(this);
+   regexp.process(this);
   }
 
   public void addConfiguredPaste(final Paste paste) {

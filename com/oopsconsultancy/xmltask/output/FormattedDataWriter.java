@@ -316,6 +316,17 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
       }
     }
 
+
+  private boolean omitHeader = false;
+
+  /**
+   * sets the header omission
+   */
+  public void setOmitHeader(final boolean omitHeader) {
+  System.out.println("SETTIG" + omitHeader);
+    this.omitHeader = omitHeader;
+  }
+
   /**
    * Write the XML declaration at the beginning of the document.
    *
@@ -330,8 +341,11 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
     reset();
     String encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
     String standalone = transformer.getOutputProperty(OutputKeys.STANDALONE);
-    write("<?xml version=\"1.0\" " + (encoding == null ? "UTF-8" : "encoding=\""
-      +encoding+"\" ") + "standalone=\""+standalone+"\"" + "?>\n\n");
+    System.out.println("BANG!!!! "+omitHeader);
+    if (!omitHeader) {
+      write("<?xml version=\"1.0\" " + (encoding == null ? "UTF-8" : "encoding=\""
+        +encoding+"\" ") + "standalone=\""+standalone+"\"" + "?>\n\n");
+    }
   }
 
 

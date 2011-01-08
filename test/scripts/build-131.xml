@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="test" default="main" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+
+  <!-- tests header omission -->
+  <target name="main">
+    <xmltask source="131.xml"
+    dest="131-out.xml"
+    report="true"
+    omitHeader="true"
+    outputter="simple:1">
+      <cut path="/a/b/comment()" property="prop"/>
+    </xmltask>
+    <echo>Copied to '${prop}'</echo>
+  </target>
+</project>
