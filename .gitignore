@@ -1,0 +1,22 @@
+# IntelliJ
+.idea/
+
+# macOS
+.DS_Store
+
+# JUnit
+TEST-*
+
+# Compiled class files
+classes/
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.zip
+*.tar.gz
+
+# JVM crash logs
+hs_err_pid*
