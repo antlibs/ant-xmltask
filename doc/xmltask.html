@@ -1,5 +1,4 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!-- $Id$ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
     <title>XMLTask - OOPS Consultancy Ltd</title>
@@ -85,16 +84,18 @@
 <section id="usage">
     <h2>How To Use</h2>
     <p>To use this task, make sure:</p>
-    <p>The xmltask.jar is in your <code>$CLASSPATH</code></p>
-    <p>Reference the <code>xmltask</code> in your <code>build.xml</code> eg.</p>
-    <pre>&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/&gt;</pre>
-    <!--
-    <p>Note that if you use the above with an additional <code>classpath</code> attribute then you will have problems with using buffers across multiple <code>xmltask</code> calls. See <a href="#buffers">Buffers</a> for more information.</p>
-     -->
-    <p>Reference the <code>xmltask</code> task as part of your build eg.</p>
-    <pre>&lt;target name="main"&gt;
+    <ul>
+        <li><p>The xmltask.jar is in your <code>$CLASSPATH</code></p></li>
+        <li><p>Reference the <code>xmltask</code> in your <code>build.xml</code> eg.</p>
+        <pre>&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/&gt;</pre></li>
+        <!--
+        <p>Note that if you use the above with an additional <code>classpath</code> attribute then you will have problems with using buffers across multiple <code>xmltask</code> calls. See <a href="#buffers">Buffers</a> for more information.</p>
+         -->
+        <li><p>Reference the <code>xmltask</code> task as part of your build eg.</p>
+        <pre>&lt;target name="main"&gt;
   &lt;xmltask source="input.xml" dest="output.xml"&gt;
-  ...</pre>
+  ...</pre></li>
+    </ul>
     <p><a href="#top">Top</a></p>
 </section>
 <section id="usage">
@@ -106,7 +107,7 @@
             <p>&lt;fileset&gt;s are used to define sets of files for <code>xmltask</code> to operate on. See the standard Ant documentation for information on using filesets.</p>
             <!-- xmltask attributes -->
             <h3>Parameters</h3>
-            <table width="704">
+            <table>
                 <tr>
                     <th>Attribute</th>
                     <th>Description</th>
@@ -216,7 +217,7 @@
                 <li id="usage.cut">The &lt;cut&gt; section allows an XML section to be cut and stored in a <a href="#buffers">buffer</a> or a property. Multiple XML nodes or elements can be cut to a buffer or property by using the <code>append</code> attribute
                     <!-- cut attributes -->
                     <h3>Parameters</h3>
-                    <table width="660">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -275,7 +276,7 @@
                 <li id="usage.copy">The &lt;copy&gt; section allows an XML section to be copied and stored in a <a href="#buffers">buffer</a> or a property. Multiple XML nodes or elements can be copied to a buffer or property by using the <code>append</code> attribute
                     <!-- copy attributes -->
                     <h3>Parameters</h3>
-                    <table width="661">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -335,7 +336,7 @@
                 <li id="usage.insert">The &lt;insert&gt; section allows you to specify an XML node and the XML to insert below or alongside it
                     <!-- paste/insert attributes -->
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -404,7 +405,7 @@
                 <li id="usage.replace">The &lt;replace&gt; section allows you to specify an XML node and what to replace it with
                     <!-- replace attributes -->
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -469,7 +470,7 @@
                 <li id="usage.attr">The &lt;attr&gt; section allows you to specify an XML node and how to add, change or remove its attributes
                     <!-- attr attributes -->
                     <h3>Parameters</h3>
-                    <table width="660">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -514,7 +515,7 @@
                 <li id="usage.remove">The &lt;remove&gt; section allows you to specify an XML section to remove
                     <!-- remove attributes -->
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -542,7 +543,7 @@
                 <li id="usage.regexp">The &lt;regexp&gt; section allows you to specify XML text to change via regular expressions.
                     <!-- regexp attributes -->
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -602,7 +603,7 @@
                 <li id="usage.rename">The &lt;rename&gt; section allows you to specify an XML element or attribute to rename
                     <!-- rename attributes -->
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -636,7 +637,7 @@
                 <!-- call documentation -->
                 <li id="usage.call">The &lt;call&gt; section allows you to perform actions or call Ant targets in the same <code>build.xml</code> file for nodes identified by an XPath.
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -709,7 +710,7 @@
                 <!-- print documentation -->
                 <li id="usage.print">The &lt;print&gt; section allows you to dump out to standard output the XML matching a given XPath expression, or the contents of a buffer. This is a considerable help in performing debugging of scripts
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
@@ -757,7 +758,7 @@
                 <!-- xmltask uncomment settings -->
                 <li id="usage.uncomment">The <code>uncomment</code> instruction allows you to uncomment sections of XML. This means you can maintain different XML fragments within one document and enable a subset. For instance you can maintain different configs and only enable one at deployment
                     <h3>Parameters</h3>
-                    <table width="662">
+                    <table>
                         <tr>
                             <th>Attribute</th>
                             <th>Description</th>
