@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0123)http://today.java.net/pub/a/today/2006/11/01/xml-manipulation-using-xmltask.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <title>XML Manipulation using XMLTask | Java.net</title>
+    <meta charset="UTF-8"/>
+    <link href="design.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body class="not-front not-logged-in article-type-article one-sidebar sidebar-first section-pub page-node-219720">
+    <h1 id="page-title">XML Manipulation using XMLTask</h1>
+    <div id="content">
+      <div class="field date">
+        <span class="date-display-single">November 1, 2006</span>
+      </div>
+      <!-- /content-field -->
+      <div class="field field-type-nodereference field-field-author">
+        <a href="http://today.java.net/pub/au/476">Brian Agnew</a>
+      </div>
+    </div> <!-- /content-field -->
+    <img style="float:right" src="xml-ant.gif"/>
+    <h2>Contents</h2>
+    <div class="jumpnav">
+      <ul>
+        <li>
+          <a href="#why-use-xmltask">Why Use XMLTask?</a>
+        </li>
+        <li>
+          <a href="#xmltask-basics">XMLTask Basics</a>
+        </li>
+        <li>
+          <a href="#inserting-content">Inserting Content</a>
+        </li>
+        <li>
+          <a href="#removing-content">Removing Content</a>
+        </li>
+        <li>
+          <a href="#replacing-xml">Replacing XML</a>
+        </li>
+        <li>
+          <a href="#comments-and-xml">Comments and XML</a>
+        </li>
+        <li>
+          <a href="#combining-instructions">Combining Instructions</a>
+        </li>
+        <li>
+          <a href="#cut-copy-paste-and-buffers">Cut/Copy/Paste and Buffers</a>
+        </li>
+        <li>
+          <a href="#handling-dtds">Handling DTDs</a>
+        </li>
+        <li>
+          <a href="#paths-and-namespaces">Paths and Namespaces</a>
+        </li>
+        <li>
+          <a href="#driving-ant-builds-via-xmltask">Driving Ant Builds via XMLTask</a>
+        </li>
+        <li>
+          <a href="#conclusion">Conclusion</a>
+        </li>
+        <li>
+          <a href="#resources">Resources</a>
+        </li>
+      </ul>
+    </div>
+    <p><a href="http://www.oopsconsultancy.com/software/xmltask">XMLTask</a> is an external task for the popular build tool <a href="https://ant.apache.org/">Ant</a> that permits complex manipulations of XML in a simple and consistent fashion, without having to deal with XML style sheets (XSL). XMLTask can be used for many common tasks that developers face, including manipulating J2EE and Spring descriptors, creating XHTML websites, and driving workflows via XML configuration files.</p>
+    <h3 id="why-use-xmltask">Why Use XMLTask?</h3>
+    <p>Developers often face having to automate the changing of XML documents during a build or deployment. The traditional means of doing this using Ant are by using the standard Ant tasks <a href="https://ant.apache.org/manual/Tasks/replace.html"><code class="prettyprint">replace</code></a> or <a href="https://ant.apache.org/manual/Tasks/style.html"><code class="prettyprint">style/xslt</code></a> and defining an XML style sheet.</p>
+    <p>The <code class="prettyprint">replace</code> task works well for simple search/replace operations (for example, changing property files) but lacks the ability to perform powerful searches and complex replacement operations. Additionally, it is not XML-aware and can result in a non-"well-formed" XML document or a document with an inconsistent character set (this is particularly important when manipulating internationalized content such as XHTML).</p>
+    <p>Unlike <code class="prettyprint">replace</code>, the <code class="prettyprint">style/xslt</code> task performs XML-aware changes but at the price of greater complexity. The developer has to develop an additional XML style sheet as part of their build/deployment. Often this is not a trivial task.</p>
+    <p>XMLTask was developed to provide a mechanism for changing XML files in a simple and consistent fashion, providing tools to help with commonly encountered requirements in Ant builds. XMLTask allows developers to identify sections of XML, then insert, remove, and cut/copy/paste content. Content can be read from files, and moved between XML documents.</p>
+    <p>For the purposes of this article, we'll take a common example of XMLTask usage and modify a servlet descriptor for a deployment of a servlet-based application.</p>
+    <p>If you want to follow the article with a copy of XMLTask, you should download it before continuing here. XMLTask will work with any version of Ant 1.5 and above. The examples used below are available for download. See the <a href="#resources">Resources</a> section for the appropriate links.</p>
+    <h3 id="xmltask-basics">XMLTask Basics</h3>
+    <p>XMLTask requires referencing in your Ant <i>build.xml</i> file like any other external task. Simply use:</p>
+    <pre class="prettyprint">&lt;taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/&gt;</pre>
+    <p>XMLTask requires a source file to read, and a destination file to write to. (These can be the same file, but this practice is discouraged unless you have an appropriate backup!) You can specify source and destination files using the appropriate attributes:</p>
+    <pre class="prettyprint">&lt;!-- modify the servlet --&gt;
+&lt;target name="servlet"&gt;
+  &lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+    &lt;!-- nothing to do here yet --&gt;
+  &lt;/xmltask&gt;
+&lt;/target&gt;</pre>
+    <p>Given the above, XMLTask will simply read in the file <i>src/web.xml</i>, perform no modifications, and write the resultant XML out to <i>target/web.xml</i>. The input file <i>src/web.xml</i> will not be changed.</p>
+    <p>Now you need to tell XMLTask what to do with the contents of <i>src/web.xml</i>. You give XMLTask a set of instructions for changing the XML content, and identify the elements that XMLTask will operate on by using the standard XPath syntax--a path-like notation for finding XML content. A complete explanation of XPath is outside the scope of this document, but the examples below use straightforward XPath expressions and should be readily understandable. Some tutorials are referenced in the <a href="#resources">Resources</a> section for those who wish to investigate XPath in greater depth.</p>
+    <p>Each XMLTask instruction works by specifying an XPath to an XML element, and what to do for that element. If an XPath resolves to more than one XML element, then XMLTask will apply the instruction to each XML element specified. If an XPath resolves to <i>no</i> XML elements then that instruction will not be applied at all. You can instruct XMLTask to fail in these scenarios by setting the <code class="prettyprint">'failWithoutMatch'</code> attribute to <code class="prettyprint">'true'</code>.</p>
+    <p>Let's look at some simple usages of XMLTask.</p>
+    <h3 id="inserting-content">Inserting Content</h3>
+    <p>You can use XMLTask to insert text and XML content specified either in the Ant build script on in external files. Let's take a standard servlet descriptor (<code class="prettyprint">web.xml</code>) without an application name: </p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="ApplicationName" version="2.4"&gt;
+  &lt;display-name&gt;&lt;/display-name&gt;
+  ....
+&lt;/web-app&gt;</pre>
+    <p>You can use XMLTask to insert a display name. You can imagine scenarios where you would want to do this dynamically--generating a development and production version of your servlet application, inserting the build time/date, etc.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;insert path="/web-app/display-name"
+          xml="Development Application"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>which results in:</p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="ApplicationName" version="2.4"&gt;
+  &lt;display-name&gt;Development Application&lt;/display-name&gt;
+  ....
+&lt;/web-app&gt;</pre>
+    <p>You can see that the <code class="prettyprint">&lt;insert&gt;</code> instruction identifies where the insertion must occur (by specifying a path to the XML to be changed: <code class="prettyprint">/web-app/display-name</code>) and what should be inserted. <code class="prettyprint">&lt;insert&gt;</code> can insert simple text, XML specified in the Ant script, or the content of a file. To illustrate both the more complex XML insertion and specifying the position of insertion, let's insert a new chunk of XML into <code class="prettyprint">web.xml</code> to configure a servlet. The XML is contained within a <code class="prettyprint">CDATA</code> section within the <code class="prettyprint">&lt;insert&gt;</code> instruction.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;insert path="/web-app/servlet[1]/servlet-class"
+          position="after"&gt;
+    &lt;![CDATA[
+    &lt;init-param&gt;
+      &lt;param-name&gt;parameter 1&lt;/param-name&gt;
+      &lt;param-value&gt;value for parameter 1&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    ]]&gt;
+  &lt;/insert&gt;
+&lt;/xmltask&gt;</pre>
+    <p>which will insert the new <code class="prettyprint">&lt;init-param&gt;</code> section specified <i>after</i> the <code class="prettyprint">&lt;servlet-class&gt;</code> section of the first servlet definition. The resultant descriptor will look like:</p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="XmlTaskDemo" version="2.4"&gt;
+  &lt;display-name/&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;UnitTests&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.oopsconsultancy.servlet.tests.UnitTests&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;parameter 1&lt;/param-name&gt;
+      &lt;param-value&gt;value for parameter 1&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    ....</pre>
+    <p>You can insert the contents of a file (called, in this example, <i>insertion.xml</i>).</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;insert path="/web-app/servlet[1]/servlet-class"
+          position="after" file="insertion.xml"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>The XML that is inserted can be an XML document fragment and consequently doesn't have to have a root node. So a valid file for insertion can look like:</p>
+    <pre class="prettyprint">&lt;!-- common servlet initialisations --&gt;
+&lt;init-param&gt;
+  &lt;param-name&gt;parameter 1&lt;/param-name&gt;
+  &lt;param-value&gt;value for parameter 1&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;init-param&gt;
+  &lt;param-name&gt;parameter 2&lt;/param-name&gt;
+  &lt;param-value&gt;value for parameter 2&lt;/param-value&gt;
+&lt;/init-param&gt;</pre>
+    <h3 id="removing-content">Removing Content</h3>
+    <p>You can remove content just as easily.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;remove path="/web-app/servlet-mapping[servlet-name/text() = 'UnitTests']"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>This tells XMLTask to remove the <code class="prettyprint">&lt;servlet-mapping&gt;</code> section that has a <code class="prettyprint">&lt;servlet-name&gt;</code> section of <code class="prettyprint">'UnitTests'</code>. Note that if you'd specified the instruction as simply:</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;remove path="/web-app/servlet-mapping"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>then we'd remove <i>every</i> <code class="prettyprint">&lt;servlet-mapping&gt;</code> section.</p>
+    <p><code class="prettyprint">&lt;remove&gt;</code> will tell XMLTask to remove the XML element defined and everything below it. A common requirement is to simply remove the text content within an XML element. You can do that just as easily.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;remove path="/web-app/display-name/text()"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>which will remove the configured display name, but leave behind the XML elements defining it.</p>
+    <h3 id="replacing-xml">Replacing XML</h3>
+    <p>You can replace XML easily using the <code class="prettyprint">&lt;replace&gt;</code> instruction.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;replace path="/web-app/servlet[1]/servlet-class/text()"
+           withText="com.oopsconsultancy.examples.NewServlet"&gt;
+&lt;/xmltask&gt;</pre>
+    <p>will remove the text under the <code class="prettyprint">&lt;servlet-class&gt;</code> element in the first servlet and replace it with the new servlet class specification, <code class="prettyprint">com.oopsconsultancy.examples.NewServlet</code>. Note that you can use <code class="prettyprint">&lt;insert&gt;</code> here, but it would instead insert text <i>adjacent</i> to the existing text under the <code class="prettyprint">&lt;servlet-class&gt;</code> element.</p>
+    <p>To modify an attribute, you can use an XPath expression with an attribute identifier.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;replace path="/web-app/@id" withText="New Application"&gt;
+&lt;/xmltask&gt;</pre>
+    <p>This performs a replacement on the <code class="prettyprint">'id'</code> attribute of the <code class="prettyprint">&lt;web-app&gt;</code> element (the <code class="prettyprint">'@'</code> symbol is used by XPath to indicate an attribute).</p>
+    <h3 id="comments-and-xml">Comments and XML</h3>
+    <p>A trivial way to change XML configurations is to have one master configuration containing all the required elements, with those not required commented out. It's a simple task to then uncomment those sections required, while having the ease of maintaining only one file. XMLTask allows you to create multiple XML documents from a master very easily, by allowing you to determine which elements are commented/uncommented during a build.</p>
+    <p>Given a <i>web.xml</i> that contains two different versions of a servlet configuration, both disabled by default:</p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="XmlTaskDemo" version="2.4"&gt;
+  &lt;display-name&gt;Application&lt;/display-name&gt;
+
+  &lt;!--
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;Pricing Model 1&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.oopsconsultancy.pricing.model1&lt;/servlet-class&gt;
+    ...
+  &lt;/servlet&gt;
+  --&gt;
+
+  &lt;!--
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;Pricing Model 2&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.oopsconsultancy.pricing.model1&lt;/servlet-class&gt;
+    ...
+  &lt;/servlet&gt;
+  --&gt;</pre>
+    <p>XMLTask can enable any of these by uncommenting the appropriate element.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;uncomment path="/web-app/comment()[2]"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>will uncomment the 2nd commented section. Note that to specify a comment, you have to use the XPath <code class="prettyprint">comment()</code> function.</p>
+    <h3 id="combining-instructions">Combining Instructions</h3>
+    <p>XMLTask can chain these simple instructions together to provide a means to perform complex modifications of a file. For instance, in the example below, you can read the source <code class="prettyprint">web.xml</code>, insert content, change attributes and remove content, and write out to a new target <code class="prettyprint">web.xml</code>.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;replace path="/web-app/@id" withText="New XMLTask Demo"/&gt;
+  &lt;insert path="/web-app/servlet[1]/servlet-class"
+               position="after"&gt;
+    &lt;![CDATA[
+    &lt;init-param&gt;
+      &lt;param-name&gt;parameter 1&lt;/param-name&gt;
+      &lt;param-value&gt;${dev.property}&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    ]]&gt;
+  &lt;/insert&gt;
+  &lt;remove path="/web-app/servlet[1]/load-on-startup"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>The above changes the application <code class="prettyprint">id</code> to <code class="prettyprint">'New XMLTask Demo'</code>, inserts a servlet initialization parameter, and removes the <code class="prettyprint">&lt;load-on-startup&gt;</code> element and contents. Note that if the Ant property <code class="prettyprint">dev.property</code> (referenced in the insertion) has been assigned a value, it will be expanded during the <code class="prettyprint">&lt;insert&gt;</code> instruction. Each XMLTask instruction operates on the XML resulting from the last instruction--not the original document. So, for example, removing the first servlet definition will then mean that the second servlet definition becomes the first, and so on.</p>
+    <p>To diagnose sets of instructions and understand what effect each instruction has, you can switch on reporting.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml" report="true"&gt;</pre>
+    <p>This prints the XML document out after each XMLTask instruction.</p>
+    <h3 id="cut-copy-paste-and-buffers">Cut/Copy/Paste and Buffers</h3>
+    <p>XMLTask can cut, copy, and paste among XML documents. The XML cut or copied is stored in a <i>buffer</i>, which can be used to paste into the same document or a different one loaded by a new XMLTask instance.</p>
+    <p>A common usage scenario is to use a document as a template, copy one section of it and then replicate through the document by pasting the section back in, and changing each pasted section.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;!-- copy the first servlet --&gt;
+  &lt;copy path="/web-app/servlet[1]" buffer="servlet-buffer"/&gt;
+  &lt;!-- paste a copy back in after the first servlet --&gt;
+  &lt;paste path="/web-app/servlet[1]" position="after"
+         buffer="servlet-buffer"/&gt;
+  &lt;!-- and change the name --&gt;
+  &lt;replace path="/web-app/servlet[2]/servlet-name/text()"
+           withText="UnitTests-2"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>The above copies the first servlet definition within the <code class="prettyprint">src/web.xml</code> into a buffer called <code class="prettyprint">servlet-buffer</code>. It then pastes it back into the <code class="prettyprint">web.xml</code> from <code class="prettyprint">'servlet-buffer'</code> after the first servlet definition and changes the name.</p>
+    <p>Any number of buffers can be defined, each with an arbitrary name, and they will persist for the lifetime of the Ant build. So a buffer can be written to in one XMLTask instance, and written out during another.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml"&gt;
+  &lt;copy path="/web-app/servlet[1]" buffer="servlet definition"/&gt;
+&lt;/xmltask&gt;
+
+&lt;xmltask source="src/web-2.xml" dest="target/web-2.xml"&gt;
+  &lt;paste path="/web-app/servlet[1]" position="after"
+         buffer="servlet definition"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>The above uses two XMLTasks to copy and paste between different files. The first XMLTask copies some XML from  <code class="prettyprint">src/web.xml</code>. Note that because you're simply copying into a buffer (called <code class="prettyprint">'servlet definition'</code>) then you don't need to tell XMLTask to write out to a destination file.</p>
+    <p>The second XMLTask reads <code class="prettyprint">src/web-2.xml,</code> and pastes the contents of the buffer into it (after the first servlet definition). This then gets written out as <code class="prettyprint">target/web-2.xml</code>.</p>
+    <p>Buffers can be appended to from multiple <code class="prettyprint">&lt;cut&gt;</code> or <code class="prettyprint">&lt;copy&gt;</code> instructions. For example, you may want to select a number of servlet definitions and write them into a new <code class="prettyprint">web.xml</code>. The first stage (the copying) would look like this:</p>
+    <pre class="prettyprint">&lt;!-- we want to copy the 1st, 3rd and 4th servlet definitions --&gt;
+&lt;xmltask source="src/web.xml"&gt;
+  &lt;copy path="/web-app/servlet[1]" buffer="sbuf"/&gt;
+  &lt;copy path="/web-app/servlet[3]" buffer="sbuf" append="true"/&gt;
+  &lt;copy path="/web-app/servlet[4]" buffer="sbuf" append="true"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>To see the contents of a buffer (for diagnostic purposes) you can print it out to standard out.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml"&gt;
+  &lt;copy path="/web-app/servlet[1]" buffer="sbuf"/&gt;
+  &lt;print buffer="servlet definition"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>XMLTask can read its initial input from a buffer, and write the results of a set of instructions to a buffer. You can simply specify a <code class="prettyprint">sourcebuffer</code> instead of a <code class="prettyprint">source</code> file, and/or a <code class="prettyprint">destbuffer</code> instead of a <code class="prettyprint">dest</code> file. The below creates an XML document from scratch, and writes it to a buffer (for later copying/pasting).</p>
+    <pre class="prettyprint">&lt;xmltask destbuffer="dest buffer"&gt;
+  &lt;insert path="/"&gt;
+    &lt;![CDATA[
+      &lt;web-app id="new webapp!"/&gt;
+    ]]&gt;
+  &lt;/insert&gt;
+&lt;/xmltask&gt;</pre>
+    <p>XMLTask doesn't require a source document, since you're creating a new document. The <code class="prettyprint">&lt;insert&gt;</code> creates a root element called <code class="prettyprint">&lt;web-app&gt;</code>, and that gets written to the buffer <code class="prettyprint">'dest buffer'</code> when XMLTask completes. This buffer is now available for further XMLTask targets to use.</p>
+    <p>XMLTask can write to Ant properties in the same fashion (by specifying <code class="prettyprint">property</code> instead of <code class="prettyprint">buffer</code> in the <code class="prettyprint">cut</code>, <code class="prettyprint">copy</code>, and <code class="prettyprint">paste</code> instructions). However, there are a couple of caveats to be aware of. The first is that Ant properties are <i>immutable</i>. Consequently they can't be re-written or appended to. The second issue is that properties store text only. If you have specific character encoding requirements with your XML, then converting document fragments to text may cause difficulties later on. It's advisable to use XMLTask buffers in preference to properties wherever possible for these reasons.</p>
+    <h3 id="handling-dtds">Handling DTDs</h3>
+    <p>When manipulating XML documents that have or require document type definitions (DTDs), you need to tell XMLTask how to handle these. DTD configuration falls into two categories:</p>
+    <ol>
+      <li>Telling XMLTask where to find a DTD. XMLTask doesn't perform validation using a DTD, but will still require a DTD specified in an input XML document so it can resolve XML entities.</li>
+      <li>If required, telling XMLTask what DTD its output conforms to.</li>
+    </ol>
+    <p>For example, a Servlet spec 2.3 <i>web.xml</i> document will begin:</p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+          "http://java.sun.com/dtd/web-app_2_3.dtd"&gt;
+&lt;web-app id="XMLTask Demo" version="2.3"&gt;
+....</pre>
+    <p>XMLTask will attempt to load this DTD from <i>http://java.sun.com.</i> If you're behind a firewall then this will fail, and your build will exit with a (usually unexpected) <code class="prettyprint">java.net.ConnectException.</code> Fortunately Ant provides a mechanism to disable this remote lookup, and XMLTask can take advantage of it.</p>
+    <p>You can use the Ant <code class="prettyprint">&lt;xmlcatalog&gt;</code> to specify a local location for the above DTD:</p>
+    <pre class="prettyprint">&lt;xmlcatalog id="dtd"&gt;
+  &lt;dtd publicId="-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+       location="./servlet-2.3.dtd"/&gt;
+&lt;/xmlcatalog&gt;</pre>
+    <p>specifies a catalog of XML DTDs called <code class="prettyprint">dtd</code>. For the required DTD with the public ID from Sun Microsystems, you should specify a local copy in the file <i>./servlet-2.3.dtd.</i> (simply capture a copy via the given URL and your browser).</p>
+    <p>You now need to tell XMLTask about this.</p>
+    <pre class="prettyprint">&lt;xmltask source="src/web.xml" dest="target/web.xml"&gt;
+  &lt;xmlcatalog refid="dtd"/&gt;
+&lt;/xmltask&gt;</pre>
+    <p>XMLTask will use the local copy of the DTD in <code class="prettyprint">./servlet-2.3.dtd</code> in preference to the remote copy.</p>
+    <p>Because XMLTask is performing transformations on the document you may need to tell it what DTD schema the resultant document should be output with (remember that XMLTask will not perform a validation--the optional <code class="prettyprint">&lt;xmlvalidate&gt;</code> task is appropriate for this). If XMLTask is outputting a modified document that conforms to the DTD referenced in the source document, then you can tell XMLTask to re-use this:</p>
+    <pre class="prettyprint">&lt;!-- we're amending a 2.3 web.xml document --&gt;
+&lt;xmltask source="src/web.xml" dest="target/web.xml" preserveType="true"&gt;</pre>
+    <p>If you want to output a document with a new DTD, then you have to specify the public and system IDs used by that DTD.</p>
+    <pre class="prettyprint">&lt;!-- we're creating a 2.3 web.xml document from scratch --&gt;
+&lt;xmltask source="src/web.xml" dest="target/web.xml"
+         public="-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+         system="http://java.sun.com/dtd/web-app_2_3.dtd"&gt;</pre>
+    <h3 id="paths-and-namespaces">Paths and Namespaces</h3>
+    <p>XML documents containing multiple XML namespaces are increasingly common. XMLTask can handle these, but you need to be a little more careful when creating your XPath specifications. For instance, a servlet 2.4 <i>web.xml</i> file will begin:</p>
+    <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="XMLTask Demo"
+         xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http:/java.sun.com/dtd/web-app_2_4.xsd"&gt;
+    &lt;display-name&gt;Application Display Name&lt;/display-name&gt;
+    &lt;servlet&gt;
+    ....</pre>
+    <p>and the default namespace is set to <code class="prettyprint">"http://java.sun.com/xml/ns/j2ee"</code>. Although the remainder of the <i>web.xml</i> looks perfectly normal, you need to modify your XPath specifications to take account of multiple namespaces, and specify XML elements appropriately. A full discussion of XPaths and namespaces is beyond the scope of this document--however, the solution is straightforward and simply requires us to specify the <i>local</i> name of the XML elements required.</p>
+    <pre class="prettyprint"> &lt;insert path="&lt;b&gt;/web-app/display-name&lt;/b&gt;" xml="New Application Name"/&gt;</pre>
+    <p>becomes:</p>
+    <pre class="prettyprint"> &lt;insert path="&lt;b&gt;/:web-app/:display-name&lt;/b&gt;" xml="New Application Name"/&gt;</pre>
+    <p>Scoping each XML element name with a preceding <code class="prettyprint">':'</code> is sufficient to tell the XPath mechanism that you're interested in the <i>local</i> name of the element.</p>
+    <h3 id="driving-ant-builds-via-xmltask">Driving Ant Builds via XMLTask</h3>
+    <p>XMLTask has the facility to read XML files during an Ant build and execute Ant targets according to the contents of these files. This facility makes it straightforward for you to drive an Ant build by using a configuration file, an XML file output from an earlier process or similar.</p>
+    <p>For example, you may have a file, <i>build-configuration.xml,</i> representing a set of builds required.</p>
+    <pre class="prettyprint">&lt;builds&gt;
+  &lt;build&gt;development&lt;/build&gt;
+  &lt;build&gt;systemtest&lt;/build&gt;
+  &lt;build&gt;production&lt;/build&gt;
+&lt;/builds&gt;</pre>
+    <p>This specifies that you need a development version of your software, a system test version, and a production version. XMLTask can read this configuration and call Ant targets to build your software according to the above configuration.</p>
+    <pre class="prettyprint">&lt;!-- drives the build --&gt;
+&lt;target name="main"&gt;
+  &lt;xmltask source="build-configuration.xml"&gt;
+    &lt;call path="/builds/build" target="compile-and-release"&gt;
+      &lt;param name="build.version" path="text()"/&gt;
+    &lt;/call&gt;
+  &lt;/xmltask&gt;
+&lt;/target&gt;
+
+&lt;!-- performs a build --&gt;
+&lt;target name="compile-and-release"&gt;
+  &lt;echo&gt;Building ${build.version}&lt;/echo&gt;
+  ....
+&lt;/target&gt;</pre>
+    <p>The XMLTask reads the input file <i>build-configuration.xml</i> and calls the Ant target <code class="prettyprint">'compile-and-release'</code> for each <code class="prettyprint">&lt;build&gt;</code> element it encounters. For each <code class="prettyprint">'compile-and-release'</code> target called, the property <code class="prettyprint">'build.version'</code> is set to the text contents of the <code class="prettyprint">&lt;build&gt;</code> element. In this example this would be <code class="prettyprint">development</code>, <code class="prettyprint">systemtest</code>, and <code class="prettyprint">production</code>. By changing the contents of <code class="prettyprint">build-configuration.xml</code>, you can change the build output. The above configuration would result in three separate builds.</p>
+    <h3 id="conclusion">Conclusion</h3>
+    <p>XMLTask allows the straightforward modification of XML documents by using the power of XPath to identify XML elements to change, but without the pain of learning XSL. You've seen during this article how to perform insertions, replacements, and deletions to permit simple maintenance of XML files, including (but not limited to) J2EE descriptors, Spring configurations, and XHTML documents. XMLTask can be used to parse XML configurations and drive Ant builds. It's worthwhile visiting the <a href="http://www.oopsconsultancy.com/software/xmltask">XMLTask home page</a> to see more features not addressed here, and for further examples.</p>
+    <h3 id="resources">Resources</h3>
+    <ul>
+      <li>
+        <a href="http://www.oopsconsultancy.com/software/xmltask">The XMLTask home page</a>
+      </li>
+      <li>
+        <a href="http://sourceforge.net/project/showfiles.php?group_id=27398">XMLTask downloads from Sourceforge</a>
+      </li>
+      <li>
+        <a href="https://www.w3schools.com/xml/xpath_intro.asp">The W3Schools XPath tutorial</a>
+      </li>
+      <li>
+        <a href="http://www.zvon.org/xxl/XPathTutorial/General/examples.html">The ZVon XPath tutorial</a>
+      </li>
+      <li>
+        <a href="https://ant.apache.org/manual/Tasks/xmlvalidate.html">Ant's XMLValidate instruction</a>
+      </li>
+      <li>
+        <a href="https://ant.apache.org/manual/Types/xmlcatalog.html">Ant's XMLCatalog instruction</a>
+      </li>
+    </ul>
+    <hr style="border:0.5rem solid;"/>
+    <div id="author-info">
+      <a href="http://today.java.net/pub/au/476">Brian Agnew</a> is the founder and principal consultant with <a href="http://www.oopsconsultancy.com/">OOPS Consultancy Ltd</a>, located in London, UK.
+    </div>
+  </body>
+</html>

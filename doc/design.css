@@ -1,0 +1,166 @@
+p, figcaption, td, .field, .bodyText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #333333;
+	line-height: 18px;
+}
+figure {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+figcaption {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+b, h2, .bodyTextBold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #214558;
+	line-height: 18px;
+	font-weight: bold;
+}
+.menuText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #000000;
+	line-height: 18px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.quoteText {
+	font-family: "Times New Roman", Times, serif;
+	font-style: italic;
+	font-size: 13px;
+	color: #333333;
+	line-height: 18px;
+	text-align: right;
+}
+th, h3, .smallHeadline {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	font-style: normal;
+	font-weight: bold;
+}
+.mediumHeadline {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	font-style: normal;
+	font-weight: bold;
+	text-decoration: underline;
+}
+pre, code, .codeText {
+	font-family: "Courier New", Courier, mono;
+	font-size: 13px;
+	color: #666666;
+	line-height: 18px;
+	font-weight: bold;
+}
+pre b {
+	font-size: 11px;
+}
+.codeUrl {
+	font-family: "Courier New", Courier, mono;
+	font-size: 13px;
+	color: #333333;
+	line-height: 18px;
+}
+ul, ol, li, .bodyList {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #333333;
+	line-height: normal;
+	clear: left;
+}
+.mixedList {
+	font-size: 13px;
+	color: #333333;
+	line-height: 12px;
+}
+a {
+	color: #000066;
+	text-decoration: underline;
+}
+.menuTextWhite {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFFFFF;
+	line-height: 18px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.bannerSmall {
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16pt;
+}
+.bannerMedium {
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16pt;
+}
+.bannerLarge {
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 28pt;
+}
+.bodyBold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #2D688C;
+	line-height: 18px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.adv {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #2d688c;
+	padding: 5px;
+	margin: 5px;
+}
+pre {
+	font-size: 13px;
+	color: #333333;
+}
+input[type=checkbox] {
+	display: none;
+}
+header > ul > li > ul {
+	display: none;
+}
+input[type=checkbox]:checked ~ ul {
+	display: block
+}
+table {
+	table-layout: fixed;
+	width: 720px;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+tr th:first-child {
+	width: 160px;
+}
+tr th:last-child {
+	width: 64px;
+}
+tr td:first-child {
+	text-align: left;
+	vertical-align: middle;
+}
+tr td:last-child {
+	text-align: center;
+	vertical-align: middle;
+}
+table, th, td {
+	border: 2px solid black;
+}
+th, td {
+	padding: 2px;
+}
+tr:hover {
+	background-color: #f5f5f5;
+}
