@@ -1,10 +1,14 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.*;
-import org.w3c.dom.*;
-import com.oopsconsultancy.xmltask.ant.*;
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.taskdefs.*;
+import com.oopsconsultancy.xmltask.ant.Param;
+import com.oopsconsultancy.xmltask.ant.XmlTask;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.taskdefs.Property;
+import org.w3c.dom.Node;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * The nominated target is called for

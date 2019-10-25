@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.*;
+import com.oopsconsultancy.xmltask.CutAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * the Ant cut task

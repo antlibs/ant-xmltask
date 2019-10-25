@@ -1,8 +1,9 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
-import java.io.*;
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Node;
+
+import java.io.File;
 
 /**
  * removes the existing node, and inserts the specified

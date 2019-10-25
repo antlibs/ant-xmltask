@@ -1,8 +1,12 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import java.io.*;
-import com.oopsconsultancy.xmltask.*;
-import org.apache.tools.ant.*;
+import com.oopsconsultancy.xmltask.InsertAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
+
+import java.io.File;
 
 /**
  * the Ant insertion task

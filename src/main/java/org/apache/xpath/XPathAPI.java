@@ -1,7 +1,7 @@
 package org.apache.xpath;
 
-import org.apache.xpath.objects.*;
-import org.w3c.dom.*;
+import org.apache.xpath.objects.XObject;
+import org.w3c.dom.Node;
 
 public class XPathAPI {
 

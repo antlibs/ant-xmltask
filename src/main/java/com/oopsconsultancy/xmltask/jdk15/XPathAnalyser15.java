@@ -1,10 +1,15 @@
 package com.oopsconsultancy.xmltask.jdk15;
 
-import org.w3c.dom.*;
-import org.w3c.dom.traversal.*;
-import com.oopsconsultancy.xmltask.*;
-import com.sun.org.apache.xpath.internal.objects.*;
-import com.sun.org.apache.xpath.internal.*;
+import com.oopsconsultancy.xmltask.XPathAnalyser;
+import com.oopsconsultancy.xmltask.XPathAnalyserClient;
+import com.sun.org.apache.xpath.internal.XPathAPI;
+import com.sun.org.apache.xpath.internal.objects.XBoolean;
+import com.sun.org.apache.xpath.internal.objects.XNodeSet;
+import com.sun.org.apache.xpath.internal.objects.XNumber;
+import com.sun.org.apache.xpath.internal.objects.XObject;
+import com.sun.org.apache.xpath.internal.objects.XString;
+import org.w3c.dom.Node;
+import org.w3c.dom.traversal.NodeIterator;
 
 /**
  * uses the JDK 1.5 XPath API

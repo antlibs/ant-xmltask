@@ -1,9 +1,12 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.*;
-import java.util.*;
-
+import com.oopsconsultancy.xmltask.AnonymousCallAction;
+import com.oopsconsultancy.xmltask.CallAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 import org.apache.tools.ant.taskdefs.MacroDef;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * the Ant call task

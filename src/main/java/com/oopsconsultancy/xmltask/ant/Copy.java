@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.*;
+import com.oopsconsultancy.xmltask.CopyAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * the Ant copy task. Note that Cut derives from this

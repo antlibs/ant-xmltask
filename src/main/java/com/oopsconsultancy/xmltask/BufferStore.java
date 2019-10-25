@@ -1,5 +1,9 @@
 package com.oopsconsultancy.xmltask;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Node;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,10 +11,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.*;
-
-import org.w3c.dom.*;
-import org.apache.tools.ant.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * stores a list of nodes vs. buffer name. We clone the given node on storage,

@@ -1,7 +1,7 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Node;
 
 /**
  * cuts the nominated node and its children

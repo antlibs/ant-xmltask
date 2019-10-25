@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
- 
-import com.oopsconsultancy.xmltask.*;
+
+import com.oopsconsultancy.xmltask.RenameAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 
 /** 
  * the Ant rename task

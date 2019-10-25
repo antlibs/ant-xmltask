@@ -1,7 +1,7 @@
 package com.sun.org.apache.xpath.internal;
 
-import com.sun.org.apache.xpath.internal.objects.*;
-import org.w3c.dom.*;
+import com.sun.org.apache.xpath.internal.objects.XObject;
+import org.w3c.dom.Node;
 
 public class XPathAPI {
 

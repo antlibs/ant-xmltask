@@ -1,6 +1,6 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Node;
 
 /**
  * pastes a buffer below the nominated node and its children

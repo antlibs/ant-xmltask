@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.*;
+import com.oopsconsultancy.xmltask.AttrAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * the Ant attribute modification task

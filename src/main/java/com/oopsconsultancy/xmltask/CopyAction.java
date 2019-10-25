@@ -1,7 +1,12 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * copies the nominated node and its children. We can copy the

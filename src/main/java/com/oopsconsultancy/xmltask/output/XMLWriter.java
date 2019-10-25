@@ -1,14 +1,17 @@
 package com.oopsconsultancy.xmltask.output;
 
-import java.io.*;
-import java.util.*;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 
 /*

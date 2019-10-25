@@ -1,8 +1,13 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import com.oopsconsultancy.xmltask.*;
-import org.apache.tools.ant.*;
-import java.io.*;
+import com.oopsconsultancy.xmltask.Action;
+import com.oopsconsultancy.xmltask.TextAction;
+import com.oopsconsultancy.xmltask.XmlAction;
+import com.oopsconsultancy.xmltask.XmlReplace;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.ProjectHelper;
+
+import java.io.File;
 
 /**
  * the Ant replacement task

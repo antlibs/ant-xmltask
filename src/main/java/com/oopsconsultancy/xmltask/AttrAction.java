@@ -1,7 +1,9 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Performs modification of the attributes for the

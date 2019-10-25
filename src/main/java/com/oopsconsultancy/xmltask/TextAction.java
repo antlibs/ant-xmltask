@@ -1,6 +1,7 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Node;
 
 /**
  * modifies the text nodes nominated. If the node

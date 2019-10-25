@@ -1,17 +1,15 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.oopsconsultancy.xmltask.ant.XmlTask;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import com.oopsconsultancy.xmltask.ant.XmlTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * performs a regular expression action. Only on text nodes

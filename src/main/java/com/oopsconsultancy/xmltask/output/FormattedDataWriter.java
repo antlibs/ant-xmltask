@@ -1,11 +1,13 @@
 package com.oopsconsultancy.xmltask.output;
 
-import java.io.Writer;
-import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import javax.xml.transform.*;
-import org.xml.sax.ext.*;
+import org.xml.sax.ext.LexicalHandler;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import java.io.Writer;
+import java.util.Stack;
 
 /*
  * Note. This is heavily lifted from Dave Megginson's DataWriter class

@@ -1,5 +1,32 @@
 package com.oopsconsultancy.xmltask.ant;
 
+import com.oopsconsultancy.xmltask.BufferStore;
+import com.oopsconsultancy.xmltask.XmlReplace;
+import com.oopsconsultancy.xmltask.XmlReplacement;
+import com.oopsconsultancy.xmltask.output.FormattedDataWriter;
+import com.oopsconsultancy.xmltask.output.Outputter;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.filters.StringInputStream;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.XMLCatalog;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Node;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,35 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamResult;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.filters.StringInputStream;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.XMLCatalog;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Node;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-
-import com.oopsconsultancy.xmltask.BufferStore;
-import com.oopsconsultancy.xmltask.XmlReplace;
-import com.oopsconsultancy.xmltask.XmlReplacement;
-import com.oopsconsultancy.xmltask.output.FormattedDataWriter;
-import com.oopsconsultancy.xmltask.output.Outputter;
 
 /**
  * the basic Ant xml task. Records a set of actions to

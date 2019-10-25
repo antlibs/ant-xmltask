@@ -1,8 +1,13 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.*;
-import org.w3c.dom.*;
-import org.apache.tools.ant.*;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * performs the basic task of identifying the qualifying XML nodes via XPath,

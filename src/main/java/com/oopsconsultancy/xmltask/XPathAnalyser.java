@@ -1,6 +1,6 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Node;
 
 public interface XPathAnalyser {
 

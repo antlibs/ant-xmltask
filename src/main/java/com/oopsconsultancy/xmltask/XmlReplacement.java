@@ -1,15 +1,18 @@
 package com.oopsconsultancy.xmltask;
 
-import java.util.*;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.w3c.dom.Document;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.*;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.tools.ant.*;
-import org.w3c.dom.Document;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * performs the actual work of iterating through

@@ -1,7 +1,5 @@
 package com.oopsconsultancy.xmltask.ant;
 
-import sun.tools.tree.CaseStatement;
-
 import com.oopsconsultancy.xmltask.RegexpAction;
 import com.oopsconsultancy.xmltask.XmlReplace;
 

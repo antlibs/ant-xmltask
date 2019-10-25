@@ -1,8 +1,9 @@
 package com.oopsconsultancy.xmltask.output;
 
-import java.io.*;
-import javax.xml.transform.*;
-import org.xml.sax.*;
+import org.xml.sax.ContentHandler;
+
+import javax.xml.transform.Transformer;
+import java.io.Writer;
 
 /**
  * the interface that xmltask output mechanisms have to
