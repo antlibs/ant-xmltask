@@ -23,7 +23,7 @@ import java.util.Stack;
  *
  * <p>In general, all whitespace in an XML document is potentially
  * significant, so a general-purpose XML writing tool like the
- * {@link com.megginson.sax.XMLWriter XMLWriter} class cannot
+ * {@code com.megginson.sax.XMLWriter} class cannot
  * add newlines or indentation.</p>
  *
  * <p>There is, however, a large class of XML documents where information
@@ -46,9 +46,6 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
 
   /**
    * Create a new data writer for the specified output.
-   *
-   * @param writer The character stream where the XML document
-   *        will be written.
    */
   public FormattedDataWriter ()
   {
@@ -110,7 +107,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    * <p>This method is especially useful if the writer failed
    * with an exception the last time through.</p>
    *
-   * @see com.megginson.sax.XMLWriter#reset
+   * {@code see com.megginson.sax.XMLWriter#reset}
    */
   public void reset ()
   {

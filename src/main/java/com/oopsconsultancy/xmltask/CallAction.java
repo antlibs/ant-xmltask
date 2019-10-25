@@ -80,9 +80,9 @@ public class CallAction extends Action implements XPathAnalyserClient {
    * engine where necessary and creating new properties
    * in the sub target, then calls on that.
    *
-   * @param node
+   * @param node Node
    * @return success
-   * @throws Exception
+   * @throws Exception if something goes wrong
    */
   public boolean apply(Node node) throws Exception {
     init();
@@ -129,14 +129,14 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.setTarget(target);
     callee.setInheritAll(inheritAll);
     callee.setInheritRefs(inheritRefs);
-    
+
     // make sure we always pass the buffers!
     Ant.Reference buffers = new Ant.Reference();
     buffers.setProject(task.getProject());
     buffers.setRefId(BufferStore.BUFFERS_PROJECT_REF);
     buffers.setToRefid(BufferStore.BUFFERS_PROJECT_REF);
     callee.addReference(buffers);
-    
+
     callee.execute();
 
     return true;
@@ -145,8 +145,8 @@ public class CallAction extends Action implements XPathAnalyserClient {
   /**
    * builds a representation of the node hierarchy
    *
-   * @param node
-   * @param qualified
+   * @param node Node
+   * @param qualified boolean
    * @return the local or fully-qualified name
    */
   private String getNodePath(Node node, final boolean qualified) {

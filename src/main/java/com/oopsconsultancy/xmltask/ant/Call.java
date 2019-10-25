@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * the Ant call task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -86,7 +86,7 @@ public class Call implements Instruction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see com.oopsconsultancy.xmltask.ant.Instruction#setIf(java.lang.String)
    */
   public void setIf(final String ifProperty) {
@@ -96,7 +96,7 @@ public class Call implements Instruction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see com.oopsconsultancy.xmltask.ant.Instruction#setUnless(java.lang.String)
    */
   public void setUnless(final String unlessProperty) {

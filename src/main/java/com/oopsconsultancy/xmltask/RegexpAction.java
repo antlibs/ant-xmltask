@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 /**
  * performs a regular expression action. Only on text nodes
- * 
+ *
  * @author brianagnew
  */
 public class RegexpAction extends Action {
@@ -28,8 +28,12 @@ public class RegexpAction extends Action {
 
 	/**
 	 * ctor
-	 * 
-	 * @param pattern
+	 *
+	 * @param task XmlTask
+	 * @param pattern String
+	 * @param replace String
+	 * @param property String
+	 * @param buffer String
 	 */
 	private RegexpAction(final XmlTask task, final String pattern,
 			final String replace, final String property, final String buffer) {
@@ -46,6 +50,9 @@ public class RegexpAction extends Action {
 	/**
 	 * does the work. Matches, writes to properties/buffers or performs a
 	 * replacement
+	 *
+	 * @param node Node
+	 * @return boolean
 	 */
 	public boolean apply(final Node node) throws Exception {
 		// performs a match on the node and replaces, or writes to
@@ -75,12 +82,12 @@ public class RegexpAction extends Action {
 	/**
 	 * performs the regexp and returns a replacement string if required,
 	 * otherwise null. Handles property and buffer updating
-	 * 
-	 * @param node
-	 * @return
+	 *
+	 * @param node Node
+	 * @return String
 	 */
 	private String performRegexp(final Node node) {
-		
+
 		int flags = 0;
 		if (caseInsensitive) {
 			flags |= Pattern.CASE_INSENSITIVE;
@@ -145,10 +152,11 @@ public class RegexpAction extends Action {
 
 	/**
 	 * builds a regexp action to copy to a property
-	 * 
-	 * @param pattern
-	 * @param property
-	 * @return
+	 *
+	 * @param task XmlTask
+	 * @param pattern String
+	 * @param property String
+	 * @return RegexpAction
 	 */
 	public static RegexpAction createCopyToProperty(final XmlTask task,
 			final String pattern, final String property) {
@@ -157,10 +165,11 @@ public class RegexpAction extends Action {
 
 	/**
 	 * factory for replacement method
-	 * 
-	 * @param pattern
-	 * @param replace
-	 * @return
+	 *
+	 * @param task XmlTask
+	 * @param pattern String
+	 * @param replace String
+	 * @return RegexpAction
 	 */
 	public static RegexpAction createReplacement(final XmlTask task,
 			final String pattern, final String replace) {
@@ -169,10 +178,11 @@ public class RegexpAction extends Action {
 
 	/**
 	 * builds a regexp action to copy to a property
-	 * 
-	 * @param pattern
-	 * @param buffer
-	 * @return
+	 *
+	 * @param task XmlTask
+	 * @param pattern String
+	 * @param buffer String
+	 * @return RegexpAction
 	 */
 	public static RegexpAction createCopyToBuffer(final XmlTask task,
 			final String pattern, final String buffer) {
@@ -182,7 +192,7 @@ public class RegexpAction extends Action {
 	public void setCaseInsensitive(final boolean caseInsensitive) {
 		this.caseInsensitive = caseInsensitive;
 	}
-	
+
 	public void setUnicodeCase(final boolean unicodeCase) {
 		this.unicodeCase = unicodeCase;
 	}

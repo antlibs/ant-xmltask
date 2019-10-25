@@ -43,8 +43,8 @@ public class CopyAction extends Action {
    * records the selected node. For attributes we can
    * record the value as a text object if required
    *
-   * @param node
-   * @throws Exception
+   * @param node Node
+   * @throws Exception if something goes wrong
    */
   protected void record(Node node) throws Exception {
     if (node instanceof Attr && attrValue) {
@@ -86,7 +86,7 @@ public class CopyAction extends Action {
       }
     }
   }
-  
+
 
   /**
    * an action completion. Provided for actions to perform clean up
@@ -107,7 +107,7 @@ public class CopyAction extends Action {
     record(node);
     return true;
   }
-  
+
   public String toString() {
     return "CopyAction(" + propertyBufferName + ")";
   }

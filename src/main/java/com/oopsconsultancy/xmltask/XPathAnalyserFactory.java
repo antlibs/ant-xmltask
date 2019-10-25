@@ -3,7 +3,7 @@ package com.oopsconsultancy.xmltask;
 /**
  * builds a XPathAnalyser. The concrete type
  * is determined by the JDK in use
- * 
+ *
  * This used to switch between 1.4/1.5 etc. Now we only support
  * 1.5 and beyond (September 2009)
  *

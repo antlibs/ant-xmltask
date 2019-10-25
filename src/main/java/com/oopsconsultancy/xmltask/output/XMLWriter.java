@@ -41,7 +41,7 @@ import java.util.Hashtable;
  *
  * <p>You need to invoke one of the <var>characters</var> methods
  * explicitly to add newlines or indentation.  Alternatively, you
- * can use {@link com.megginson.sax.DataWriter DataWriter}, which
+ * can use {@code com.megginson.sax.DataWriter}, which
  * is derived from this class -- it is optimized for writing
  * purely data-oriented (or field-oriented) XML, and does automatic
  * linebreaks and indentation (but does not support mixed content
@@ -65,9 +65,9 @@ import java.util.Hashtable;
  * <p>The resulting document will look like this:</p>
  *
  * <pre>
- * &lt;?xml version="1.0" standalone="yes"?>
+ * &lt;?xml version="1.0" standalone="yes"?&gt;
  *
- * &lt;_NS1:foo xmlns:_NS1="http://www.foo.com/ns/"/>
+ * &lt;_NS1:foo xmlns:_NS1="http://www.foo.com/ns/"/&gt;
  * </pre>
  *
  * <p>In many cases, document authors will prefer to choose their
@@ -97,9 +97,9 @@ import java.util.Hashtable;
  * <p>The resulting document will look like this:</p>
  *
  * <pre>
- * &lt;?xml version="1.0" standalone="yes"?>
+ * &lt;?xml version="1.0" standalone="yes"?&gt;
  *
- * &lt;foo:foo xmlns:foo="http://www.foo.com/ns/"/>
+ * &lt;foo:foo xmlns:foo="http://www.foo.com/ns/"/&gt;
  * </pre>
  *
  * <p>The default Namespace simply uses an empty string as the prefix:</p>
@@ -114,9 +114,9 @@ import java.util.Hashtable;
  * <p>The resulting document will look like this:</p>
  *
  * <pre>
- * &lt;?xml version="1.0" standalone="yes"?>
+ * &lt;?xml version="1.0" standalone="yes"?&gt;
  *
- * &lt;foo xmlns="http://www.foo.com/ns/"/>
+ * &lt;foo xmlns="http://www.foo.com/ns/"/&gt;
  * </pre>
  *
  * <p>By default, the XML writer will not declare a Namespace until
@@ -125,15 +125,15 @@ import java.util.Hashtable;
  * example:</p>
  *
  * <pre>
- * &lt;xml version="1.0" standalone="yes"?>
+ * &lt;xml version="1.0" standalone="yes"?&gt;
  *
- * &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
- *  &lt;rdf:Description about="http://www.foo.com/ids/books/12345">
- *   &lt;dc:title xmlns:dc="http://www.purl.org/dc/">A Dark Night&lt;/dc:title>
- *   &lt;dc:creator xmlns:dc="http://www.purl.org/dc/">Jane Smith&lt;/dc:title>
- *   &lt;dc:date xmlns:dc="http://www.purl.org/dc/">2000-09-09&lt;/dc:title>
- *  &lt;/rdf:Description>
- * &lt;/rdf:RDF>
+ * &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
+ *  &lt;rdf:Description about="http://www.foo.com/ids/books/12345"&gt;
+ *   &lt;dc:title xmlns:dc="http://www.purl.org/dc/"&gt;A Dark Night&lt;/dc:title&gt;
+ *   &lt;dc:creator xmlns:dc="http://www.purl.org/dc/"&gt;Jane Smith&lt;/dc:title&gt;
+ *   &lt;dc:date xmlns:dc="http://www.purl.org/dc/"&gt;2000-09-09&lt;/dc:title&gt;
+ *  &lt;/rdf:Description&gt;
+ * &lt;/rdf:RDF&gt;
  * </pre>
  *
  * <p>The "rdf" prefix is declared only once, because the RDF Namespace
@@ -152,16 +152,16 @@ import java.util.Hashtable;
  * descendants:</p>
  *
  * <pre>
- * &lt;xml version="1.0" standalone="yes"?>
+ * &lt;xml version="1.0" standalone="yes"?&gt;
  *
  * &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
- *             xmlns:dc="http://www.purl.org/dc/">
- *  &lt;rdf:Description about="http://www.foo.com/ids/books/12345">
- *   &lt;dc:title>A Dark Night&lt;/dc:title>
- *   &lt;dc:creator>Jane Smith&lt;/dc:title>
- *   &lt;dc:date>2000-09-09&lt;/dc:title>
- *  &lt;/rdf:Description>
- * &lt;/rdf:RDF>
+ *             xmlns:dc="http://www.purl.org/dc/"&gt;
+ *  &lt;rdf:Description about="http://www.foo.com/ids/books/12345"&gt;
+ *   &lt;dc:title&gt;A Dark Night&lt;/dc:title&gt;
+ *   &lt;dc:creator&gt;Jane Smith&lt;/dc:title&gt;
+ *   &lt;dc:date&gt;2000-09-09&lt;/dc:title&gt;
+ *  &lt;/rdf:Description&gt;
+ * &lt;/rdf:RDF&gt;
  * </pre>
  *
  * <p>This approach is also useful for declaring Namespace prefixes
@@ -302,6 +302,7 @@ public class XMLWriter extends XMLFilterImpl
    * document.</p>
    *
    * @see #reset
+   * @throws IOException if something goes wrong
    */
   public void flush ()
     throws IOException
@@ -315,7 +316,7 @@ public class XMLWriter extends XMLFilterImpl
    *
    * @param writer The output destination, or null to use
    *        standard output.
-   * @return The current output writer.
+   *
    * @see #flush
    */
   public void setOutput (Writer writer)
@@ -528,7 +529,7 @@ public class XMLWriter extends XMLFilterImpl
    *
    * @param ch The array of characters to write.
    * @param start The starting position in the array.
-   * @param length The number of characters to write.
+   * @param len The number of characters to write.
    * @exception org.xml.sax.SAXException If there is an error
    *            writing the characters, or if a handler further down
    *            the filter chain raises an exception.
@@ -1012,7 +1013,7 @@ public class XMLWriter extends XMLFilterImpl
   /**
    * Write a raw string.
    *
-   * @param s
+   * @param s String
    * @exception org.xml.sax.SAXException If there is an error writing
    *            the string, this method will throw an IOException
    *            wrapped in a SAXException
@@ -1034,7 +1035,7 @@ public class XMLWriter extends XMLFilterImpl
    * The names will have prefixes added to them.
    *
    * @param atts The attribute list to write.
-   * @exception org.xml.SAXException If there is an error writing
+   * @exception SAXException If there is an error writing
    *            the attribute list, this method will throw an
    *            IOException wrapped in a SAXException.
    */
@@ -1062,7 +1063,7 @@ public class XMLWriter extends XMLFilterImpl
    * @param start The starting position.
    * @param length The number of characters to use.
    * @param isAttVal true if this is an attribute value literal.
-   * @exception org.xml.SAXException If there is an error writing
+   * @exception SAXException If there is an error writing
    *            the characters, this method will throw an
    *            IOException wrapped in a SAXException.
    */

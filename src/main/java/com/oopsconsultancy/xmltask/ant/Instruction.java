@@ -9,15 +9,15 @@ public interface Instruction {
 
   /**
    * sets a property determining execution
-   * 
-   * @param ifProperty
+   *
+   * @param ifProperty String
    */
   void setIf(String ifProperty);
 
   /**
    * sets a property determining execution
-   * 
-   * @param unlessProperty
+   *
+   * @param unlessProperty String
    */
   void setUnless(String unlessProperty);
 

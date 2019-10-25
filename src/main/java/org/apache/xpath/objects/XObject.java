@@ -1,6 +1,6 @@
 package org.apache.xpath.objects;
 
-import org.w3c.dom.traversal.*;
+import org.w3c.dom.traversal.NodeIterator;
 
 public class XObject {
 
@@ -11,4 +11,3 @@ public class XObject {
     return null;
   }
 }
-

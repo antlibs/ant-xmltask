@@ -19,7 +19,7 @@ public interface Outputter extends ContentHandler {
    * this is the writer that the implementing class
    * must write to
    *
-   * @param w
+   * @param w Writer
    */
   public void setWriter(Writer w);
 
@@ -28,12 +28,14 @@ public interface Outputter extends ContentHandler {
    * system ids, encoding etc. See the appropriate Javadoc for
    * more info
    *
-   * @param transformer
+   * @param transformer Transformer
    */
   public void setTransformer(Transformer transformer);
 
   /**
    * sets the header omission
+   *
+   * @param omitHeader boolean
    */
   public void setOmitHeader(boolean omitHeader);
 }

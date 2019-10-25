@@ -5,7 +5,7 @@ import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * the Ant cut task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */

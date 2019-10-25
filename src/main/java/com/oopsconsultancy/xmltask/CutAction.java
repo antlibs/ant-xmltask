@@ -25,4 +25,3 @@ public class CutAction extends CopyAction {
     return "CutAction(" + propertyBufferName + ")";
   }
 }
-

@@ -3,9 +3,9 @@ package com.oopsconsultancy.xmltask.ant;
 import com.oopsconsultancy.xmltask.RenameAction;
 import com.oopsconsultancy.xmltask.XmlReplace;
 
-/** 
+/**
  * the Ant rename task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -33,14 +33,14 @@ public class Rename implements Instruction {
       xmlReplace.setIf(ifProperty);
       xmlReplace.setUnless(unlessProperty);
       task.add(xmlReplace);
-    }  
+    }
   }
 
   public void process(final XmlTask task) {
     this.task = task;
     register();
   }
-  
+
   public void setIf(final String ifProperty) {
     this.ifProperty = ifProperty;
   }
@@ -49,4 +49,3 @@ public class Rename implements Instruction {
     this.unlessProperty = unlessProperty;
   }
 }
-

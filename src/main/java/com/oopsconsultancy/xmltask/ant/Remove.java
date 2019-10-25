@@ -5,7 +5,7 @@ import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * the Ant removal task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -30,8 +30,8 @@ public class Remove implements Instruction {
 
   /**
    * sets a property determining execution
-   * 
-   * @param ifProperty
+   *
+   * @param ifProperty String
    */
   public void setIf(final String ifProperty) {
     this.ifProperty = ifProperty;
@@ -39,8 +39,8 @@ public class Remove implements Instruction {
 
   /**
    * sets a property determining execution
-   * 
-   * @param unlessProperty
+   *
+   * @param unlessProperty String
    */
   public void setUnless(final String unlessProperty) {
     this.unlessProperty = unlessProperty;

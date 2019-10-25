@@ -33,7 +33,8 @@ public class XmlReplacement {
   /**
    * records the document to work on
    *
-   * @param doc
+   * @param doc Document
+   * @param task Task
    */
   public XmlReplacement(final Document doc, final Task task) {
     this.doc = doc;
@@ -43,7 +44,7 @@ public class XmlReplacement {
   /**
    * records each replacement/modification to perform
    *
-   * @param x
+   * @param x XmlReplace
    */
   public void add(final XmlReplace x) {
     replacements.add(x);
@@ -90,7 +91,7 @@ public class XmlReplacement {
   /**
    * outputs the intermediate document results to standard out
    *
-   * @throws Exception
+   * @throws Exception if something goes wrong
    */
   private void output() throws Exception {
 	  output("Document", doc);
@@ -99,9 +100,9 @@ public class XmlReplacement {
   /**
    * outputs the given document (with label) to standard out
    *
-   * @param label
-   * @param dc
-   * @throws Exception
+   * @param label String
+   * @param dc String
+   * @throws Exception if something goes wrong
    */
   private void output(final String label, final Document dc) throws Exception {
     // Set up an identity transformer to use as serializer.
@@ -118,7 +119,7 @@ public class XmlReplacement {
   /**
    * enables diagnostics
    *
-   * @param val
+   * @param val boolean
    */
   public void setReport(final boolean val) {
     report = val;

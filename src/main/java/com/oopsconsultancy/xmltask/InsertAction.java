@@ -117,9 +117,9 @@ public class InsertAction extends Action {
    * exception it may be because it's not well formed. So
    * we attempt to read again giving the doc a root element
    *
-   * @param txml
-   * @param task
-   * @throws Exception
+   * @param txml String
+   * @param task Task
+   * @throws Exception if something goes wrong
    */
   protected InsertAction(final String txml, final Task task) throws Exception {
     this.task = task;
@@ -139,9 +139,9 @@ public class InsertAction extends Action {
    * exception it may be because it's not well formed. So
    * we attempt to read again giving the doc a root element
    *
-   * @param xml
-   * @param task
-   * @throws Exception
+   * @param xml File
+   * @param task Task
+   * @throws Exception if something goes wrong
    */
   protected InsertAction(final File xml, final Task task) throws Exception {
     this.task = task;
@@ -167,8 +167,8 @@ public class InsertAction extends Action {
    * performs the reading of the xml. Can handle non-well
    * formed documents
    *
-   * @param xml
-   * @throws Exception
+   * @param xml String
+   * @throws Exception if something goes wrong
    */
   protected void readXml(final String xml) throws Exception {
     StringReader sr = new StringReader(xml);
@@ -185,8 +185,8 @@ public class InsertAction extends Action {
    * inserts the specified XML below this node. If the node
    * isn't an element, then this is reported and the task exits
    *
-   * @param node
-   * @throws Exception
+   * @param node Node
+   * @throws Exception if something goes wrong
    */
   public boolean apply(final Node node) throws Exception {
     return insert(node);
@@ -204,9 +204,9 @@ public class InsertAction extends Action {
   /**
    * performs the insertion under the given node
    *
-   * @param node
+   * @param node Node
    * @return true on success
-   * @throws Exception
+   * @throws Exception if something goes wrong
    */
   protected boolean insert(final Node node) throws Exception {
     Node newnode = null;
@@ -223,7 +223,7 @@ public class InsertAction extends Action {
 	          insertNode(node, newnode);
 	        }
         }
-        else 
+        else
         for (int n = 0; n < n2.length;  n++) {
           log("Inserting " + n2[n], Project.MSG_VERBOSE);
           newnode = doc.importNode(n2[n], true);
@@ -256,9 +256,8 @@ public class InsertAction extends Action {
    * @param existingNode the existing node
    * @param newnode the node to insert
    * @return true on success
-   * @throws Exception
    */
-  private boolean insertNode(final Node existingNode, final Node newnode) throws Exception {
+  private boolean insertNode(final Node existingNode, final Node newnode) {
 
     // we first select on the position, and then determine
     // what to do based on the node types
@@ -321,10 +320,11 @@ public class InsertAction extends Action {
 
   /**
    * standard diagnostics
+   *
+   * @return String
    */
   public String toString() {
     return "InsertAction(" + (doc2 == null ? (buffer == null ? "" : "buffer " + buffer) : doc2.getDocumentElement().toString()) +
            ", position [" + pos + "])";
   }
 }
-

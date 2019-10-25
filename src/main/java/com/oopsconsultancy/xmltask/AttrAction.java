@@ -31,8 +31,8 @@ public class AttrAction extends Action {
    * node can't have an attribute, then this is reported and the
    * task exits
    *
-   * @param node
-   * @throws Exception
+   * @param node Node
+   * @throws Exception if something goes wrong
    */
   public boolean apply(Node node) throws Exception {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -63,5 +63,3 @@ public class AttrAction extends Action {
     return "AttrReplace(" + attr + "=" + value + ", remove=" +(remove == Boolean.TRUE ? "yes":"no")+")";
   }
 }
-
-

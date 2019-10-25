@@ -66,8 +66,8 @@ public class BufferStore {
    * returns an array of nodes stored in a buffer or null if nothing recorded in
    * the buffer
    *
-   * @param name
-   *          the buffer name
+   * @param name the buffer name
+   * @param task Task
    * @return the array of nodes (elements/text/attributes whatever)
    */
   public static Node[] get(final String name, final Task task) {
@@ -86,7 +86,7 @@ public class BufferStore {
   /**
    * is the buffer name a file ?
    *
-   * @param name
+   * @param name String
    * @return true if it's a file
    */
   private static boolean isFileBuffer(final String name) {
@@ -95,7 +95,7 @@ public class BufferStore {
 
   /**
    * given a buffer name, returns a filename
-   * @param name
+   * @param name String
    * @return the filename
    */
   private static String getFilenameFromBuffer(final String name) {
@@ -106,11 +106,11 @@ public class BufferStore {
   }
 
   /**
-   * @param name
-   * @param task
+   * @param name String
+   * @param task Task
    * @return the contents of the given buffer
    */
-  private static List getBuffer(final String name, final Task task) {
+  private static List<Node> getBuffer(final String name, final Task task) {
 
     if (isFileBuffer(name)) {
       File file = new File(getFilenameFromBuffer(name));
@@ -139,9 +139,9 @@ public class BufferStore {
   /**
    * saves the given buffer
    *
-   * @param name
-   * @param list
-   * @param task
+   * @param name String
+   * @param list List of Node
+   * @param task Task
    */
   private static void setBuffer(final String name, final List list, final Task task) {
     if (isFileBuffer(name)) {
@@ -165,12 +165,10 @@ public class BufferStore {
   /**
    * records the given node against the nominated buffer
    *
-   * @param name
-   *          the buffer name
-   * @param xml
-   *          the node to record
-   * @param append
-   *          set to true if appending required
+   * @param name the buffer name
+   * @param xml the node to record
+   * @param append set to true if appending required
+   * @param task Task
    */
   public static void set(final String name, final Node xml, final boolean append, final Task task) {
 
@@ -215,8 +213,8 @@ public class BufferStore {
 
   /**
    * clears the named buffer
-   * @param name
-   * @param task
+   * @param name String
+   * @param task Task
    */
   public static void clear(final String name, final Task task) {
     log("Clearing buffer (" + name + ")", task);
@@ -225,8 +223,8 @@ public class BufferStore {
 
   /**
    * logs messages
-   * @param msg
-   * @param task
+   * @param msg String
+   * @param task Task
    */
   public static void log(final String msg, final Task task) {
     if (task != null) {

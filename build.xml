@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <project name="XmlTask" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
   <property name="java.baseline" value="1.5"/>
+  <property name="src.dir" value="src/main/java"/>
   <property name="build.dir" value="build"/>
   <property name="classes.dir" value="${build.dir}/classes"/>
-  <property name="jarfile" value="${build.dir}/xmltask.jar"/>
-  <property name="tarfile" value="${build.dir}/xmltask.tar"/>
+  <property name="javadoc.dir" value="${build.dir}/javadoc"/>
 
   <!-- Ivy -->
   <property name="ivy.version" value="2.5.0"/>
@@ -25,32 +25,21 @@
     <ivy:settings file="${basedir}/ivy.settings.xml"/>
   </target>
 
-  <target name="init" depends="init-ivy">
-    <!-- prepare dirs -->
-    <mkdir dir="${classes.dir}"/>
-
-    <!-- versioning -->
-    <property file="xmltask.properties"/>
-    <property name="v_jarfile" value="${build.dir}/xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
-    <property name="v_tarfile" value="${build.dir}/xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
-  </target>
-
-  <target name="resolve" depends="init">
+  <target name="resolve" depends="init-ivy">
     <ivy:resolve file="ivy.xml"/>
     <ivy:cachepath pathid="compile.classpath" conf="compile" type="jar"/>
     <ivy:cachepath pathid="test.classpath" conf="test" type="jar"/>
+    <!-- prepare dirs -->
+    <mkdir dir="${classes.dir}"/>
+    <echo file="${classes.dir}/xmltask.properties" message="com.oopsconsultancy.xmltask.version = ${ivy.version}"/>
   </target>
 
   <target name="javac" depends="resolve" description="Java source build">
-    <javac srcdir="src/main/java" destdir="${classes.dir}" debug="on" nowarn="true"
-           includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" nowarn="true"
+           includeantruntime="false" source="${java.baseline}" target="${java.baseline}"
+           classpathref="compile.classpath">
       <include name="**/*.java"/>
-      <classpath>
-        <pathelement location="${java.home}/../lib/tools.jar"/>
-        <path refid="compile.classpath"/>
-      </classpath>
     </javac>
-    <copy file="xmltask.properties" todir="${classes.dir}"/>
     <!-- we've built against dummy XPathAPI classes so we
          can compile pre/post JDK 1.5 classes in the absence
          of one or the other. We then delete the dummy classes -->
@@ -59,12 +48,12 @@
   </target>
 
   <target name="jar" depends="javac">
-    <jar jarfile="${jarfile}" basedir="${classes.dir}"
+    <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}.jar" basedir="${classes.dir}"
          includes="com/oopsconsultancy/**/*.class,xmltask.properties"
          excludes="**/test/**/*"/>
   </target>
 
-  <target name="javac.test" depends="javac" description="Java source build">
+  <target name="javac.test" depends="javac" description="Java test source build">
     <javac srcdir="src/test/java" destdir="${classes.dir}" debug="on" nowarn="true"
            includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
       <include name="**/*.java"/>
@@ -89,20 +78,37 @@
     <echo>Tests succeed!</echo>
   </target>
 
-  <target name="main" depends="test" description="Complete build/test"/>
+  <target name="main" depends="test,javadoc" description="Complete build/test"/>
 
-  <target name="package" depends="jar" description="Creates the appropriate archives">
-    <tar tarfile="${tarfile}">
-      <tarfileset dir="src/main/java" includes="**/*.java"/>
-      <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.xml,xmltask.properties"/>
-      <tarfileset dir="src/site" includes="*.html,*.css,*.gif,*.jpg"/>
-    </tar>
-    <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
-    <delete file="${tarfile}"/>
-    <echo>Created .jar and .tar.gz</echo>
+  <target name="javadoc" depends="resolve" description="Javadoc build">
+    <!-- A workaround for a "unnamed module" error -->
+    <condition property="ant.build.javac.source" value="1.8" else="${java.baseline}">
+      <javaversion atleast="9"/>
+    </condition>
+    <javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="Ant xmltask ${ivy.revision}">
+      <packageset dir="${src.dir}" defaultexcludes="yes">
+        <include name="com/oopsconsultancy/**"/>
+      </packageset>
+      <doctitle><![CDATA[<h1>Ant xmltask ${ivy.revision}</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Ant xmltask ${ivy.revision}</i>]]></bottom>
+      <link href="https://docs.oracle.com/javase/6/docs/api/"/>
+    </javadoc>
   </target>
 
-  <target name="clean" description="Clean classes">
+  <target name="package" depends="jar,javadoc" description="Creates the appropriate archives">
+    <jar destfile="${build.dir}/${ivy.module}-${ivy.revision}-javadoc.jar" basedir="${javadoc.dir}"/>
+    <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}-sources.jar">
+      <fileset dir="${src.dir}" includes="**/*.java" excludes="**/com/sun/**,**/org/**"/>
+    </jar>
+    <tar tarfile="${build.dir}/${ivy.module}-${ivy.revision}.tar.gz" compression="gzip">
+      <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.xml"/>
+      <tarfileset dir="${classes.dir}" includes="xmltask.properties"/>
+      <tarfileset dir="src/site" prefix="doc" includes="*.html,*.css,*.gif,*.jpg"/>
+    </tar>
+    <echo>Created source and documentation archives</echo>
+  </target>
+
+  <target name="clean" description="Clean build tree">
     <delete dir="${build.dir}"/>
   </target>
 </project>

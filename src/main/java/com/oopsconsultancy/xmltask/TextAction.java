@@ -53,4 +53,3 @@ public class TextAction extends Action {
     return "TextAction(" + str + ")";
   }
 }
-

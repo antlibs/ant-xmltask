@@ -21,7 +21,7 @@ public class Param {
   /**
    * sets the param name
    *
-   * @param name
+   * @param name String
    */
   public void setName(final String name) {
     this.name = name;
@@ -30,7 +30,7 @@ public class Param {
   /**
    * sets the XPath to use
    *
-   * @param path
+   * @param path String
    */
   public void setPath(final String path) {
     this.path = path;
@@ -39,7 +39,7 @@ public class Param {
   /**
    * sets the value. Used either directly or via the XPath stuff
    *
-   * @param value
+   * @param value String
    */
   public void setValue(final String value) {
     this.value = value;
@@ -48,7 +48,7 @@ public class Param {
   /**
    * set the default to use
    *
-   * @param def
+   * @param def String
    */
   public void setDefault(final String def) {
     this.def = def;

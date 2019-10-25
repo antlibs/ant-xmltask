@@ -24,4 +24,3 @@ public class PasteAction extends Action {
     return "PasteAction(" + buffer +")";
   }
 }
-

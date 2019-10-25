@@ -138,8 +138,8 @@ public class XmlTask extends Task {
   /**
    * records the source buffer
    *
-   * @param buffer
-   * @throws Exception
+   * @param buffer String
+   * @throws Exception if something goes wrong
    */
   public void setSourceBuffer(final String buffer) throws Exception {
     docs.add(new InputBuffer(buffer));
@@ -152,8 +152,8 @@ public class XmlTask extends Task {
   /**
    * records the source file(s). These can be wildcarded
    *
-   * @param source
-   * @throws Exception
+   * @param source String
+   * @throws Exception if something goes wrong
    */
   public void setSource(final String source) throws Exception {
 
@@ -336,7 +336,7 @@ public class XmlTask extends Task {
   /**
    * creates a fresh empty document
    *
-   * @throws Exception
+   * @throws Exception if something goes wrong
    */
   private Document createDocument() throws Exception {
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
@@ -349,8 +349,8 @@ public class XmlTask extends Task {
    * builds the input document given a stream of chars
    * as a source
    *
-   * @param stream
-   * @throws Exception
+   * @param is InputStream
+   * @throws Exception if something goes wrong
    */
   private Document documentFromStream(final InputStream is) throws Exception {
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
@@ -410,8 +410,8 @@ public class XmlTask extends Task {
    * builds the input document given the filename
    * as a source
    *
-   * @param filename
-   * @throws Exception
+   * @param filename String
+   * @throws Exception if something goes wrong
    */
   private Document documentFromFile(final String filename) throws Exception {
     return documentFromStream(new FileInputStream(filename));
@@ -422,8 +422,8 @@ public class XmlTask extends Task {
    * as a source. Note that encoding is assumed as ISO-Latin1
    * and there will be data loss
    *
-   * @param str
-   * @throws Exception
+   * @param str String
+   * @throws Exception if something goes wrong
    */
   private Document documentFromStr(final String str) throws Exception {
     return documentFromStream(new StringInputStream(str));
@@ -432,7 +432,7 @@ public class XmlTask extends Task {
   /**
    * records the output file
    *
-   * @param dest
+   * @param dest String
    */
   public void setDest(final String dest) {
     this.dest = dest;
@@ -443,7 +443,7 @@ public class XmlTask extends Task {
   /**
    * records the output buffer
    *
-   * @param dest
+   * @param dest String
    */
   public void setDestBuffer(final String dest) {
     this.dest = dest;
@@ -455,7 +455,7 @@ public class XmlTask extends Task {
   /**
    * sets the mechanism for outputting the XML
    *
-   * @param outputter
+   * @param outputter String
    */
   public void setOutputter(final String outputter) {
     this.outputter = outputter;
@@ -464,7 +464,7 @@ public class XmlTask extends Task {
   /**
    * records the output directory
    *
-   * @param dest
+   * @param dest String
    */
   public void setTodir(final String dest) {
     this.dest = dest;
@@ -475,7 +475,7 @@ public class XmlTask extends Task {
   /**
    * allows setting of the output encoding
    *
-   * @param enc
+   * @param enc String
    */
   public void setEncoding(final String enc) {
     outputEncoding = enc;
@@ -484,7 +484,7 @@ public class XmlTask extends Task {
   /**
    * records an XmlReplace object to perform later
    *
-   * @param xmlr
+   * @param xmlr XmlReplace
    */
   public void add(final XmlReplace xmlr) {
     xmlr.setTask(this);
@@ -495,7 +495,7 @@ public class XmlTask extends Task {
    * switches on reporting. Reporting means that each
    * iteration of the modified Xml document is reported
    *
-   * @param report
+   * @param report boolean
    */
   public void setReport(final boolean report) {
     this.reporting = report;
@@ -504,7 +504,7 @@ public class XmlTask extends Task {
   /**
    * determines whether the header should be omitted
    *
-   * @param omitHeader
+   * @param omitHeader boolean
    */
   public void setOmitHeader(final boolean omitHeader) {
     this.omitHeader = omitHeader;
@@ -513,13 +513,13 @@ public class XmlTask extends Task {
   /**
    * determines whether the document is standalone
    *
-   * @param standalone
+   * @param standalone boolean
    */
   public void setStandAlone(final boolean standalone) {
     this.standalone = standalone;
     settingStandalone = true;
   }
-  /**
+  /* *
    * determines the document version
    *
    * From the javadoc for OutputKeys
@@ -548,7 +548,7 @@ public class XmlTask extends Task {
    * remove redundant text nodes, whitespace etc. By
    * default it is
    *
-   * @param norm
+   * @param norm boolean
    */
   public void setNormalize(final boolean norm) {
     this.normalize = norm;
@@ -557,7 +557,7 @@ public class XmlTask extends Task {
   /**
    * lists the set of buffers to be cleared
    *
-   * @param bufferset
+   * @param bufferset String
    */
   public void setClearBuffers(final String bufferset) {
     StringTokenizer st = new StringTokenizer(bufferset, ",");
@@ -569,10 +569,10 @@ public class XmlTask extends Task {
   }
 
   /**
-   * determines whether the ouput document is indented
+   * determines whether the output document is indented
    * By default it is
    *
-   * @param i
+   * @param in boolean
    */
   public void setIndent(final boolean in) {
     this.indent = in;
@@ -598,7 +598,7 @@ public class XmlTask extends Task {
   /**
    * executes the Ant task
    *
-   * @throws BuildException
+   * @throws BuildException if something goes wrong
    */
   public void execute() throws BuildException {
     log("Executing xmltask " + getVersion(), Project.MSG_VERBOSE);
@@ -705,7 +705,7 @@ public class XmlTask extends Task {
    *
    * @param doc the document to work on
    * @param name the destination file
-   * @throws BuildException
+   * @throws BuildException if something goes wrong
    */
   private void processDoc(Document doc, final String name) throws BuildException {
     try {
@@ -864,10 +864,10 @@ public class XmlTask extends Task {
    * by the user, or the document's will be used if we can
    * determine it
    *
-   * @param filename
-   * @param serializer
+   * @param filename String
+   * @param serializer Transformer
    * @return the resultant writer
-   * @throws IOException
+   * @throws IOException if something goes wrong
    */
   private Writer getWriter(final String filename, final Transformer serializer) throws IOException {
     String enc = outputEncoding;
@@ -955,6 +955,8 @@ public class XmlTask extends Task {
 
   /**
    * Adds a set of files as source.
+   *
+   * @param set FileSet
    */
   public void addFileset(final FileSet set)
   {

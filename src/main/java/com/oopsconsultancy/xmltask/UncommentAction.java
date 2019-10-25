@@ -25,7 +25,7 @@ public class UncommentAction extends Action {
   private DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
   private boolean wellFormed = false;
-  
+
   {
     // why do I do this ? Causes problems with
     // Pete Hale and namespace-scoped insertions
@@ -37,7 +37,7 @@ public class UncommentAction extends Action {
 
   /**
    * performs the uncomment action
-   * 
+   *
    * @see com.oopsconsultancy.xmltask.Action#apply(org.w3c.dom.Node)
    */
   public boolean apply(final Node node) throws Exception {
@@ -45,7 +45,7 @@ public class UncommentAction extends Action {
       Comment comment = (Comment) node;
       System.out.println("Uncommenting " + comment.getData());
       Document commentDoc = readXml(comment.getData());
-      
+
       // and insert...
       Node newnode = doc.importNode(commentDoc.getDocumentElement(), true);
       if (!wellFormed) {
@@ -76,10 +76,10 @@ public class UncommentAction extends Action {
 
   /**
    * reads the xml in the comment
-   * 
-   * @param xml
+   *
+   * @param xml String
    * @return an array of nodes to insert
-   * @throws Exception
+   * @throws Exception  if something goes wrong
    */
   private Document readXml(String xml) throws Exception {
     DocumentBuilder db = getBuilder();

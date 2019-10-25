@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  * the Ant replacement task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -68,9 +68,9 @@ public class Replace implements Instruction {
   /**
    * used to insert literal text placed within the build.xml under the replace
    * element
-   * 
-   * @param text
-   * @throws Exception
+   *
+   * @param text String
+   * @throws Exception if something goes wrong
    */
   public void addText(final String text) throws Exception {
     this.text = text;

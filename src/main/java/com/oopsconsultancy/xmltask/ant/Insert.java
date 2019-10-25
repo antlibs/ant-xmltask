@@ -10,7 +10,7 @@ import java.io.File;
 
 /**
  * the Ant insertion task
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -93,9 +93,9 @@ public class Insert implements Instruction {
   /**
    * used to insert literal text placed within the build.xml under the insert
    * element
-   * 
-   * @param text
-   * @throws Exception
+   *
+   * @param text String
+   * @throws Exception if something goes wrong
    */
   public void addText(final String text) throws Exception {
     this.text = text;
@@ -143,7 +143,7 @@ public class Insert implements Instruction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see com.oopsconsultancy.xmltask.ant.Instruction#setIf(java.lang.String)
    */
   public void setIf(final String ifProperty) {
@@ -152,7 +152,7 @@ public class Insert implements Instruction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see com.oopsconsultancy.xmltask.ant.Instruction#setUnless(java.lang.String)
    */
   public void setUnless(final String unlessProperty) {

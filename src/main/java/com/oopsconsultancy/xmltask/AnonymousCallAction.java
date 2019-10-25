@@ -29,7 +29,7 @@ public class AnonymousCallAction extends Action implements XPathAnalyserClient {
     this.task = task;
     this.buffer = buffer;
     this.params = params;
-    
+
     init();
   }
 
@@ -73,9 +73,9 @@ public class AnonymousCallAction extends Action implements XPathAnalyserClient {
    * engine where necessary and creating new attributes
    * in the macro instance, then calls on that.
    *
-   * @param node
+   * @param node Node
    * @return success
-   * @throws Exception
+   * @throws Exception if something goes wrong
    */
   public boolean apply(Node node) throws Exception {
     resetParams();
@@ -86,12 +86,12 @@ public class AnonymousCallAction extends Action implements XPathAnalyserClient {
       // record the complete (sub)node in the nominated buffer
       BufferStore.set(buffer, node, false, task);
     }
-    
+
     MacroInstance instance = new MacroInstance();
     instance.setProject(task.getProject());
     instance.setOwningTarget(task.getOwningTarget());
     instance.setMacroDef(macro);
-    
+
     if (params != null) {
       for (Iterator i = params.iterator(); i.hasNext(); ) {
         Param param = (Param)i.next();
@@ -106,7 +106,7 @@ public class AnonymousCallAction extends Action implements XPathAnalyserClient {
        	instance.setDynamicAttribute(param.getName().toLowerCase(), param.getValue());
       }
     }
-    
+
     instance.execute();
 
     return true;

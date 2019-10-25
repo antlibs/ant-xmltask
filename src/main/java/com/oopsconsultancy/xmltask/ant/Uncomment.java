@@ -28,11 +28,11 @@ public class Uncomment implements Instruction {
 
   public void setIf(final String ifProperty) {
     this.ifProperty = ifProperty;
-    
+
   }
 
   public void setUnless(final String unlessProperty) {
     this.unlessProperty = unlessProperty;
-    
+
   }
 }

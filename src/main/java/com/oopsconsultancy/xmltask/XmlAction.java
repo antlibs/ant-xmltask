@@ -48,7 +48,7 @@ public class XmlAction extends InsertAction {
     return xa;
   }
 
-  /**
+  /* *
    * performs the reading of the xml. Can handle non-well
    * formed documents
    *
@@ -165,4 +165,3 @@ public class XmlAction extends InsertAction {
     return "XmlAction(" + (doc2 == null ? (buffer == null ? "" : "buffer " + buffer) : doc2.getDocumentElement().toString()) + ")";
   }
 }
-

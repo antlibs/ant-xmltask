@@ -5,9 +5,9 @@ import com.oopsconsultancy.xmltask.XmlReplace;
 
 /**
  * performs regular expression work
- * 
+ *
  * @author brianagnew
- * 
+ *
  */
 public class Regexp implements Instruction {
 
@@ -46,11 +46,11 @@ public class Regexp implements Instruction {
 	public void setCaseSensitive(final boolean caseSensitive) {
 		this.caseSensitive = caseSensitive;
 	}
-	
+
 	public void setUnicodeCase(final boolean unicodeCase) {
 		this.unicodeCase = unicodeCase;
 	}
-	
+
 	public void setPath(final String path) {
 		this.path = path;
 	}

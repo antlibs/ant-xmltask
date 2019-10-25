@@ -15,7 +15,7 @@ import java.util.List;
  * node. We use the callback mechanism to record the nodes of interest, and once
  * that's completed, we then invoke on each node. This is to prevent infinite
  * loops (see test #95)
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -92,7 +92,7 @@ public class XmlReplace implements XPathAnalyserClient {
    * checks the 'if' and 'unless' properties, and if specified, determines
    * whether stuff gets done! If both 'if' and 'unless' are set then you've only
    * yourself to blame
-   * 
+   *
    * @return true if processing to take place
    */
   private boolean isApplicable() {
@@ -119,7 +119,7 @@ public class XmlReplace implements XPathAnalyserClient {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   public String toString() {
@@ -128,10 +128,10 @@ public class XmlReplace implements XPathAnalyserClient {
 
   /**
    * called by the XPathAnalyser implementations
-   * 
-   * @param n
-   * @param callback
-   * @throws Exception
+   *
+   * @param n Node
+   * @param callback Object
+   * @throws Exception if something goes wrong
    */
   public void applyNode(final Node n, final Object callback) throws Exception {
     nodes.add(n);
@@ -139,10 +139,10 @@ public class XmlReplace implements XPathAnalyserClient {
 
   /**
    * called by the XPathAnalyser implementations
-   * 
-   * @param str
-   * @param callback
-   * @throws Exception
+   *
+   * @param str String
+   * @param callback Object
+   * @throws Exception if something goes wrong
    */
   public void applyNode(final String str, final Object callback) throws Exception {
     nodes.add(action.getDocument().createTextNode(str));
@@ -150,8 +150,8 @@ public class XmlReplace implements XPathAnalyserClient {
 
   /**
    * sets a property determining execution
-   * 
-   * @param ifProperty
+   *
+   * @param ifProperty String
    */
   public void setIf(final String ifProperty) {
     this.ifProperty = ifProperty;
@@ -159,8 +159,8 @@ public class XmlReplace implements XPathAnalyserClient {
 
   /**
    * sets a property determining execution
-   * 
-   * @param unlessProperty
+   *
+   * @param unlessProperty String
    */
   public void setUnless(final String unlessProperty) {
     this.unlessProperty = unlessProperty;

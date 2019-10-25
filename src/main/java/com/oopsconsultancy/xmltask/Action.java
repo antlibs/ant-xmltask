@@ -30,7 +30,7 @@ public abstract class Action {
   /**
    * sets the document to process
    *
-   * @param doc
+   * @param doc Document
    */
   public void setDocument(Document doc) {
     this.doc = doc;
@@ -44,7 +44,7 @@ public abstract class Action {
    * records a node to remove once all modifications
    * have occurred
    *
-   * @param n
+   * @param n Node
    */
   protected void remove(Node n) {
     removals.add(n);
@@ -76,8 +76,7 @@ public abstract class Action {
    * etc.
    */
   protected void completeAction() {
-      
+
   }
   public abstract boolean apply(Node node) throws Exception;
 }
-

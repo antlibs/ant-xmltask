@@ -2,9 +2,9 @@ package com.oopsconsultancy.xmltask;
 
 import org.w3c.dom.Node;
 
-/** 
+/**
  * removes the nominated node and its children
- * 
+ *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
  * @version $Id$
  */
@@ -22,4 +22,3 @@ public class RemovalAction extends Action {
     return "RemovalAction()";
   }
 }
-
