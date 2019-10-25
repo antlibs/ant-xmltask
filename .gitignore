@@ -7,8 +7,8 @@
 # JUnit
 TEST-*
 
-# Compiled class files
-classes/
+# Build files
+build/
 
 # Log files
 *.log

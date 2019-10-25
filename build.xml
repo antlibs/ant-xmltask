@@ -1,120 +1,108 @@
 <?xml version="1.0"?>
-<project name="XmlTask" default="main" basedir=".">
-  <!-- $Id$ -->
-  <target name="init">
-  <!--
-    <property name="build.compiler"       value="jikes"/>
-    -->
-    <property name="build.compiler.emacs" value="true"/>
-    <property name="jarfile"              value="xmltask.jar"/>
-    <property name="tarfile"              value="xmltask.tar"/>
+<project name="XmlTask" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property name="java.baseline" value="1.5"/>
+  <property name="build.dir" value="build"/>
+  <property name="classes.dir" value="${build.dir}/classes"/>
+  <property name="jarfile" value="${build.dir}/xmltask.jar"/>
+  <property name="tarfile" value="${build.dir}/xmltask.tar"/>
 
-    <!-- prepare dirs -->
-    <mkdir dir="classes"/>
+  <!-- Ivy -->
+  <property name="ivy.version" value="2.5.0"/>
+  <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
+  <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
+  <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
+  <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
 
-    <property file="xmltask.properties"/>
-    <property name="v_jarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
-    <property name="v_tarfile"              value="xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
+  <target name="get-ivy" unless="has.ivy">
+    <mkdir dir="${ivy.dir}"/>
+    <get usetimestamp="true" src="http://apache.mirrors.spacedump.net//ant/ivy/${ivy.version}/maven2/${ivy.version}/${ivy.jar.name}"
+         skipexisting="true"
+         dest="${ivy.dir}/${ivy.jar.name}"/>
   </target>
 
-  <target name="javac" depends="init" description="Java source build">
-    <mkdir dir="classes"/>
-    <!-- then compile -->
-    <javac srcdir="." destdir="classes" debug="on" nowarn="true" source="1.5" target="1.5">
+  <target name="init-ivy" depends="get-ivy">
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.dir}/${ivy.jar.name}"/>
+    <ivy:settings file="${basedir}/ivy.settings.xml"/>
+  </target>
+
+  <target name="init" depends="init-ivy">
+    <!-- prepare dirs -->
+    <mkdir dir="${classes.dir}"/>
+
+    <!-- versioning -->
+    <property file="xmltask.properties"/>
+    <property name="v_jarfile" value="${build.dir}/xmltask-v${com.oopsconsultancy.xmltask.version}.jar"/>
+    <property name="v_tarfile" value="${build.dir}/xmltask-v${com.oopsconsultancy.xmltask.version}.tar"/>
+  </target>
+
+  <target name="resolve" depends="init">
+    <ivy:resolve file="ivy.xml"/>
+    <ivy:cachepath pathid="compile.classpath" conf="compile" type="jar"/>
+    <ivy:cachepath pathid="test.classpath" conf="test" type="jar"/>
+  </target>
+
+  <target name="javac" depends="resolve" description="Java source build">
+    <javac srcdir="src/main/java" destdir="${classes.dir}" debug="on" nowarn="true"
+           includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
       <include name="**/*.java"/>
+      <classpath>
+        <pathelement location="${java.home}/../lib/tools.jar"/>
+        <path refid="compile.classpath"/>
+      </classpath>
     </javac>
-    <copy file="xmltask.properties" todir="classes"/>
+    <copy file="xmltask.properties" todir="${classes.dir}"/>
     <!-- we've built against dummy XPathAPI classes so we
          can compile pre/post JDK 1.5 classes in the absence
          of one or the other. We then delete the dummy classes -->
-    <delete dir="classes/com/sun"/>
-    <delete dir="classes/org/apache"/>
+    <delete dir="${classes.dir}/com/sun"/>
+    <delete dir="${classes.dir}/org/apache"/>
   </target>
 
-  <target name="clean" depends="init" description="Clean classes">
-    <!-- clean the test files up -->
-    <delete>
-      <fileset dir="." includes="TEST-*.txt"/>
-    </delete>
-    <delete>
-      <fileset dir="classes" includes="**/*.class"/>
-    </delete>
-    <delete file="tags"/>
-    <delete file="${jarfile}"/>
-    <delete file="${v_jarfile}"/>
-    <delete file="${tarfile}"/>
-    <delete file="${tarfile}.gz"/>
-    <delete file="${v_tarfile}.gz"/>
+  <target name="jar" depends="javac">
+    <jar jarfile="${jarfile}" basedir="${classes.dir}"
+         includes="com/oopsconsultancy/**/*.class,xmltask.properties"
+         excludes="**/test/**/*"/>
   </target>
 
-  <target name="test" depends="init">
-    <junit haltonfailure="true">
-      <test name="com.oopsconsultancy.xmltask.test.TestXmlReplacement"/>
+  <target name="javac.test" depends="javac" description="Java source build">
+    <javac srcdir="src/test/java" destdir="${classes.dir}" debug="on" nowarn="true"
+           includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
+      <include name="**/*.java"/>
       <classpath>
-        <pathelement location="${basedir}/classes"/>
+        <pathelement location="${classes.dir}"/>
+        <path refid="test.classpath"/>
       </classpath>
-      <formatter type="plain"/>
+    </javac>
+  </target>
+
+  <target name="test" depends="javac.test">
+    <junit haltonfailure="true" tempdir="${build.dir}">
+      <test name="com.oopsconsultancy.xmltask.test.TestXmlReplacement" todir="${build.dir}"/>
+      <classpath>
+        <pathelement location="src/test/resources"/>
+        <pathelement path="${classes.dir}"/>
+        <path refid="test.classpath"/>
+      </classpath>
+      <formatter type="plain" usefile="no"/>
+      <formatter type="xml"/>
     </junit>
     <echo>Tests succeed!</echo>
   </target>
 
-  <target name="main" depends="javac,test" description="Complete build/test"/>
+  <target name="main" depends="test" description="Complete build/test"/>
 
-  <target name="package" depends="javac" description="Compiles the appropriate .jars">
-    <jar jarfile="${jarfile}" basedir="classes"
-          includes="com/oopsconsultancy/**/*.class,xmltask.properties"
-          excludes="**/test/**/*"/>
-    <tar tarfile="${tarfile}"
-         basedir="." 
-         includes="**/*.java,**/*.xml,**/*.pl,**/*.dtd,LICENSE,CREDITS,CHANGES,doc/**/*.html,doc/**/*.gif,xmltask.properties" excludes="samples/**/*"/>
+  <target name="package" depends="jar" description="Creates the appropriate archives">
+    <tar tarfile="${tarfile}">
+      <tarfileset dir="src/main/java" includes="**/*.java"/>
+      <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.xml,xmltask.properties"/>
+      <tarfileset dir="src/site" includes="*.html,*.css,*.gif,*.jpg"/>
+    </tar>
     <gzip src="${tarfile}" zipfile="${tarfile}.gz"/>
-    <delete file="classes/org/apache/tools/ant/types/XMLCatalog.class"/>     
     <delete file="${tarfile}"/>
     <echo>Created .jar and .tar.gz</echo>
   </target>
 
-  <target name="deliver" depends="package" description="Delivers to the Sourceforge site">
-    <!-- perform my local deployment for writing to Sourceforge -->
-    <!-- create a web page with the correct version -->
-    <checksum file="${tarfile}.gz" property="GZ_MD5"/>
-    <checksum file="${jarfile}" property="JAR_MD5"/>
-    <copy file="doc/xmltask.html" todir="/tmp"/>
-    <tstamp>
-      <format property="TODAY" pattern="dd-MMM-yyyy"/>
-    </tstamp>
-    <echo>Version ${com.oopsconsultancy.xmltask.version}</echo>
-    <replace file="/tmp/xmltask.html" token="@VERSION@" value="${com.oopsconsultancy.xmltask.version}"/>
-    <replace file="/tmp/xmltask.html" token="@TODAY@" value="${TODAY}"/>
-    <replace file="/tmp/xmltask.html" token="@GZ_MD5@" value="${GZ_MD5}"/>
-    <replace file="/tmp/xmltask.html" token="@JAR_MD5@" value="${JAR_MD5}"/>
-    <replace file="/tmp/xmltask.html" token="@JAR_14_MD5@" value="${JAR_14_MD5}"/>
-
-    <!-- get and confirm the xmltask version -->
-    <input message="Distribute [${com.oopsconsultancy.xmltask.version}] to Sourceforge " validargs="y,n" addproperty="distribute"/>
-    <condition property="do.abort">
-      <equals arg1="n" arg2="${distribute}"/>
-    </condition>
-    <fail if="do.abort"/>
-
-    <echo>Created version stamped documentation page /tmp/xmltask.html</echo>
-
-    <!-- generate versioned files for Sourceforge dispatch -->
-    <copy file="${jarfile}"       tofile="${v_jarfile}"/>
-    <copy file="${tarfile}.gz"    tofile="${v_tarfile}.gz"/>
-    <echo>Created ${v_jarfile}, ${v_tarfile}.gz</echo>
-
-    <!-- sends the files to Sourceforge.net -->
-    <echo>FTPing to upload.sourceforge.net</echo>
-    <ftp server="upload.sourceforge.net"
-     password="xmltask@oopsconsultancy.com"
-     userid="anonymous"
-     verbose="yes"
-     remotedir="/incoming"
-     depends="yes">
-      <fileset dir=".">
-        <include name="${v_jarfile}"/>
-        <include name="${v_tarfile}.gz"/>
-      </fileset>
-    </ftp>
+  <target name="clean" description="Clean classes">
+    <delete dir="${build.dir}"/>
   </target>
 </project>
