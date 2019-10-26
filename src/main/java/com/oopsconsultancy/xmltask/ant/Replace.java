@@ -5,7 +5,7 @@ import com.oopsconsultancy.xmltask.TextAction;
 import com.oopsconsultancy.xmltask.XmlAction;
 import com.oopsconsultancy.xmltask.XmlReplace;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.PropertyHelper;
 
 import java.io.File;
 
@@ -95,7 +95,7 @@ public class Replace implements Instruction {
         action = XmlAction.xmlActionfromFile(file, task);
       } else if (text != null) {
         if (expandProperties) {
-          text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
+          text = PropertyHelper.getPropertyHelper(task.getProject()).replaceProperties(null, text, task.getProject().getProperties());
         }
         action = XmlAction.xmlActionfromString(text, task);
       }
