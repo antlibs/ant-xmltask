@@ -27,6 +27,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -111,6 +112,11 @@ public class XmlTask extends Task {
    * the list of replacements to build
    */
   private List<XmlReplace> replacements = new ArrayList<XmlReplace>();
+
+  public void setFactory(final String p) {
+    log("XPath Factory = " + p, Project.MSG_VERBOSE);
+    System.setProperty(XPathFactory.DEFAULT_PROPERTY_NAME + ":" + XPathFactory.DEFAULT_OBJECT_MODEL_URI, p);
+  }
 
   public void setPublic(final String p) {
     doctype_public = p;

@@ -6,8 +6,8 @@
   <property name="classes.dir" value="${build.dir}/classes"/>
   <property name="javadoc.dir" value="${build.dir}/javadoc"/>
 
-  <!-- Ivy -->
-  <property name="ivy.version" value="2.5.0"/>
+  <!-- Ivy: NB! 2.5+ requires Java 7 baseline -->
+  <property name="ivy.version" value="2.4.0"/>
   <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
   <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
   <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
@@ -40,11 +40,6 @@
            classpathref="compile.classpath">
       <include name="**/*.java"/>
     </javac>
-    <!-- we've built against dummy XPathAPI classes so we
-         can compile pre/post JDK 1.5 classes in the absence
-         of one or the other. We then delete the dummy classes -->
-    <delete dir="${classes.dir}/com/sun"/>
-    <delete dir="${classes.dir}/org/apache"/>
   </target>
 
   <target name="jar" depends="javac">
