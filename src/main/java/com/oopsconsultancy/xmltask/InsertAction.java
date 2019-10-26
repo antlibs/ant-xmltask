@@ -150,9 +150,9 @@ public class InsertAction extends Action {
     } catch (SAXParseException e) {
       // it could not be well-formed, so we'll wrap and try again...
       BufferedReader bfr = new BufferedReader(new FileReader(xml));
-      StringBuffer sxml = new StringBuffer();
+      StringBuilder sxml = new StringBuilder();
       while (bfr.ready()) {
-        sxml.append(bfr.readLine() + "\n");
+        sxml.append(bfr.readLine()).append("\n");
       }
       bfr.close();
       readXml(DUMMYNODE + sxml.toString() + DUMMYENODE);

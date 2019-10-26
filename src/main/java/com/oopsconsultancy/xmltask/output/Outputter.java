@@ -21,7 +21,7 @@ public interface Outputter extends ContentHandler {
    *
    * @param w Writer
    */
-  public void setWriter(Writer w);
+  void setWriter(Writer w);
 
   /**
    * the transformer will contain definitions for the public and
@@ -30,12 +30,12 @@ public interface Outputter extends ContentHandler {
    *
    * @param transformer Transformer
    */
-  public void setTransformer(Transformer transformer);
+  void setTransformer(Transformer transformer);
 
   /**
    * sets the header omission
    *
    * @param omitHeader boolean
    */
-  public void setOmitHeader(boolean omitHeader);
+  void setOmitHeader(boolean omitHeader);
 }

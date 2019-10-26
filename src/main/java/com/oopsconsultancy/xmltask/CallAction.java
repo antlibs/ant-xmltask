@@ -148,11 +148,10 @@ public class CallAction extends Action implements XPathAnalyserClient {
    * @return the local or fully-qualified name
    */
   private String getNodePath(Node node, final boolean qualified) {
-    // stringbuffer not good for appending, so...
-    String op = "";
+    StringBuilder op = new StringBuilder();
     while (node != null && node.getParentNode() != null) {
       if (node.getNodeType() != Node.TEXT_NODE) {
-        op = "/" + (qualified ? node.getLocalName() : node.getNodeName()) + op;
+        op.insert(0, "/" + (qualified ? node.getLocalName() : node.getNodeName()));
       }
       node = node.getParentNode();
     }

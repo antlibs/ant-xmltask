@@ -67,11 +67,10 @@ public class RenameAction extends Action {
       // and remove the old one...
       if (!(owner instanceof Document)) {
         remove(elem);
-      }  
+      }
     }
-    else {
-      // nothing else supported...
-    }
+    // nothing else supported...
+
     return true;
   }
 
