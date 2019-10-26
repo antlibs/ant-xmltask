@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class XmlReplacement {
 
-  private final List replacements = new ArrayList();
+  private final List<XmlReplace> replacements = new ArrayList<XmlReplace>();
   private final Task task;
   private final Document doc;
   private boolean report = false;
@@ -57,10 +57,10 @@ public class XmlReplacement {
    * @return the resultant document
    */
   public Document apply() {
-    Iterator ireplacements = replacements.iterator();
+    Iterator<XmlReplace> ireplacements = replacements.iterator();
     boolean success = true;
     while (ireplacements.hasNext() && success) {
-      XmlReplace xr = (XmlReplace)ireplacements.next();
+      XmlReplace xr = ireplacements.next();
       try {
         int matches = xr.apply(doc);
         if (matches == 0) {
@@ -73,13 +73,11 @@ public class XmlReplacement {
         if (report) {
           output();
         }
-      }
-      catch (BuildException e) {
+      } catch (BuildException e) {
         // this catches build exceptions from subtasks called
         // by <call>. We rethrow since the build has to fail
         throw e;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         e.printStackTrace();
         success = false;
         failures++;
@@ -94,7 +92,7 @@ public class XmlReplacement {
    * @throws Exception if something goes wrong
    */
   private void output() throws Exception {
-	  output("Document", doc);
+    output("Document", doc);
   }
 
   /**

@@ -38,10 +38,9 @@ public class XPathAnalyser15 implements XPathAnalyser {
         client.applyNode(n, callback);
         count++;
       }
-    }
-    else if (result instanceof XBoolean ||
-             result instanceof XNumber ||
-             result instanceof XString) {
+    } else if (result instanceof XBoolean
+        || result instanceof XNumber
+        || result instanceof XString) {
       String str = result.str();
       client.applyNode(str, callback);
       count++;

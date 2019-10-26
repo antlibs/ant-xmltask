@@ -55,7 +55,7 @@ public class XmlAction extends InsertAction {
    * @param xml
    * @throws Exception
    */
-   /*
+  /*
   private void readXml(String xml) throws Exception {
     StringReader sr = new StringReader(xml);
     DocumentBuilder db = getBuilder();
@@ -138,9 +138,7 @@ public class XmlAction extends InsertAction {
         newnode = doc.importNode(n2, true);
         wellFormed = false;
       }
-
-    }
-    else if (doc2 != null) {
+    } else if (doc2 != null) {
       newnode = doc.importNode(doc2.getDocumentElement(), true);
     }
 
@@ -162,6 +160,7 @@ public class XmlAction extends InsertAction {
   */
 
   public String toString() {
-    return "XmlAction(" + (doc2 == null ? (buffer == null ? "" : "buffer " + buffer) : doc2.getDocumentElement().toString()) + ")";
+    return "XmlAction(" + (doc2 == null ? (buffer == null ? "" : "buffer "
+        + buffer) : doc2.getDocumentElement().toString()) + ")";
   }
 }

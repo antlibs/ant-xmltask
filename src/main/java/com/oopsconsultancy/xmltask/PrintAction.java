@@ -63,7 +63,7 @@ public class PrintAction extends Action {
    */
   public boolean apply(final Node node) throws Exception {
     Node[] nodes = null;
-    String id  =null;
+    String id = null;
     if (node == null) {
       // then find the buffer. We won't be called with a null
       // node unless we have a buffer (I think)
@@ -73,29 +73,26 @@ public class PrintAction extends Action {
       }
       nodes = BufferStore.get(buffer, task);
       if (nodes == null) {
-        System.err.println("Couldn't find any entries for buffer '"+ buffer +"'");
+        System.err.println("Couldn't find any entries for buffer '" + buffer + "'");
         return false;
       }
-      id = "buffer '" + buffer +"'";
-    }
-    else {
+      id = "buffer '" + buffer + "'";
+    } else {
       nodes = new Node[]{node};
       id = "node";
     }
     Transformer serializer = TransformerFactory.newInstance().newTransformer();
     serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-    for (int i = 0; i < nodes.length; i++) {
+    for (Node value : nodes) {
       try {
-        System.out.println("{ "+id + " output" + (ident != null ? " - " + ident : ""));
+        System.out.println("{ " + id + " output" + (ident != null ? " - " + ident : ""));
 
-        serializer.transform(new DOMSource(nodes[i]), new StreamResult(System.out));
-        System.out.println("} "+id + " output");
-      }
-      catch (Exception e) {
+        serializer.transform(new DOMSource(value), new StreamResult(System.out));
+        System.out.println("} " + id + " output");
+      } catch (Exception e) {
         System.err.println("Problem during output");
         e.printStackTrace();
       }
-
     }
 
     return true;
@@ -104,8 +101,7 @@ public class PrintAction extends Action {
   public static void log(final String msg, final Task task) {
     if (task != null) {
       task.log(msg, Project.MSG_VERBOSE);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }

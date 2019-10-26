@@ -26,7 +26,7 @@ public class Call implements Instruction {
 
   private boolean inheritRefs = false;
 
-  private List params = new ArrayList();
+  private List<Param> params = new ArrayList<Param>();
 
   private MacroDef macro;
 
@@ -72,9 +72,9 @@ public class Call implements Instruction {
   public void process(final XmlTask task) {
     XmlReplace xmlReplace = null;
     if (path != null && target != null) {
-      xmlReplace = new XmlReplace(path, new CallAction(target, task, inheritAll, inheritRefs, buffer, params));
-    }
-    else if (path != null && macro != null) {
+      xmlReplace = new XmlReplace(path,
+          new CallAction(target, task, inheritAll, inheritRefs, buffer, params));
+    } else if (path != null && macro != null) {
       xmlReplace = new XmlReplace(path, new AnonymousCallAction(macro, task, buffer, params));
     }
     if (xmlReplace != null) {

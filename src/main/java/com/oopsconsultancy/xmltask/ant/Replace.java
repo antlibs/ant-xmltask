@@ -87,22 +87,19 @@ public class Replace implements Instruction {
   private void register() {
     try {
       if (buffer != null) {
-		    action = XmlAction.xmlActionfromBuffer(buffer, task);
+        action = XmlAction.xmlActionfromBuffer(buffer, task);
       }
       if (xml != null) {
-		    action = XmlAction.xmlActionfromString(xml, task);
-      }
-      else if (file != null) {
+        action = XmlAction.xmlActionfromString(xml, task);
+      } else if (file != null) {
         action = XmlAction.xmlActionfromFile(file, task);
-      }
-      else if (text != null) {
+      } else if (text != null) {
         if (expandProperties) {
           text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
         }
         action = XmlAction.xmlActionfromString(text, task);
       }
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new BuildException("Failed to specify text in replace", e);
     }
     if (path != null && action != null) {

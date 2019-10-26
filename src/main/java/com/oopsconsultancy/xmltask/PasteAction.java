@@ -21,6 +21,6 @@ public class PasteAction extends Action {
   }
 
   public String toString() {
-    return "PasteAction(" + buffer +")";
+    return "PasteAction(" + buffer + ")";
   }
 }

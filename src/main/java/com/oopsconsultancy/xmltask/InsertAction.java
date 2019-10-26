@@ -37,9 +37,9 @@ import java.io.StringReader;
  */
 public class InsertAction extends Action {
 
-  public final static String DUMMY = "XMLTASK";
-  public final static String DUMMYNODE = "<" + DUMMY + ">";
-  public final static String DUMMYENODE = "</" + DUMMY + ">";
+  public static final String DUMMY = "XMLTASK";
+  public static final String DUMMYNODE = "<" + DUMMY + ">";
+  public static final String DUMMYENODE = "</" + DUMMY + ">";
 
   /**
    * represents the insertion points for a document fragment/element
@@ -49,9 +49,9 @@ public class InsertAction extends Action {
     private Position(final String label) {
       this.label = label;
     }
-    public final static Position UNDER = new Position("under");
-    public final static Position BEFORE = new Position("before");
-    public final static Position AFTER = new Position("after");
+    public static final Position UNDER = new Position("under");
+    public static final Position BEFORE = new Position("before");
+    public static final Position AFTER = new Position("after");
 
     public String toString() {
       return label;
@@ -73,18 +73,17 @@ public class InsertAction extends Action {
 
   private DocumentBuilder getBuilder() throws ParserConfigurationException {
     DocumentBuilder db = dfactory.newDocumentBuilder();
-    db.setErrorHandler(new ErrorHandler(){
-        public void error(final SAXParseException e) {
-          System.err.println(e.getMessage());
-        }
-        public void fatalError(final SAXParseException e) {
-          // I want to disable the error o/p for non-well
-          // formed documents
-        }
-        public void warning(final SAXParseException e) {
-          System.err.println(e.getMessage());
-        }
-        });
+    db.setErrorHandler(new ErrorHandler() {
+      public void error(final SAXParseException e) {
+        System.err.println(e.getMessage());
+      }
+      public void fatalError(final SAXParseException e) {
+        // I want to disable the error o/p for non-well formed documents
+      }
+      public void warning(final SAXParseException e) {
+        System.err.println(e.getMessage());
+      }
+    });
     return db;
   }
 
@@ -125,8 +124,7 @@ public class InsertAction extends Action {
     this.task = task;
     try {
       readXml(txml);
-    }
-    catch (SAXParseException e) {
+    } catch (SAXParseException e) {
       // it could not be well-formed, so we'll wrap and try again...
       readXml(DUMMYNODE + txml + DUMMYENODE);
       wellFormed = false;
@@ -149,8 +147,7 @@ public class InsertAction extends Action {
     try {
       DocumentBuilder db = getBuilder();
       doc2 = db.parse(in2);
-    }
-    catch (SAXParseException e) {
+    } catch (SAXParseException e) {
       // it could not be well-formed, so we'll wrap and try again...
       BufferedReader bfr = new BufferedReader(new FileReader(xml));
       StringBuffer sxml = new StringBuffer();
@@ -186,6 +183,7 @@ public class InsertAction extends Action {
    * isn't an element, then this is reported and the task exits
    *
    * @param node Node
+   * @return boolean
    * @throws Exception if something goes wrong
    */
   public boolean apply(final Node node) throws Exception {
@@ -195,8 +193,7 @@ public class InsertAction extends Action {
   private void log(final String msg, final int level) {
     if (task != null) {
       task.log(msg, level);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }
@@ -217,28 +214,27 @@ public class InsertAction extends Action {
         // (certainly for position="after". What about other
         // positions?)
         if (pos == Position.AFTER) {
-	        for (int n =  n2.length - 1; n >= 0;  n--) {
-	          log("Inserting " + n2[n], Project.MSG_VERBOSE);
-	          newnode = doc.importNode(n2[n], true);
-	          insertNode(node, newnode);
-	        }
-        }
-        else
-        for (int n = 0; n < n2.length;  n++) {
-          log("Inserting " + n2[n], Project.MSG_VERBOSE);
-          newnode = doc.importNode(n2[n], true);
-          insertNode(node, newnode);
+          for (int n =  n2.length - 1; n >= 0;  n--) {
+            log("Inserting " + n2[n], Project.MSG_VERBOSE);
+            newnode = doc.importNode(n2[n], true);
+            insertNode(node, newnode);
+          }
+        } else {
+          for (Node value : n2) {
+            log("Inserting " + value, Project.MSG_VERBOSE);
+            newnode = doc.importNode(value, true);
+            insertNode(node, newnode);
+          }
         }
       }
-	    return true;
-    }
-    else if (doc2 != null) {
+      return true;
+    } else if (doc2 != null) {
       newnode = doc.importNode(doc2.getDocumentElement(), true);
       if (!wellFormed) {
         // I need to extract the nodes below the dummy root node
         DocumentFragment frag = doc.createDocumentFragment();
         NodeList children = newnode.getChildNodes();
-        for (int c = 0; c < children.getLength(); ) {
+        for (int c = 0; c < children.getLength();) {
           // we can do this as the appendChild is removing at the same time
           frag.appendChild(children.item(c));
         }
@@ -267,28 +263,23 @@ public class InsertAction extends Action {
       if (existingNode instanceof Document) {
         log("Building a root element", Project.MSG_VERBOSE);
         existingNode.appendChild(newnode);
-      }
-      else if (existingNode instanceof Element) {
+      } else if (existingNode instanceof Element) {
         if (newnode instanceof Attr) {
-          ((Element)existingNode).setAttributeNodeNS((Attr)newnode);
-        }
-        else {
+          ((Element) existingNode).setAttributeNodeNS((Attr) newnode);
+        } else {
           existingNode.appendChild(newnode);
         }
-      }
-      else if (existingNode instanceof Attr) {
+      } else if (existingNode instanceof Attr) {
         // we can insert into an attribute node, but only
         // from a text node (e.g. something from a buffer)
         if (newnode instanceof Text) {
-          Attr existingAttr = (Attr)existingNode;
+          Attr existingAttr = (Attr) existingNode;
           existingAttr.setValue(newnode.getNodeValue());
-        }
-        else {
+        } else {
           System.err.println(newnode + " must be a text node to insert in an attribute");
           return false;
         }
-      }
-      else {
+      } else {
         System.err.println(existingNode + " not an element node");
         return false;
       }
@@ -312,7 +303,7 @@ public class InsertAction extends Action {
       if (parent == null) {
         System.err.println("Attempt to insert after root node");
         return false;
-        }
+      }
       parent.insertBefore(newnode, existingNode.getNextSibling());
     }
     return true;
@@ -324,7 +315,7 @@ public class InsertAction extends Action {
    * @return String
    */
   public String toString() {
-    return "InsertAction(" + (doc2 == null ? (buffer == null ? "" : "buffer " + buffer) : doc2.getDocumentElement().toString()) +
-           ", position [" + pos + "])";
+    return "InsertAction(" + (doc2 == null ? (buffer == null ? "" : "buffer " + buffer)
+        : doc2.getDocumentElement().toString()) + ", position [" + pos + "])";
   }
 }

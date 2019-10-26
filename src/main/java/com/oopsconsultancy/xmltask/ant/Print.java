@@ -30,11 +30,9 @@ public class Print {
   public void process(final XmlTask task) {
     if (buffer != null) {
       task.add(new XmlReplace(path, PrintAction.newInstanceFromBuffer(task, buffer, comment)));
-    }
-    else if (path != null) {
+    } else if (path != null) {
       task.add(new XmlReplace(path, PrintAction.newInstanceFromPath(task, path, comment)));
-    }
-    else {
+    } else {
       System.err.println("No path or buffer specified for <print> - ignoring");
     }
   }

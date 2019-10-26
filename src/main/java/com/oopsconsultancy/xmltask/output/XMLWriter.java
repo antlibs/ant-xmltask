@@ -173,8 +173,7 @@ import java.util.Hashtable;
  * @see org.xml.sax.XMLFilter
  * @see org.xml.sax.ContentHandler
  */
-public class XMLWriter extends XMLFilterImpl
-{
+public class XMLWriter extends XMLFilterImpl {
   ////////////////////////////////////////////////////////////////////
   // Constructors.
   ////////////////////////////////////////////////////////////////////
@@ -185,8 +184,7 @@ public class XMLWriter extends XMLFilterImpl
    *
    * <p>Write to standard output.</p>
    */
-  public XMLWriter ()
-  {
+  public XMLWriter() {
     init(null);
   }
 
@@ -199,8 +197,7 @@ public class XMLWriter extends XMLFilterImpl
    * @param writer The output destination, or null to use standard
    *        output.
    */
-  public XMLWriter (Writer writer)
-  {
+  public XMLWriter(Writer writer) {
     init(writer);
   }
 
@@ -213,8 +210,7 @@ public class XMLWriter extends XMLFilterImpl
    * @param xmlreader The parent in the filter chain, or null
    *        for no parent.
    */
-  public XMLWriter (XMLReader xmlreader)
-  {
+  public XMLWriter(XMLReader xmlreader) {
     super(xmlreader);
     init(null);
   }
@@ -231,8 +227,7 @@ public class XMLWriter extends XMLFilterImpl
    * @param writer The output destination, or null to use standard
    *        output.
    */
-  public XMLWriter (XMLReader xmlreader, Writer writer)
-  {
+  public XMLWriter(XMLReader xmlreader, Writer writer) {
     super(xmlreader);
     init(writer);
   }
@@ -246,17 +241,15 @@ public class XMLWriter extends XMLFilterImpl
    * @param writer The output destination, or null to use
    *        standard output.
    */
-  protected void init (Writer writer)
-  {
+  protected void init(Writer writer) {
     setOutput(writer);
     nsSupport = new NamespaceSupport();
-    prefixTable = new Hashtable();
-    forcedDeclTable = new Hashtable();
-    doneDeclTable = new Hashtable();
+    prefixTable = new Hashtable<String, String>();
+    forcedDeclTable = new Hashtable<String, Boolean>();
+    doneDeclTable = new Hashtable<String, String>();
   }
 
 
-  
     ////////////////////////////////////////////////////////////////////
     // Public methods.
     ////////////////////////////////////////////////////////////////////
@@ -281,8 +274,7 @@ public class XMLWriter extends XMLFilterImpl
      *
      * @see #flush
      */
-    public void reset ()
-    {
+    public void reset() {
       elementLevel = 0;
       prefixCounter = 0;
       nsSupport.reset();
@@ -304,11 +296,10 @@ public class XMLWriter extends XMLFilterImpl
    * @see #reset
    * @throws IOException if something goes wrong
    */
-  public void flush ()
-    throws IOException
-    {
-      output.flush();
-    }
+  public void flush()
+      throws IOException {
+    output.flush();
+  }
 
 
   /**
@@ -319,8 +310,7 @@ public class XMLWriter extends XMLFilterImpl
    *
    * @see #flush
    */
-  public void setOutput (Writer writer)
-  {
+  public void setOutput(Writer writer) {
     if (writer == null) {
       output = new OutputStreamWriter(System.out);
     } else {
@@ -343,8 +333,7 @@ public class XMLWriter extends XMLFilterImpl
    * @see #forceNSDecl(java.lang.String)
    * @see #forceNSDecl(java.lang.String,java.lang.String)
    */
-  public void setPrefix (String uri, String prefix)
-  {
+  public void setPrefix(String uri, String prefix) {
     prefixTable.put(uri, prefix);
   }
 
@@ -356,9 +345,8 @@ public class XMLWriter extends XMLFilterImpl
    * @return The preferred prefix, or "" for the default Namespace.
    * @see #setPrefix
    */
-  public String getPrefix (String uri)
-  {
-    return (String)prefixTable.get(uri);
+  public String getPrefix(String uri) {
+    return prefixTable.get(uri);
   }
 
 
@@ -378,8 +366,7 @@ public class XMLWriter extends XMLFilterImpl
    * @see #forceNSDecl(java.lang.String,java.lang.String)
    * @see #setPrefix
    */
-  public void forceNSDecl (String uri)
-  {
+  public void forceNSDecl(String uri) {
     forcedDeclTable.put(uri, Boolean.TRUE);
   }
 
@@ -397,36 +384,32 @@ public class XMLWriter extends XMLFilterImpl
    * @see #setPrefix
    * @see #forceNSDecl(java.lang.String)
    */
-  public void forceNSDecl (String uri, String prefix)
-  {
+  public void forceNSDecl(String uri, String prefix) {
     setPrefix(uri, prefix);
     forceNSDecl(uri);
   }
 
 
-  
-    ////////////////////////////////////////////////////////////////////
-    // Methods from org.xml.sax.ContentHandler.
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // Methods from org.xml.sax.ContentHandler.
+  ////////////////////////////////////////////////////////////////////
 
 
-    /**
-     * Write the XML declaration at the beginning of the document.
-     *
-     * Pass the event on down the filter chain for further processing.
-     *
-     * @exception org.xml.sax.SAXException If there is an error
-     *            writing the XML declaration, or if a handler further down
-     *            the filter chain raises an exception.
-     * @see org.xml.sax.ContentHandler#startDocument
-     */
-    public void startDocument ()
-    throws SAXException
-    {
-      reset();
-      write("<?xml version=\"1.0\" standalone=\"yes\"?>\n\n");
-      super.startDocument();
-    }
+  /**
+   * Write the XML declaration at the beginning of the document.
+   *
+   * Pass the event on down the filter chain for further processing.
+   *
+   * @exception org.xml.sax.SAXException If there is an error
+   *            writing the XML declaration, or if a handler further down
+   *            the filter chain raises an exception.
+   * @see org.xml.sax.ContentHandler#startDocument
+   */
+  public void startDocument() throws SAXException {
+    reset();
+    write("<?xml version=\"1.0\" standalone=\"yes\"?>\n\n");
+    super.startDocument();
+  }
 
 
   /**
@@ -439,17 +422,15 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#endDocument
    */
-  public void endDocument ()
-    throws SAXException
-    {
-      write('\n');
-      super.endDocument();
-      try {
-        flush();
-      } catch (IOException e) {
-        throw new SAXException(e);
-      }
+  public void endDocument() throws SAXException {
+    write('\n');
+    super.endDocument();
+    try {
+      flush();
+    } catch (IOException e) {
+      throw new SAXException(e);
     }
+  }
 
 
   /**
@@ -471,22 +452,21 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#startElement
    */
-  public void startElement (String uri, String localName,
-      String qName, Attributes atts)
-    throws SAXException
-    {
-      elementLevel++;
-      nsSupport.pushContext();
-      write('<');
-      writeName(uri, localName, qName, true);
-      writeAttributes(atts);
-      if (elementLevel == 1) {
-        forceNSDecls();
-      }
-      writeNSDecls();
-      write('>');
-      super.startElement(uri, localName, qName, atts);
+  public void startElement(String uri, String localName,
+                           String qName, Attributes atts)
+      throws SAXException {
+    elementLevel++;
+    nsSupport.pushContext();
+    write('<');
+    writeName(uri, localName, qName, true);
+    writeAttributes(atts);
+    if (elementLevel == 1) {
+      forceNSDecls();
     }
+    writeNSDecls();
+    write('>');
+    super.startElement(uri, localName, qName, atts);
+  }
 
 
   /**
@@ -507,19 +487,18 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#endElement
    */
-  public void endElement (String uri, String localName, String qName)
-    throws SAXException
-    {
-      write("</");
-      writeName(uri, localName, qName, true);
-      write('>');
-      if (elementLevel == 1) {
-        write('\n');
-      }
-      super.endElement(uri, localName, qName);
-      nsSupport.popContext();
-      elementLevel--;
+  public void endElement(String uri, String localName, String qName)
+      throws SAXException {
+    write("</");
+    writeName(uri, localName, qName, true);
+    write('>');
+    if (elementLevel == 1) {
+      write('\n');
     }
+    super.endElement(uri, localName, qName);
+    nsSupport.popContext();
+    elementLevel--;
+  }
 
 
   /**
@@ -535,21 +514,20 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#characters
    */
-  public void characters (char ch[], int start, int len)
-    throws SAXException
-    {
-      writeEsc(ch, start, len, false);
-      super.characters(ch, start, len);
+  public void characters(char[] ch, int start, int len)
+      throws SAXException {
+    writeEsc(ch, start, len, false);
+    super.characters(ch, start, len);
+  }
+
+  public void nonescapedcharacters(char[] ch, int start, int len)
+      throws SAXException {
+    int s = start;
+    while (s < (start + len)) {
+      write(ch[s++]);
     }
-  public void nonescapedcharacters (char ch[], int start, int len)
-    throws SAXException
-    {
-      int s = start;
-      while (s < (start + len)) {
-        write(ch[s++]);
-      }
-      super.characters(ch, start, len);
-    }
+    super.characters(ch, start, len);
+  }
 
 
   /**
@@ -565,12 +543,11 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#ignorableWhitespace
    */
-  public void ignorableWhitespace (char ch[], int start, int length)
-    throws SAXException
-    {
-      writeEsc(ch, start, length, false);
-      super.ignorableWhitespace(ch, start, length);
-    }
+  public void ignorableWhitespace(char[] ch, int start, int length)
+      throws SAXException {
+    writeEsc(ch, start, length, false);
+    super.ignorableWhitespace(ch, start, length);
+  }
 
 
 
@@ -586,96 +563,90 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see org.xml.sax.ContentHandler#processingInstruction
    */
-  public void processingInstruction (String target, String data)
-    throws SAXException
-    {
-      write("<?");
-      write(target);
-      write(' ');
-      write(data);
-      write("?>");
-      if (elementLevel < 1) {
-        write('\n');
-      }
-      super.processingInstruction(target, data);
+  public void processingInstruction(String target, String data)
+      throws SAXException {
+    write("<?");
+    write(target);
+    write(' ');
+    write(data);
+    write("?>");
+    if (elementLevel < 1) {
+      write('\n');
     }
+    super.processingInstruction(target, data);
+  }
 
 
-  
-    ////////////////////////////////////////////////////////////////////
-    // Additional markup.
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // Additional markup.
+  ////////////////////////////////////////////////////////////////////
 
-    /**
-     * Write an empty element.
-     *
-     * This method writes an empty element tag rather than a start tag
-     * followed by an end tag.  Both a {@link #startElement
-     * startElement} and an {@link #endElement endElement} event will
-     * be passed on down the filter chain.
-     *
-     * @param uri The element's Namespace URI, or the empty string
-     *        if the element has no Namespace or if Namespace
-     *        processing is not being performed.
-     * @param localName The element's local name (without prefix).  This
-     *        parameter must be provided.
-     * @param qName The element's qualified name (with prefix), or
-     *        the empty string if none is available.  This parameter
-     *        is strictly advisory: the writer may or may not use
-     *        the prefix attached.
-     * @param atts The element's attribute list.
-     * @exception org.xml.sax.SAXException If there is an error
-     *            writing the empty tag, or if a handler further down
-     *            the filter chain raises an exception.
-     * @see #startElement
-     * @see #endElement
-     */
-    public void emptyElement (String uri, String localName,
-        String qName, Attributes atts)
-    throws SAXException
-    {
-      nsSupport.pushContext();
-      write('<');
-      writeName(uri, localName, qName, true);
-      writeAttributes(atts);
-      if (elementLevel == 1) {
-        forceNSDecls();
-      }
-      writeNSDecls();
-      write("/>");
-      super.startElement(uri, localName, qName, atts);
-      super.endElement(uri, localName, qName);
+  /**
+   * Write an empty element.
+   *
+   * This method writes an empty element tag rather than a start tag
+   * followed by an end tag.  Both a {@link #startElement
+   * startElement} and an {@link #endElement endElement} event will
+   * be passed on down the filter chain.
+   *
+   * @param uri The element's Namespace URI, or the empty string
+   *        if the element has no Namespace or if Namespace
+   *        processing is not being performed.
+   * @param localName The element's local name (without prefix).  This
+   *        parameter must be provided.
+   * @param qName The element's qualified name (with prefix), or
+   *        the empty string if none is available.  This parameter
+   *        is strictly advisory: the writer may or may not use
+   *        the prefix attached.
+   * @param atts The element's attribute list.
+   * @exception org.xml.sax.SAXException If there is an error
+   *            writing the empty tag, or if a handler further down
+   *            the filter chain raises an exception.
+   * @see #startElement
+   * @see #endElement
+   */
+  public void emptyElement(String uri, String localName,
+                           String qName, Attributes atts)
+      throws SAXException {
+    nsSupport.pushContext();
+    write('<');
+    writeName(uri, localName, qName, true);
+    writeAttributes(atts);
+    if (elementLevel == 1) {
+      forceNSDecls();
     }
+    writeNSDecls();
+    write("/>");
+    super.startElement(uri, localName, qName, atts);
+    super.endElement(uri, localName, qName);
+  }
 
 
-  
-    ////////////////////////////////////////////////////////////////////
-    // Convenience methods.
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // Convenience methods.
+  ////////////////////////////////////////////////////////////////////
 
 
-
-    /**
-     * Start a new element without a qname or attributes.
-     *
-     * <p>This method will provide a default empty attribute
-     * list and an empty string for the qualified name.
-     * It invokes {@link
-     * #startElement(String, String, String, Attributes)}
-     * directly.</p>
-     *
-     * @param uri The element's Namespace URI.
-     * @param localName The element's local name.
-     * @exception org.xml.sax.SAXException If there is an error
-     *            writing the start tag, or if a handler further down
-     *            the filter chain raises an exception.
-     * @see #startElement(String, String, String, Attributes)
-     */
-    public void startElement (String uri, String localName)
-    throws SAXException
-    {
-      startElement(uri, localName, "", EMPTY_ATTS);
-    }
+  /**
+   * Start a new element without a qname or attributes.
+   *
+   * <p>This method will provide a default empty attribute
+   * list and an empty string for the qualified name.
+   * It invokes {@link
+   * #startElement(String, String, String, Attributes)}
+   * directly.</p>
+   *
+   * @param uri The element's Namespace URI.
+   * @param localName The element's local name.
+   * @exception org.xml.sax.SAXException If there is an error
+   *            writing the start tag, or if a handler further down
+   *            the filter chain raises an exception.
+   * @see #startElement(String, String, String, Attributes)
+   */
+  public void startElement(String uri, String localName)
+      throws SAXException {
+    startElement(uri, localName, "", EMPTY_ATTS);
+  }
 
 
   /**
@@ -693,11 +664,10 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #startElement(String, String, String, Attributes)
    */
-  public void startElement (String localName)
-    throws SAXException
-    {
-      startElement("", localName, "", EMPTY_ATTS);
-    }
+  public void startElement(String localName)
+      throws SAXException {
+    startElement("", localName, "", EMPTY_ATTS);
+  }
 
 
   /**
@@ -714,11 +684,10 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #endElement(String, String, String)
    */
-  public void endElement (String uri, String localName)
-    throws SAXException
-    {
-      endElement(uri, localName, "");
-    }
+  public void endElement(String uri, String localName)
+      throws SAXException {
+    endElement(uri, localName, "");
+  }
 
 
   /**
@@ -735,11 +704,10 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #endElement(String, String, String)
    */
-  public void endElement (String localName)
-    throws SAXException
-    {
-      endElement("", localName, "");
-    }
+  public void endElement(String localName)
+      throws SAXException {
+    endElement("", localName, "");
+  }
 
 
   /**
@@ -757,11 +725,10 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #emptyElement(String, String, String, Attributes)
    */
-  public void emptyElement (String uri, String localName)
-    throws SAXException
-    {
-      emptyElement(uri, localName, "", EMPTY_ATTS);
-    }
+  public void emptyElement(String uri, String localName)
+      throws SAXException {
+    emptyElement(uri, localName, "", EMPTY_ATTS);
+  }
 
 
   /**
@@ -779,11 +746,10 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #emptyElement(String, String, String, Attributes)
    */
-  public void emptyElement (String localName)
-    throws SAXException
-    {
-      emptyElement("", localName, "", EMPTY_ATTS);
-    }
+  public void emptyElement(String localName)
+      throws SAXException {
+    emptyElement("", localName, "", EMPTY_ATTS);
+  }
 
 
   /**
@@ -811,15 +777,13 @@ public class XMLWriter extends XMLFilterImpl
    * @see #characters(String)
    * @see #endElement(String, String, String)
    */
-  public void dataElement (String uri, String localName,
-      String qName, Attributes atts,
-      String content)
-    throws SAXException
-    {
-      startElement(uri, localName, qName, atts);
-      characters(content);
-      endElement(uri, localName, qName);
-    }
+  public void dataElement(String uri, String localName, String qName,
+                          Attributes atts, String content)
+      throws SAXException {
+    startElement(uri, localName, qName, atts);
+    characters(content);
+    endElement(uri, localName, qName);
+  }
 
 
   /**
@@ -846,11 +810,10 @@ public class XMLWriter extends XMLFilterImpl
    * @see #characters(String)
    * @see #endElement(String, String, String)
    */
-  public void dataElement (String uri, String localName, String content)
-    throws SAXException
-    {
-      dataElement(uri, localName, "", EMPTY_ATTS, content);
-    }
+  public void dataElement(String uri, String localName, String content)
+      throws SAXException {
+    dataElement(uri, localName, "", EMPTY_ATTS, content);
+  }
 
 
   /**
@@ -877,11 +840,10 @@ public class XMLWriter extends XMLFilterImpl
    * @see #characters(String)
    * @see #endElement(String, String, String)
    */
-  public void dataElement (String localName, String content)
-    throws SAXException
-    {
-      dataElement("", localName, "", EMPTY_ATTS, content);
-    }
+  public void dataElement(String localName, String content)
+      throws SAXException {
+    dataElement("", localName, "", EMPTY_ATTS, content);
+  }
 
 
   /**
@@ -897,34 +859,31 @@ public class XMLWriter extends XMLFilterImpl
    *            the filter chain raises an exception.
    * @see #characters(char[], int, int)
    */
-  public void characters (String data)
-    throws SAXException
-    {
-      char ch[] = data.toCharArray();
-      characters(ch, 0, ch.length);
+  public void characters(String data)
+      throws SAXException {
+    char[] ch = data.toCharArray();
+    characters(ch, 0, ch.length);
+  }
+
+
+  ////////////////////////////////////////////////////////////////////
+  // Internal methods.
+  ////////////////////////////////////////////////////////////////////
+
+
+  /**
+   * Force all Namespaces to be declared.
+   *
+   * This method is used on the root element to ensure that
+   * the predeclared Namespaces all appear.
+   */
+  private void forceNSDecls() {
+    Enumeration<String> prefixes = forcedDeclTable.keys();
+    while (prefixes.hasMoreElements()) {
+      String prefix = prefixes.nextElement();
+      doPrefix(prefix, null, true);
     }
-
-
-  
-    ////////////////////////////////////////////////////////////////////
-    // Internal methods.
-    ////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Force all Namespaces to be declared.
-     *
-     * This method is used on the root element to ensure that
-     * the predeclared Namespaces all appear.
-     */
-    private void forceNSDecls ()
-    {
-      Enumeration prefixes = forcedDeclTable.keys();
-      while (prefixes.hasMoreElements()) {
-        String prefix = (String)prefixes.nextElement();
-        doPrefix(prefix, null, true);
-      }
-    }
+  }
 
 
   /**
@@ -939,13 +898,14 @@ public class XMLWriter extends XMLFilterImpl
    * @param isElement true if this is an element name, false
    *        if it is an attribute name (which cannot use the
    *        default Namespace).
+   * @return String
    */
-  private String doPrefix (String uri, String qName, boolean isElement)
-  {
+  private String doPrefix(String uri, String qName, boolean isElement) {
     String defaultNS = nsSupport.getURI("");
     if ("".equals(uri)) {
-      if (isElement && defaultNS != null)
+      if (isElement && defaultNS != null) {
         nsSupport.declarePrefix("", "");
+      }
       return null;
     }
     String prefix;
@@ -957,17 +917,17 @@ public class XMLWriter extends XMLFilterImpl
     if (prefix != null) {
       return prefix;
     }
-    prefix = (String) doneDeclTable.get(uri);
-    if (prefix != null &&
-        ((!isElement || defaultNS != null) &&
-         "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
+    prefix = doneDeclTable.get(uri);
+    if (prefix != null
+        && ((!isElement || defaultNS != null)
+          && "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
       prefix = null;
     }
     if (prefix == null) {
-      prefix = (String) prefixTable.get(uri);
-      if (prefix != null &&
-          ((!isElement || defaultNS != null) &&
-           "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
+      prefix = prefixTable.get(uri);
+      if (prefix != null
+          && ((!isElement || defaultNS != null)
+            && "".equals(prefix) || nsSupport.getURI(prefix) != null)) {
         prefix = null;
       }
     }
@@ -981,10 +941,9 @@ public class XMLWriter extends XMLFilterImpl
         prefix = qName.substring(0, i);
       }
     }
-    for (;
-        prefix == null || nsSupport.getURI(prefix) != null;
-        prefix = "__NS" + ++prefixCounter)
-      ;
+    while (prefix == null || nsSupport.getURI(prefix) != null) {
+      prefix = "__NS" + ++prefixCounter;
+    }
     nsSupport.declarePrefix(prefix, uri);
     doneDeclTable.put(uri, prefix);
     return prefix;
@@ -999,15 +958,14 @@ public class XMLWriter extends XMLFilterImpl
    *            the character, this method will throw an IOException
    *            wrapped in a SAXException.
    */
-  protected void write (char c)
-    throws SAXException
-    {
-      try {
-        output.write(c);
-      } catch (IOException e) {
-        throw new SAXException(e);
-      }
+  protected void write(char c)
+      throws SAXException {
+    try {
+      output.write(c);
+    } catch (IOException e) {
+      throw new SAXException(e);
     }
+  }
 
 
   /**
@@ -1018,15 +976,14 @@ public class XMLWriter extends XMLFilterImpl
    *            the string, this method will throw an IOException
    *            wrapped in a SAXException
    */
-  protected void write (String s)
-    throws SAXException
-    {
-      try {
-        output.write(s);
-      } catch (IOException e) {
-        throw new SAXException(e);
-      }
+  protected void write(String s)
+      throws SAXException {
+    try {
+      output.write(s);
+    } catch (IOException e) {
+      throw new SAXException(e);
     }
+  }
 
 
   /**
@@ -1039,12 +996,12 @@ public class XMLWriter extends XMLFilterImpl
    *            the attribute list, this method will throw an
    *            IOException wrapped in a SAXException.
    */
-  private void writeAttributes (Attributes atts) throws SAXException {
+  private void writeAttributes(Attributes atts) throws SAXException {
     int len = atts.getLength();
     for (int i = 0; i < len; i++) {
       // I ignore namespace info here as it's output by another routine...
       if (!atts.getQName(i).startsWith("xmlns:")) {
-        char ch[] = atts.getValue(i).toCharArray();
+        char[] ch = atts.getValue(i).toCharArray();
         write(' ');
         writeName(atts.getURI(i), atts.getLocalName(i),
             atts.getQName(i), false);
@@ -1067,40 +1024,38 @@ public class XMLWriter extends XMLFilterImpl
    *            the characters, this method will throw an
    *            IOException wrapped in a SAXException.
    */
-  protected void writeEsc (char ch[], int start,
-      int length, boolean isAttVal)
-    throws SAXException
-    {
-      for (int i = start; i < start + length; i++) {
-        switch (ch[i]) {
-          case '&':
-            write("&amp;");
-            break;
-          case '<':
-            write("&lt;");
-            break;
-          case '>':
-            write("&gt;");
-            break;
-            case '\"':
-              if (isAttVal) {
-                write("&quot;");
-              } else {
-                write('\"');
-              }
-            break;
-          default:
-            if (ch[i] > '\u007f') {
-              write("&#");
-              write(Integer.toString(ch[i]));
-              write(';');
-            } else {
-              write(ch[i]);
-            }
-        }
+  protected void writeEsc(char[] ch, int start,
+                          int length, boolean isAttVal)
+      throws SAXException {
+    for (int i = start; i < start + length; i++) {
+      switch (ch[i]) {
+        case '&':
+          write("&amp;");
+          break;
+        case '<':
+          write("&lt;");
+          break;
+        case '>':
+          write("&gt;");
+          break;
+        case '\"':
+          if (isAttVal) {
+            write("&quot;");
+          } else {
+            write('\"');
+          }
+          break;
+        default:
+          if (ch[i] > '\u007f') {
+            write("&#");
+            write(Integer.toString(ch[i]));
+            write(';');
+          } else {
+            write(ch[i]);
+          }
       }
     }
-
+  }
 
   /**
    * Write out the list of Namespace declarations.
@@ -1110,16 +1065,15 @@ public class XMLWriter extends XMLFilterImpl
    *            there is an error writing the Namespace
    *            declarations.
    */
-  private void writeNSDecls () throws SAXException
-  {
-    Enumeration prefixes = nsSupport.getDeclaredPrefixes();
+  private void writeNSDecls() throws SAXException {
+    Enumeration<?> prefixes = nsSupport.getDeclaredPrefixes();
     while (prefixes.hasMoreElements()) {
       String prefix = (String) prefixes.nextElement();
       String uri = nsSupport.getURI(prefix);
       if (uri == null) {
         uri = "";
       }
-      char ch[] = uri.toCharArray();
+      char[] ch = uri.toCharArray();
       write(' ');
       if ("".equals(prefix)) {
         write("xmlns=\"");
@@ -1146,40 +1100,35 @@ public class XMLWriter extends XMLFilterImpl
    *            IOException wrapped in a SAXException if there is
    *            an error writing the name.
    */
-  private void writeName (String uri, String localName,
-      String qName, boolean isElement)
-    throws SAXException
-    {
-      String prefix = doPrefix(uri, qName, isElement);
-      if (prefix != null && !"".equals(prefix)) {
-        write(prefix);
-        write(':');
-      }
-      write(localName);
+  private void writeName(String uri, String localName,
+                         String qName, boolean isElement)
+      throws SAXException {
+    String prefix = doPrefix(uri, qName, isElement);
+    if (prefix != null && !"".equals(prefix)) {
+      write(prefix);
+      write(':');
     }
+    write(localName);
+  }
 
 
-  
-    ////////////////////////////////////////////////////////////////////
-    // Constants.
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // Constants.
+  ////////////////////////////////////////////////////////////////////
 
-    private final Attributes EMPTY_ATTS = new AttributesImpl();
+  private final Attributes EMPTY_ATTS = new AttributesImpl();
 
 
-  
-    ////////////////////////////////////////////////////////////////////
-    // Internal state.
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // Internal state.
+  ////////////////////////////////////////////////////////////////////
 
-    private Hashtable prefixTable;
-  private Hashtable forcedDeclTable;
-  private Hashtable doneDeclTable;
+  private Hashtable<String, String> prefixTable;
+  private Hashtable<String, Boolean> forcedDeclTable;
+  private Hashtable<String, String> doneDeclTable;
   private int elementLevel = 0;
   private Writer output;
   private NamespaceSupport nsSupport;
   private int prefixCounter = 0;
 
 }
-
-// end of XMLWriter.java

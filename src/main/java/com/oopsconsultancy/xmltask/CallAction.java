@@ -7,7 +7,6 @@ import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Property;
 import org.w3c.dom.Node;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,11 +26,12 @@ public class CallAction extends Action implements XPathAnalyserClient {
   private final boolean inheritAll;
   private final boolean inheritRefs;
   private final String buffer;
-  private final List params;
+  private final List<Param> params;
 
   private Ant callee;
 
-  public CallAction(final String target, final XmlTask task, final boolean inheritAll, final boolean inheritRefs, final String buffer, final List params) {
+  public CallAction(final String target, final XmlTask task, final boolean inheritAll,
+                    final boolean inheritRefs, final String buffer, final List<Param> params) {
     this.target = target;
     this.task = task;
     this.inheritAll = inheritAll;
@@ -45,7 +45,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
    * configuring it's by calling its own init method.
    */
   public void init() {
-    callee = (Ant)task.getProject().createTask("ant");
+    callee = (Ant) task.getProject().createTask("ant");
     callee.setOwningTarget(task.getOwningTarget());
     callee.setTaskName(task.getTaskName());
     callee.setLocation(task.getLocation());
@@ -57,8 +57,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
    * since properties will remain the same between invocations
    */
   private void resetParams() {
-    for (Iterator i = params.iterator(); i.hasNext(); ) {
-      Param param = (Param)i.next();
+    for (Param param : params) {
       if (param.getPath() != null) {
         param.setValue(null);
       }
@@ -66,12 +65,12 @@ public class CallAction extends Action implements XPathAnalyserClient {
   }
 
   public void applyNode(Node n, Object callback) {
-    Param param = (Param)callback;
+    Param param = (Param) callback;
     param.set(task, n.getNodeValue());
   }
 
   public void applyNode(String str, Object callback) {
-    Param param = (Param)callback;
+    Param param = (Param) callback;
     param.set(task, str);
   }
 
@@ -88,7 +87,8 @@ public class CallAction extends Action implements XPathAnalyserClient {
     init();
      resetParams();
 
-    log("Calling target " + target + " for " + node + (buffer != null ? " (in buffer "+buffer:""), Project.MSG_VERBOSE);
+    log("Calling target " + target + " for " + node
+        + (buffer != null ? " (in buffer " + buffer : ""), Project.MSG_VERBOSE);
 
     if (buffer != null) {
       // record the complete (sub)node in the nominated buffer
@@ -96,9 +96,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
     }
 
     if (params != null) {
-      for (Iterator i = params.iterator(); i.hasNext(); ) {
-        Param param = (Param)i.next();
-
+      for (Param param : params) {
         if (param.getPath() != null) {
           XPathAnalyser xpa = XPathAnalyserFactory.getAnalyser();
           xpa.registerClient(this, param);
@@ -168,8 +166,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
   private void log(String msg, int level) {
     if (task != null) {
       task.log(msg, level);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }

@@ -1,6 +1,11 @@
 package com.oopsconsultancy.xmltask;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * renames the given node (whether it's an attribute or an element)
@@ -23,20 +28,20 @@ public class RenameAction extends Action {
    * be careful in case I'm renaming the root node.
    *
    * @param node Node
+   * @return boolean
    * @throws Exception if something goes wrong
    */
   public boolean apply(Node node) throws Exception {
     if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
       // to rename an attribute I have to remove it and create a new one...
-      Attr attr = (Attr)node;
+      Attr attr = (Attr) node;
       Element owner = attr.getOwnerElement();
       owner.setAttribute(to, attr.getValue());
       remove(node);
-    }
-    else if (node.getNodeType() == Node.ELEMENT_NODE) {
+    } else if (node.getNodeType() == Node.ELEMENT_NODE) {
       // I can't rename elements, so I have to clone this one
       // with a new name *groan*
-      Element elem = (Element)node;
+      Element elem = (Element) node;
       Node owner = elem.getParentNode();
       Element newElem = elem.getOwnerDocument().createElement(to);
       if (owner instanceof Document) {
@@ -44,8 +49,7 @@ public class RenameAction extends Action {
         // then I have to do this...
         owner.removeChild(elem);
         owner.appendChild(newElem);
-      }
-      else {
+      } else {
         owner.insertBefore(newElem, elem.getNextSibling());
       }
 
@@ -57,7 +61,7 @@ public class RenameAction extends Action {
       // and also the element attributes
       NamedNodeMap attrs = elem.getAttributes();
       for (int a = 0; a < attrs.getLength(); a++) {
-        newElem.setAttributeNode((Attr)attrs.item(a).cloneNode(true));
+        newElem.setAttributeNode((Attr) attrs.item(a).cloneNode(true));
       }
 
       // and remove the old one...

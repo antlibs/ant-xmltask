@@ -11,8 +11,10 @@ import org.w3c.dom.Node;
  */
 public class CutAction extends CopyAction {
 
-  public CutAction(final String buffer, final boolean append, final boolean attrValue, final Task task, final boolean isProperty, final boolean trim, final String propertySeparator) {
-    super(buffer, append, attrValue, task, isProperty, trim , propertySeparator);
+  public CutAction(final String buffer, final boolean append,
+                   final boolean attrValue, final Task task, final boolean isProperty,
+                   final boolean trim, final String propertySeparator) {
+    super(buffer, append, attrValue, task, isProperty, trim, propertySeparator);
   }
 
   public boolean apply(final Node node) throws Exception {

@@ -47,8 +47,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
   /**
    * Create a new data writer for the specified output.
    */
-  public FormattedDataWriter ()
-  {
+  public FormattedDataWriter() {
     super();
   }
 
@@ -72,8 +71,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *         or 0 or less for no indentation.
    * @see #setIndentStep
    */
-  public int getIndentStep ()
-  {
+  public int getIndentStep() {
     return indentStep;
   }
 
@@ -85,8 +83,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *        indentation).
    * @see #getIndentStep
    */
-  public void setIndentStep (int indentStep)
-  {
+  public void setIndentStep(int indentStep) {
     this.indentStep = indentStep;
   }
 
@@ -109,11 +106,10 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *
    * {@code see com.megginson.sax.XMLWriter#reset}
    */
-  public void reset ()
-  {
+  public void reset() {
     depth = 0;
     state = SEEN_NOTHING;
-    stateStack = new Stack();
+    stateStack = new Stack<Object>();
     super.reset();
   }
 
@@ -138,31 +134,29 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *            down the chain raises an exception.
    * @see XMLWriter#startElement(String, String, String, Attributes)
    */
-  public void startElement (String uri, String localName,
-      String qName, Attributes atts)
-    throws SAXException
-    {
-      if (firsttime) {
-        firsttime = false;
-        // output the XML public / system stuff...
-        String pub = transformer.getOutputProperty(OutputKeys.DOCTYPE_PUBLIC);
-        String sys = transformer.getOutputProperty(OutputKeys.DOCTYPE_SYSTEM);
-        if (pub != null && sys != null) {
-          write("<!DOCTYPE " + qName + " PUBLIC \"" + pub + "\" \"" + sys + "\">\n");
-        }
-        else if (sys != null) {
-          write("<!DOCTYPE " + qName + " SYSTEM \"" + sys + "\">\n");
-        }
+  public void startElement(String uri, String localName,
+                            String qName, Attributes atts)
+      throws SAXException {
+    if (firsttime) {
+      firsttime = false;
+      // output the XML public / system stuff...
+      String pub = transformer.getOutputProperty(OutputKeys.DOCTYPE_PUBLIC);
+      String sys = transformer.getOutputProperty(OutputKeys.DOCTYPE_SYSTEM);
+      if (pub != null && sys != null) {
+        write("<!DOCTYPE " + qName + " PUBLIC \"" + pub + "\" \"" + sys + "\">\n");
+      } else if (sys != null) {
+        write("<!DOCTYPE " + qName + " SYSTEM \"" + sys + "\">\n");
       }
-      stateStack.push(SEEN_ELEMENT);
-      state = SEEN_NOTHING;
-      if (depth > 0) {
-        super.characters("\n".toCharArray(),0,1);
-      }
-      doIndent();
-      super.startElement(uri, localName, qName, atts);
-      depth++;
     }
+    stateStack.push(SEEN_ELEMENT);
+    state = SEEN_NOTHING;
+    if (depth > 0) {
+      super.characters("\n".toCharArray(), 0, 1);
+    }
+    doIndent();
+    super.startElement(uri, localName, qName, atts);
+    depth++;
+  }
 
 
   /**
@@ -183,17 +177,16 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *            down the chain raises an exception.
    * @see XMLWriter#endElement(String, String, String)
    */
-  public void endElement (String uri, String localName, String qName)
-    throws SAXException
-    {
-      depth--;
-      if (state == SEEN_ELEMENT) {
-        super.characters("\n".toCharArray(),0,1);
-        doIndent();
-      }
-      super.endElement(uri, localName, qName);
-      state = stateStack.pop();
+  public void endElement(String uri, String localName, String qName)
+      throws SAXException {
+    depth--;
+    if (state == SEEN_ELEMENT) {
+      super.characters("\n".toCharArray(), 0, 1);
+      doIndent();
     }
+    super.endElement(uri, localName, qName);
+    state = stateStack.pop();
+  }
 
 
   /**
@@ -215,17 +208,16 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *            down the chain raises an exception.
    * @see XMLWriter#emptyElement(String, String, String, Attributes)
    */
-  public void emptyElement (String uri, String localName,
-      String qName, Attributes atts)
-    throws SAXException
-    {
-      state = SEEN_ELEMENT;
-      if (depth > 0) {
-        super.characters("\n".toCharArray(),0,1);
-      }
-      doIndent();
-      super.emptyElement(uri, localName, qName, atts);
+  public void emptyElement(String uri, String localName,
+                            String qName, Attributes atts)
+      throws SAXException {
+    state = SEEN_ELEMENT;
+    if (depth > 0) {
+      super.characters("\n".toCharArray(), 0, 1);
     }
+    doIndent();
+    super.emptyElement(uri, localName, qName, atts);
+  }
 
 
   /**
@@ -239,54 +231,52 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *            down the chain raises an exception.
    * @see XMLWriter#characters(char[], int, int)
    */
-  public void characters (char ch[], int start, int length)
-    throws SAXException
-    {
-      if (escaped) {
-        /*
+  public void characters(char[] ch, int start, int length)
+      throws SAXException {
+    if (escaped) {
+      /*
            System.out.print("CH->");
            for (int c = start; c < start + length; c++) {
            System.out.print((int)ch[c] + ".");
            }
            System.out.println("");
-         */
+      */
 
-        // I need to trim this...
-        int end = start + length - 1;
-        while ((ch[start] == ' '|| ch[start] == '\t' || ch[start] == 10) && start < end) {
-          start++;
-          length--;
-        }
-        while (length > 0 && (ch[end] == ' '|| ch[end] == '\t' || ch[end] == 10)) {
-          end--;
-          length--;
+      // I need to trim this...
+      int end = start + length - 1;
+      while ((ch[start] == ' ' || ch[start] == '\t' || ch[start] == 10) && start < end) {
+        start++;
+        length--;
+      }
+      while (length > 0 && (ch[end] == ' ' || ch[end] == '\t' || ch[end] == 10)) {
+        end--;
+        length--;
 
-          /*
+        /*
              System.out.print("IN->");
              for (int c = start; c < start + length; c++) {
              System.out.print((int)ch[c] + ".");
              }
              System.out.println("");
-           */
-        }
+        */
+      }
 
-        if (length > 0) {
-          state = SEEN_DATA;
-        }
+      if (length > 0) {
+        state = SEEN_DATA;
+      }
 
-        /*
+      /*
            System.out.print("NW->");
            for (int c = start; c < start + length; c++) {
            System.out.print((int)ch[c] + ".");
            }
            System.out.println("");
-         */
-        super.characters(ch, start, length);
-      }
-      else {
-        nonescapedcharacters(ch, start, length);
-      }
+      */
+      super.characters(ch, start, length);
+    } else {
+      nonescapedcharacters(ch, start, length);
     }
+  }
 
 
 
@@ -302,27 +292,27 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
    *            writing the indentation characters, or if a filter
    *            further down the chain raises an exception.
    */
-  private void doIndent ()
-    throws SAXException
-    {
-      if (indentStep > 0 && depth > 0) {
-        int n = indentStep * depth;
-        char ch[] = new char[n];
-        for (int i = 0; i < n; i++) {
-          ch[i] = ' ';
-        }
-        super.characters(ch, 0, n);
+  private void doIndent() throws SAXException {
+    if (indentStep > 0 && depth > 0) {
+      int n = indentStep * depth;
+      char[] ch = new char[n];
+      for (int i = 0; i < n; i++) {
+        ch[i] = ' ';
       }
+      super.characters(ch, 0, n);
     }
+  }
 
 
   private boolean omitHeader = false;
 
   /**
    * sets the header omission
+   *
+   * @param omitHeader boolean
    */
   public void setOmitHeader(final boolean omitHeader) {
-  System.out.println("SETTIG" + omitHeader);
+    System.out.println("SETTIG" + omitHeader);
     this.omitHeader = omitHeader;
   }
 
@@ -340,10 +330,10 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
     reset();
     String encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
     String standalone = transformer.getOutputProperty(OutputKeys.STANDALONE);
-    System.out.println("BANG!!!! "+omitHeader);
+    System.out.println("BANG!!!! " + omitHeader);
     if (!omitHeader) {
       write("<?xml version=\"1.0\" " + (encoding == null ? "UTF-8" : "encoding=\""
-        +encoding+"\" ") + "standalone=\""+standalone+"\"" + "?>\n\n");
+          + encoding + "\" ") + "standalone=\"" + standalone + "\"" + "?>\n\n");
     }
   }
 
@@ -356,23 +346,29 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
     writeEsc(ch, start, length, false);
     write("-->\n");
   }
+
   public void startCDATA() throws SAXException {
     // boundary indicator
     doIndent();
     write("<![CDATA[");
     escaped = false;
   }
+
   public void endCDATA() throws SAXException {
     // boundary indicator
     write("]]>\n");
     escaped = true;
   }
+
   public void endDTD() throws SAXException {
   }
+
   public void startDTD(String name, String pub, String sys) throws SAXException {
   }
+
   public void startEntity(String name) throws SAXException {
   }
+
   public void endEntity(String name) throws SAXException {
   }
 
@@ -380,9 +376,9 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
   // Constants.
   ////////////////////////////////////////////////////////////////////
 
-  private final static Object SEEN_NOTHING = new Object();
-  private final static Object SEEN_ELEMENT = new Object();
-  private final static Object SEEN_DATA = new Object();
+  private static final Object SEEN_NOTHING = new Object();
+  private static final Object SEEN_ELEMENT = new Object();
+  private static final Object SEEN_DATA = new Object();
 
 
 
@@ -391,7 +387,7 @@ public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Ou
   ////////////////////////////////////////////////////////////////////
 
   private Object state = SEEN_NOTHING;
-  private Stack stateStack = new Stack();
+  private Stack<Object> stateStack = new Stack<Object>();
 
   private int indentStep = 0;
   private int depth = 0;

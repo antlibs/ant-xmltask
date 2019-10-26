@@ -38,6 +38,9 @@ public class UncommentAction extends Action {
   /**
    * performs the uncomment action
    *
+   * @param node Node
+   * @return boolean
+   * @throws Exception if something goes wrong
    * @see com.oopsconsultancy.xmltask.Action#apply(org.w3c.dom.Node)
    */
   public boolean apply(final Node node) throws Exception {
@@ -68,8 +71,7 @@ public class UncommentAction extends Action {
       parent.insertBefore(newnode, node.getNextSibling());
       parent.removeChild(comment);
       return true;
-    }
-    else {
+    } else {
       throw new BuildException(node + " is not a comment");
     }
   }
@@ -87,8 +89,7 @@ public class UncommentAction extends Action {
       Document doc = db.parse(new InputSource(new StringReader(xml)));
       wellFormed = true;
       return doc;
-    }
-    catch (SAXParseException e) {
+    } catch (SAXParseException e) {
       // it could not be well-formed, so we'll wrap and try again...
       xml = InsertAction.DUMMYNODE + xml + InsertAction.DUMMYENODE;
       Document doc = db.parse(new InputSource(new StringReader(xml)));

@@ -20,7 +20,7 @@ public abstract class Action {
   /**
    * the list of nodes to remove once modifications have been applied
    */
-  private List removals = new ArrayList();
+  private List<Node> removals = new ArrayList<Node>();
 
   /**
    * the document to work on
@@ -56,19 +56,17 @@ public abstract class Action {
    * match is processed
    */
   protected final void complete() {
-      completeAction();
-    for (int r = 0; r < removals.size(); r++) {
-      Node rn = (Node)removals.get(r);
+    completeAction();
+    for (Node rn : removals) {
       if (rn.getNodeType() == Node.ATTRIBUTE_NODE) {
-        Attr attr = (Attr)rn;
+        Attr attr = (Attr) rn;
         Element element = attr.getOwnerElement();
         element.removeAttributeNode(attr);
-      }
-      else {
+      } else {
         rn.getParentNode().removeChild(rn);
       }
     }
-    removals = new ArrayList();
+    removals = new ArrayList<Node>();
   }
 
   /**

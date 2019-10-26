@@ -37,8 +37,7 @@ public class Attr implements Instruction {
   public void setRemove(String remove) {
     if ("true".equals(remove) || "yes".equals(remove)) {
       this.remove = Boolean.TRUE;
-    }
-    else {
+    } else {
       this.remove = Boolean.FALSE;
     }
   }

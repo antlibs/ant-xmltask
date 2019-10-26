@@ -54,14 +54,11 @@ public class Insert implements Instruction {
   public void setPosition(String pos) {
     if ("before".equals(pos)) {
       position = InsertAction.Position.BEFORE;
-    }
-    else if ("after".equals(pos)) {
+    } else if ("after".equals(pos)) {
       position = InsertAction.Position.AFTER;
-    }
-    else if ("under".equals(pos)) {
+    } else if ("under".equals(pos)) {
       position = InsertAction.Position.UNDER;
-    }
-    else {
+    } else {
       log("Don't recognise position '" + pos + "'", Project.MSG_WARN);
     }
     if (action != null) {
@@ -72,8 +69,7 @@ public class Insert implements Instruction {
   private void log(final String msg, final int level) {
     if (task != null) {
       task.log(msg, level);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }
@@ -109,22 +105,18 @@ public class Insert implements Instruction {
     try {
       if (xml != null) {
         action = InsertAction.fromString(xml, task);
-      }
-      else if (file != null) {
+      } else if (file != null) {
         action = InsertAction.fromFile(file, task);
-      }
-      else if (buffer != null) {
+      } else if (buffer != null) {
         action = InsertAction.fromBuffer(buffer, task);
-      }
-      else if (text != null) {
+      } else if (text != null) {
         if (expandProperties) {
           // we expand properties by default...
           text = ProjectHelper.replaceProperties(task.getProject(), text, task.getProject().getProperties());
         }
         action = InsertAction.fromString(text, task);
       }
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new BuildException("Failed to add text to insert/paste", e);
     }
     if (action != null && path != null) {

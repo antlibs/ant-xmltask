@@ -32,19 +32,18 @@ public class AttrAction extends Action {
    * task exits
    *
    * @param node Node
+   * @return boolean
    * @throws Exception if something goes wrong
    */
   public boolean apply(Node node) throws Exception {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
       if (remove == Boolean.TRUE) {
-        ((Element)node).removeAttribute(attr);
-      }
-      else {
-        ((Element)node).setAttribute(attr, value);
+        ((Element) node).removeAttribute(attr);
+      } else {
+        ((Element) node).setAttribute(attr, value);
       }
       return true;
-    }
-    else {
+    } else {
       log(node + " can't have any attributes", Project.MSG_WARN);
       return false;
     }
@@ -53,13 +52,13 @@ public class AttrAction extends Action {
   private void log(String msg, int level) {
     if (task != null) {
       task.log(msg, level);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }
 
   public String toString() {
-    return "AttrReplace(" + attr + "=" + value + ", remove=" +(remove == Boolean.TRUE ? "yes":"no")+")";
+    return "AttrReplace(" + attr + "=" + value + ", remove="
+        + (remove == Boolean.TRUE ? "yes" : "no") + ")";
   }
 }

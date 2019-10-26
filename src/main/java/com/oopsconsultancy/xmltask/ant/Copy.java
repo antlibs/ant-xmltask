@@ -55,10 +55,11 @@ public class Copy implements Instruction {
   public void process(final XmlTask task) {
     XmlReplace xmlReplace = null;
     if (path != null && buffer != null) {
-      xmlReplace = new XmlReplace(path, new CopyAction(buffer, append, attrValue, task, false, trim, propertySeparator));
-    }
-    else if (path != null && property != null) {
-      xmlReplace = new XmlReplace(path, new CopyAction(property, append, attrValue, task, true, trim, propertySeparator));
+      xmlReplace = new XmlReplace(path,
+          new CopyAction(buffer, append, attrValue, task, false, trim, propertySeparator));
+    } else if (path != null && property != null) {
+      xmlReplace = new XmlReplace(path,
+          new CopyAction(property, append, attrValue, task, true, trim, propertySeparator));
     }
     if (xmlReplace != null) {
       xmlReplace.setIf(ifProperty);

@@ -6,7 +6,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class XmlReplace implements XPathAnalyserClient {
 
   private Task task = null;
 
-  private final List nodes = new ArrayList();
+  private final List<Node> nodes = new ArrayList<Node>();
 
   private String ifProperty;
 
@@ -46,8 +45,7 @@ public class XmlReplace implements XPathAnalyserClient {
     // task may not be set sometimes (e.g. during unit tests)
     if (task != null) {
       task.log(msg, level);
-    }
-    else {
+    } else {
       System.out.println(msg);
     }
   }
@@ -79,8 +77,8 @@ public class XmlReplace implements XPathAnalyserClient {
     // and iterate through the nodes returned via the callbacks.
     // We do this otherwise we could get in nasty loop situations
     // with repeated matches, inserts and matches on *those* inserts
-    for (Iterator i = nodes.iterator(); i.hasNext();) {
-      action.apply((Node) i.next());
+    for (Node node : nodes) {
+      action.apply(node);
     }
 
     log("Applied " + action + " - " + count + " match(es)", Project.MSG_VERBOSE);
@@ -99,19 +97,19 @@ public class XmlReplace implements XPathAnalyserClient {
     if (ifProperty != null) {
       // then we only do this if the property given is set/valid
       if (task.getProject().getProperty(ifProperty) != null) {
-		    log("Performing action since '" + ifProperty +"' is set" , Project.MSG_VERBOSE);
+        log("Performing action since '" + ifProperty + "' is set", Project.MSG_VERBOSE);
         return true;
       }
-	    log("Not performing action since '" + ifProperty +"' is not set" , Project.MSG_VERBOSE);
+      log("Not performing action since '" + ifProperty + "' is not set", Project.MSG_VERBOSE);
       return false;
     }
     if (unlessProperty != null) {
       // then we only do this if the property given is NOT set/valid
       if (task.getProject().getProperty(unlessProperty) == null) {
-		    log("Performing action since '" + unlessProperty +"' is not set" , Project.MSG_VERBOSE);
+        log("Performing action since '" + unlessProperty + "' is not set", Project.MSG_VERBOSE);
         return true;
       }
-	    log("Not performing action since '" + unlessProperty +"' is set" , Project.MSG_VERBOSE);
+      log("Not performing action since '" + unlessProperty + "' is set", Project.MSG_VERBOSE);
       return false;
     }
     return true;

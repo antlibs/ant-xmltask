@@ -28,11 +28,9 @@ public class TextAction extends Action {
     // we replace either a text node, or a subset of nodes...
     if (isTextNode(n)) {
       n.setNodeValue(str);
-    }
-    else if (n instanceof Attr) {
-      ((Attr)n).setValue(str);
-    }
-    else {
+    } else if (n instanceof Attr) {
+      ((Attr) n).setValue(str);
+    } else {
       remove(n);
 
       Node nn = doc.createTextNode(str);
