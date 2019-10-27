@@ -2,6 +2,7 @@ $Id$
 
 Delete fake XPathAPI, use javax.xml.xpath API instead.
 Add 'factory' attribute to set the XPath factory implementation.
+Add 'sourceProperty' attribute to use a property as the source.
 
 1.16.1 27/10/2009
 

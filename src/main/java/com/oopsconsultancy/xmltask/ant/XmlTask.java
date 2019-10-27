@@ -135,7 +135,7 @@ public class XmlTask extends Task {
       File f = getProject().getBaseDir();
       dir = f.getAbsolutePath();
       if (!dir.endsWith("" + File.separator)) {
-        dir = dir + File.separator;
+        dir += File.separator;
       }
     }
     return dir;
@@ -149,6 +149,10 @@ public class XmlTask extends Task {
    */
   public void setSourceBuffer(final String buffer) throws Exception {
     docs.add(new InputBuffer(buffer));
+  }
+
+  public void setSourceProperty(final String prop) throws Exception {
+    docs.add(new InputProperty(prop));
   }
 
   public void setExpandEntityReferences(final boolean expandEntityReferences) {
