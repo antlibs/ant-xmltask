@@ -124,6 +124,11 @@
                     <td>no</td>
                 </tr>
                 <tr>
+                    <td>sourceproperty</td>
+                    <td>the source property containing XML. The property must contain a <i>single</i> root node (i.e be <i>well-formed</i>). If the property is empty, then this has the effect of starting with a blank document.</td>
+                    <td>no</td>
+                </tr>
+                <tr>
                     <td>dest</td>
                     <td>the output XML file to write to</td>
                     <td>no</td>
@@ -197,6 +202,11 @@
                 <tr>
                     <td>clearBuffers</td>
                     <td>Clears buffers after population by previous <code>xmltask</code> invocations. Buffers are cleared after every input file is processed. Buffers are specified in a comma-delimited string</td>
+                    <td>no</td>
+                </tr>
+                <tr>
+                    <td>factory</td>
+                    <td>Sets the <a href="https://docs.oracle.com/javase/7/docs/api/javax/xml/xpath/XPathFactory.html#newInstance(java.lang.String)">XPathFactory implementation for Default Object Model URI</a></td>
                     <td>no</td>
                 </tr>
             </table>
