@@ -9,6 +9,7 @@ import org.w3c.dom.ProcessingInstruction;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+import java.lang.reflect.Method;
 
 /**
  * uses the JDK 1.5 XPath API
@@ -25,9 +26,15 @@ public class XPathAnalyser15 implements XPathAnalyser {
   private XPath xPath;
 
   public XPathAnalyser15() {
+    this(XPathFactory.class.getName(), XPathFactory.DEFAULT_OBJECT_MODEL_URI);
+  }
+
+  public XPathAnalyser15(final String xpathFactory, final String xpathObjectModelUri) {
     if (xPathFactory == null) {
       try {
-        xPathFactory = XPathFactory.newInstance(XPathFactory.DEFAULT_OBJECT_MODEL_URI);
+        final Class<XPathFactory> clazz = (Class<XPathFactory>) Class.forName(xpathFactory);
+        final Method method = clazz.getMethod("newInstance", String.class);
+        xPathFactory = (XPathFactory) method.invoke(null, xpathObjectModelUri);
       } catch (Exception e) {
         System.out.println("Error: Could not initialize XPath api");
         e.printStackTrace(System.out);

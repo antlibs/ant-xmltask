@@ -1,8 +1,11 @@
 $Id$
 
 Delete fake XPathAPI, use javax.xml.xpath API instead.
-Add 'factory' attribute to set the XPath factory implementation.
+Add 'factory' attribute to set the XPath factory implementation
+for the default object model URI.
 Add 'sourceProperty' attribute to use a property as the source.
+Add 'xpathFactory' and 'xpathObjectModelUri' attributes, rename 'factory'
+attribute to 'defaultXpathFactory'.
 
 1.16.1 27/10/2009
 

@@ -82,6 +82,8 @@ public class XmlTask extends Task {
   private boolean preservetype = false;
   private boolean failWithoutMatch = false;
   private String[] buffers = new String[]{};
+  private String xpathFactory = XPathFactory.class.getName();
+  private String xpathObjectModelUri = XPathFactory.DEFAULT_OBJECT_MODEL_URI;
 
   private final List<FileSet> filesets = new ArrayList<FileSet>();
 
@@ -113,7 +115,13 @@ public class XmlTask extends Task {
    */
   private List<XmlReplace> replacements = new ArrayList<XmlReplace>();
 
+  @Deprecated
   public void setFactory(final String p) {
+    log("'factory' attribute is deprecated, please use 'defaultXpathFectory' instead", Project.MSG_WARN);
+    setDefaultXpathFactory(p);
+  }
+
+  public void setDefaultXpathFactory(final String p) {
     log("XPath Factory = " + p, Project.MSG_VERBOSE);
     System.setProperty(XPathFactory.DEFAULT_PROPERTY_NAME + ":" + XPathFactory.DEFAULT_OBJECT_MODEL_URI, p);
   }
@@ -574,6 +582,22 @@ public class XmlTask extends Task {
    */
   public void setIndent(final boolean in) {
     this.indent = in;
+  }
+
+  public String getXpathObjectModelUri() {
+    return xpathObjectModelUri;
+  }
+
+  public void setXpathObjectModelUri(final String xpathObjectModelUri) {
+    this.xpathObjectModelUri = xpathObjectModelUri;
+  }
+
+  public String getXpathFactory() {
+    return xpathFactory;
+  }
+
+  public void setXpathFactory(String xpathFactory) {
+    this.xpathFactory = xpathFactory;
   }
 
   /**
