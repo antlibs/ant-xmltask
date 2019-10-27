@@ -205,8 +205,18 @@
                     <td>no</td>
                 </tr>
                 <tr>
-                    <td>factory</td>
+                    <td>defaultXpathFactory</td>
                     <td>Sets the <a href="https://docs.oracle.com/javase/7/docs/api/javax/xml/xpath/XPathFactory.html#newInstance(java.lang.String)">XPathFactory implementation for Default Object Model URI</a></td>
+                    <td>no</td>
+                </tr>
+                <tr>
+                    <td>xpathFactory</td>
+                    <td>Sets the XPathFactory implementation for xpathObjectModelUri explicitly. If defaultXpathFactory is set, the latter takes precedence for Default Object Model URI as per specification.</td>
+                    <td>no</td>
+                </tr>
+                <tr>
+                    <td>xpathObjectModelUri</td>
+                    <td>Sets the Object Model URI for XPathFactory implementation set by xpathFactory. If not set, implies that the latter is used for Default Object Model URI.</td>
                     <td>no</td>
                 </tr>
             </table>
