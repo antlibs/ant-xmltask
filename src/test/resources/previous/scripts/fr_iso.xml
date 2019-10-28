@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE encoding-test>
-
-<encoding-test>
-    <test>A line in english</test>
-    <test>Une ligne en français, avec des caractères accentués.</test>
-</encoding-test>
-

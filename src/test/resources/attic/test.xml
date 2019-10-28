@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="OwnTaskExample" default="main" basedir=".">
+<project name="OwnTaskExample" default="main" basedir="com/oopsconsultancy/xmltask">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
