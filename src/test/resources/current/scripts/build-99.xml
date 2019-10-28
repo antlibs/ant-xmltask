@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<project name="test" default="test" basedir=".">
+<project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <!-- tests entity expansion and the disabling therof -->
-     <target name="test">
+     <target name="main">
        <xmltask source="99.xml" dest="99-out.xml" expandEntityReferences="false"/>
    </target>
 

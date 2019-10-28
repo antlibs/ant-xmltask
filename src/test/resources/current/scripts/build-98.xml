@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name="test" default="test" basedir=".">
+<project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
-     <target name="test">
+     <target name="main">
        <xmltask source="98.xml">
            <call path="/root/element" target="target" buffer="buffer"/>
        </xmltask>

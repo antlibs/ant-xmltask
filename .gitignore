@@ -6,6 +6,12 @@
 
 # JUnit
 TEST-*
+**/scripts/*-out.xml
+**/scripts/from
+**/scripts/to
+/log4j.dtd
+/storedXml
+/temp/
 
 # Build files
 build/

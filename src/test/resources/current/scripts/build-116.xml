@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<project name="test" default="1" basedir=".">
+<project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <property name="buf" value="file://temp/buf.ser"/>
 
-  <target name="1">
-    <antcall target="2"/>
+  <target name="main">
+    <antcall target="sub"/>
     <xmltask dest="116-out.xml" standalone="true" report="true" outputter="simple">
       <print buffer="${buf}"/>
       <insert path="/">
@@ -17,7 +17,7 @@
     </xmltask>
   </target>
 
-  <target name="2">
+  <target name="sub">
     <xmltask source="116.xml" dest="116-out.xml" standalone="true" report="true" outputter="simple">
       <copy path="/a/b" buffer="${buf}"/>
       <print buffer="${buf}"/>
