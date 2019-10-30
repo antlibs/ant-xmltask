@@ -8,6 +8,7 @@ import org.w3c.dom.ProcessingInstruction;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.lang.reflect.Method;
 
@@ -29,6 +30,7 @@ public class XPathAnalyser15 implements XPathAnalyser {
     this(XPathFactory.class.getName(), XPathFactory.DEFAULT_OBJECT_MODEL_URI);
   }
 
+  @SuppressWarnings("unchecked")
   public XPathAnalyser15(final String xpathFactory, final String xpathObjectModelUri) {
     if (xPathFactory == null) {
       try {
@@ -36,7 +38,7 @@ public class XPathAnalyser15 implements XPathAnalyser {
         final Method method = clazz.getMethod("newInstance", String.class);
         xPathFactory = (XPathFactory) method.invoke(null, xpathObjectModelUri);
       } catch (Exception e) {
-        System.out.println("Error: Could not initialize XPath api");
+        System.out.println("Error: Could not initialize XPath API");
         e.printStackTrace(System.out);
       }
     }
@@ -55,7 +57,9 @@ public class XPathAnalyser15 implements XPathAnalyser {
     Object result = null;
     try {
       result = xPath.evaluate(xpath, node, XPathConstants.NODESET);
-    } catch (Exception e) {
+    } catch (XPathExpressionException e) {
+        System.out.println("Error: incorrect XPath expression");
+        e.printStackTrace(System.out);
     }
     if (result instanceof NodeList) {
       NodeList nl = (NodeList) result;

@@ -117,7 +117,7 @@ public class XmlTask extends Task {
 
   @Deprecated
   public void setFactory(final String p) {
-    log("'factory' attribute is deprecated, please use 'defaultXpathFectory' instead", Project.MSG_WARN);
+    log("'factory' attribute is deprecated, please use 'defaultXpathFactory' instead", Project.MSG_WARN);
     setDefaultXpathFactory(p);
   }
 
