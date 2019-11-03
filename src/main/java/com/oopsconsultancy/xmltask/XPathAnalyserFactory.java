@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
 public class XPathAnalyserFactory {
 
   public static XPathAnalyser getAnalyser() throws Exception {
-    return (XPathAnalyser) Class.forName("com.oopsconsultancy.xmltask.jdk15.XPathAnalyser15").newInstance();
+    return (XPathAnalyser) Class.forName("com.oopsconsultancy.xmltask.jdk15.XPathAnalyser15").getDeclaredConstructor().newInstance();
   }
 
   public static XPathAnalyser getAnalyser(final String xpathFactory, final String xpathObjectModelUri) throws Exception {

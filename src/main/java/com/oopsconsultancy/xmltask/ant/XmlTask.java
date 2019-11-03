@@ -833,7 +833,7 @@ public class XmlTask extends Task {
           } else {
             // try and load this as a custom task...
             log("Loading custom result writer " + outputter, Project.MSG_VERBOSE);
-            Outputter op = (Outputter) Class.forName(outputter).newInstance();
+            Outputter op = (Outputter) Class.forName(outputter).getDeclaredConstructor().newInstance();
             op.setWriter(w);
             op.setTransformer(serializer);
             res = new SAXResult(op);
