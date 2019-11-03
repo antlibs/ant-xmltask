@@ -38,7 +38,8 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(Parameterized.class)
 public class TestXmlReplacement {
-    public static final String TEST_DIRECTORY = "src/test/resources/current";
+    public static final String TEST_DIRECTORY = System.getProperty("project.test.workingDirectory",
+            "src/test/resources") + "/current";
 
     @Parameterized.Parameters(name = "{0}: xpath({1}) action({2})")
     public static Collection<Object[]> data() throws Exception {

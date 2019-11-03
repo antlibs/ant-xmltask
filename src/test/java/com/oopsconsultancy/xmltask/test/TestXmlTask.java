@@ -28,7 +28,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitParamsRunner.class)
 public class TestXmlTask {
-    public static final String TEST_DIRECTORY = "src/test/resources/current/scripts/";
+    public static final String TEST_DIRECTORY = System.getProperty("project.test.workingDirectory",
+            "src/test/resources") + "/current/scripts/";
     public static final File TEMP_DIRECTORY = new File(System.getProperty("user.dir"), "temp");
 
     @Rule
@@ -109,7 +110,7 @@ public class TestXmlTask {
         }
     }
 
-    private Object[][] parametersToXmlTaskTest() {
+    private List<String[]> parametersToXmlTaskTest() {
         List<String[]> cases = new ArrayList<String[]>();
         List<String> files = Arrays.asList(new File(TEST_DIRECTORY).list());
         Collections.sort(files, new Comparator<String>() {
@@ -123,7 +124,7 @@ public class TestXmlTask {
                 cases.add(new String[]{f, new File(TEST_DIRECTORY + "results", o).exists() ? o : ""});
             }
         }
-        return cases.toArray(new Object[][]{});
+        return cases;
     }
 
     private int extractInt(String s) {

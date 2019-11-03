@@ -15,6 +15,7 @@ TEST-*
 
 # Build files
 build/
+target/
 
 # Log files
 *.log
