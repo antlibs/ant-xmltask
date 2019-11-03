@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+        
+    <number>
+        1 = avalue
+      </number>
+    
+    <number>
+        2 = ${value}
+      </number>
+</root>

@@ -2,11 +2,14 @@ package com.oopsconsultancy.xmltask.test;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileRule;
+import org.apache.tools.ant.util.JavaEnvUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -30,6 +33,9 @@ public class TestXmlTask {
 
     @Rule
     public BuildFileRule buildRule = new BuildFileRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
     public static void setUp() throws IOException {
@@ -62,16 +68,44 @@ public class TestXmlTask {
     @Parameters(method = "parametersToXmlTaskTest")
     public void testXmlTask(String testBuildfile, String out) throws IOException {
         buildRule.configureProject(TEST_DIRECTORY + testBuildfile);
-        if (testBuildfile.equals("build-88.xml")) {
-            buildRule.executeTarget("test");
-            buildRule.executeTarget("test");
-        } else {
-            buildRule.executeTarget("main");
+        String message = null;
+        switch (extractInt(testBuildfile)) {
+            case 88: {
+                buildRule.executeTarget("test");
+                buildRule.executeTarget("test");
+                break;
+            }
+            case 87: {
+                message = "FAIL";
+                // fall through
+            }
+            case 81: {
+                if (message == null) {
+                    message = "Cannot use multiple buffer nodes as an input source";
+                }
+                // fall through
+            }
+            case 62: {
+                if (message == null) {
+                    message = "<xmltask> subtasks failed to find matches";
+                }
+                thrown.expect(BuildException.class);
+                thrown.expectMessage(message);
+                // fall through
+            }
+            default: {
+                buildRule.executeTarget("main");
+            }
         }
         if (!out.equals("")) {
             String result = getFileContents(buildRule.getProject(), out);
-            String reference = getFileContents(buildRule.getProject(), "results/" + out);
+            String refDir = (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)
+                    && buildRule.getProject().resolveFile("result9/" + out).canRead())
+                    ? "result9/" : "results/";
+            String reference = getFileContents(buildRule.getProject(), refDir + out);
             assertEquals(reference, result);
+            // required by test 75
+            buildRule.getProject().resolveFile(out).delete();
         }
     }
 
@@ -82,12 +116,6 @@ public class TestXmlTask {
             public int compare(String o1, String o2) {
                 return extractInt(o1) - extractInt(o2);
             }
-
-            int extractInt(String s) {
-                String num = s.replaceAll("\\D", "");
-                // return 0 if no digits found
-                return num.equals("") ? 0 : Integer.parseInt(num);
-            }
         });
         for (final String f : files) {
             if (f.startsWith("build")) {
@@ -97,4 +125,11 @@ public class TestXmlTask {
         }
         return cases.toArray(new Object[][]{});
     }
+
+    private int extractInt(String s) {
+        String num = s.replaceAll("\\D", "");
+        // return 0 if no digits found
+        return num.equals("") ? 0 : Integer.parseInt(num);
+    }
+
 }

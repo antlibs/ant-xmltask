@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE a PUBLIC "-//OOPS" "http://www.oopsconsultancy.com/dtd/test.dtd">
+<a>
+      
+    <FIRST/>
+    <b id="1">Test</b>
+    <SECOND/>
+      
+    <b id="2">
+        Test
+        <UNDER/>
+    </b>
+      
+    <b id="3">Test</b>
+    <LAST/>
+    
+</a>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Shift-JIS" standalone="no"?>
+<a attr="1">
+      
+    <b id="0">
+    TEST
+  </b>
+    
+    <c>
+                    
+        <d/>
+                        
+    </c>
+    <c>
+         
+        <d/>
+         
+    </c>
+            
+
+    <e>TEST</e>
+    
+    <f>
+TEST
+</f>
+                  
+      
+    <c>
+        TEST
+        <d>NEW TEST</d>
+    </c>
+</a>

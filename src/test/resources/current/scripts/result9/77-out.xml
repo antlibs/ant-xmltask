@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+                        
+    
+    
+    
+    
+    <b id="1"/>
+                                true
+      
+
+    
+    
+    
+    
+    <b id="2"/>
+                            true
+      
+
+    
+    
+    
+    <b id="3"/>
+                        true
+      
+
+    
+    
+    <b id="4"/>
+                    true
+      
+
+    
+    <c id="0"/>
+                ${inheritable}
+      
+
+    <c id="5"/>
+            ${inheritable}
+      
+</root>

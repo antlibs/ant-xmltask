@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<b attr="1">
+      
+    <b id="0">
+  DONT RENAME
+  </b>
+      
+    <b id="1">
+  DONT RENAME
+  </b>
+      
+    <b id="2">
+          RENAME TO C
+    
+        <subnode>
+    JUNK
+    </subnode>
+          
+    </b>
+      
+    <b id="3">
+  DONT RENAME
+  </b>
+      
+    <b id="4">
+  DONT RENAME
+  </b>
+      
+    <b id="2">
+  RENAME TO C AGAIN
+  </b>
+    
+</b>
