@@ -15,5 +15,4 @@
       <replace path="//a/d" withBuffer="1"/>
     </xmltask>
   </target>
-
 </project>

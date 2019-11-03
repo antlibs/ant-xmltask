@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
 <project name="bufferInsert" basedir="." default="main">
-<!-- this test checks that the mod for XmlReplace v1.8 (i.e. v1.9)
-     works and we don't get infinite loops whilst inserting nodes
-     that match the insert path -->
-    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-    <target name="main">
-        <!-- copy from the input -->
-        <xmltask source="95.xml" report="true">
-            <copy path="/a/b[@name='firstb']" buffer="copyb"/>
-        </xmltask>
-        <!-- change the buffer -->
-        <xmltask sourcebuffer="copyb" destbuffer="copyb" report="true" failWithoutMatch="true">
-            <attr path="/b[@name='firstb']" attr="name" value="secondb"/>
-        </xmltask>
-        <!-- insert it -->
-        <xmltask preservetype="true" report="true" failWithoutMatch="true"
-            source="95.xml"
-            dest="95-out.xml">
-            <insert path="/a/b[@name='firstb']" position="after" buffer="copyb"/>
-        </xmltask>
-    </target>
+  <!-- this test checks that the mod for XmlReplace v1.8 (i.e. v1.9)
+       works and we don't get infinite loops whilst inserting nodes
+       that match the insert path -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <target name="main">
+    <!-- copy from the input -->
+    <xmltask source="95.xml" report="true">
+      <copy path="/a/b[@name='firstb']" buffer="copyb"/>
+    </xmltask>
+    <!-- change the buffer -->
+    <xmltask sourcebuffer="copyb" destbuffer="copyb" report="true" failWithoutMatch="true">
+      <attr path="/b[@name='firstb']" attr="name" value="secondb"/>
+    </xmltask>
+    <!-- insert it -->
+    <xmltask preservetype="true" report="true" failWithoutMatch="true"
+             source="95.xml" dest="95-out.xml">
+      <insert path="/a/b[@name='firstb']" position="after" buffer="copyb"/>
+    </xmltask>
+  </target>
 </project>

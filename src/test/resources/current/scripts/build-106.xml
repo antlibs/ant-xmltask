@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <project name="test" default="main" basedir=".">
-  <path id="cp">
-    <pathelement location="../../classes"/>
-  </path>
-
-  <taskdef name="xmltask" 
-           classname="com.oopsconsultancy.xmltask.ant.XmlTask">
-           <classpath refid="cp"/>
-  </taskdef>
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main" depends="copy,paste"/>
 
@@ -26,5 +19,4 @@
       </paste>
     </xmltask>
   </target>
-
 </project>

@@ -2,15 +2,15 @@
 <project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
-     <target name="main">
-       <xmltask source="98.xml">
-           <call path="/root/element" target="target" buffer="buffer"/>
-       </xmltask>
-   </target>
+  <target name="main">
+    <xmltask source="98.xml">
+      <call path="/root/element" target="target" buffer="buffer"/>
+    </xmltask>
+  </target>
 
-   <target name="target">
-       <xmltask>
-           <print buffer="buffer"/>
-       </xmltask>
-   </target>
+  <target name="target">
+    <xmltask>
+      <print buffer="buffer"/>
+    </xmltask>
+  </target>
 </project>

@@ -12,7 +12,7 @@
     <copy file="1.xml" tofile="/tmp/from/63.xml"/>
 
     <xmltask source="/tmp/from/*" todir="/tmp/to/" report="true" failWithoutMatch="true">
-     <!-- set a text element to a value -->
+      <!-- set a text element to a value -->
       <replace path="//a/b[@id='FROM']/text()" withText="TO"/>
     </xmltask>
 

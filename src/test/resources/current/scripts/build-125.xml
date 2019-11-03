@@ -12,6 +12,7 @@
       </insert>
     </xmltask>
   </target>
+
   <target name="match">
     <xmltask source="125.xml">
       <regexp path="/a/b/text()" pattern="choose element (.*)" property="abc"/>

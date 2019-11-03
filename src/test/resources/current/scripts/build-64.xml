@@ -1,7 +1,4 @@
 <?xml version="1.0"?>
-
-<!-- $Id$ -->
-
 <project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
@@ -12,7 +9,7 @@
       <echo>Executing xmltask</echo>
       <xmltask report="true" preserveType="true" source="@{source}" dest="@{dest}">
         <replace path="/log4j/b/text()" withText="junk"/>
-	    <replace path="/nonexistant" withText="non"/>
+	      <replace path="/nonexistant" withText="non"/>
         <replace path="/log4j/b/text()" withText="junk"/>
       </xmltask>
     </sequential>

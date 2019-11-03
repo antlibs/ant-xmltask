@@ -10,7 +10,7 @@
    -->
   <target name="main">
     <xmltask source="69.xml" dest="69-out.xml" report="true" preserveType="true">
-     <!-- set a text element to a value -->
+      <!-- set a text element to a value -->
       <replace path="/a/b[@id='FROM']/text()" withText="69 TEST"/>
     </xmltask>
   </target>

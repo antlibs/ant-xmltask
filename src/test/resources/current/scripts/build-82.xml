@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <project name="test" default="main" basedir=".">
-  <!-- $Id$ -->
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <!-- tests using a buffer as an input source and using the
@@ -18,5 +17,4 @@
     <xmltask sourcebuffer="tst" dest="82-out.xml">
     </xmltask>  
   </target>
-
 </project>

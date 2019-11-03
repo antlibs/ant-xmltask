@@ -26,5 +26,4 @@
       <paste path="/root" buffer="${buf}"/>
     </xmltask>
   </target>
-
 </project>

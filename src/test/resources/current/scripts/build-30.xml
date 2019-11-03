@@ -4,7 +4,7 @@
 
   <target name="main">
     <xmltask source="30.xml" dest="30-out.xml" report="true" normalize="false">
-     <!-- set a text element to a value -->
+      <!-- set a text element to a value -->
       <replace path="//a/b[@id='FROM']/text()" withText="TO"/>
     </xmltask>
   </target>

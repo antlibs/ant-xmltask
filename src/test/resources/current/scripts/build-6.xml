@@ -5,7 +5,7 @@
   <target name="main">
     <xmltask source="6.xml" dest="6-out.xml" report="true">
       <entity remote="-//OOPS Consultancy//DTD Test 1.0//EN" local=""/>
-     <!-- set a text element to a value -->
+      <!-- set a text element to a value -->
       <replace path="//a/b[@id='FROM']/text()" withText="TO"/>
     </xmltask>
   </target>

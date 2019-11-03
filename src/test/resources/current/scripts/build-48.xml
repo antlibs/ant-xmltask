@@ -3,14 +3,8 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
-    <xmltask
-      encoding="Shift-JIS"
-      public="pub"
-      system="system"
-      source="48.xml"
-      dest="48-out.xml"
-      report="true"
-      outputter="simple">
+    <xmltask source="48.xml" dest="48-out.xml" report="true" outputter="simple"
+             encoding="Shift-JIS" public="pub" system="system">
     </xmltask>
   </target>
 </project>

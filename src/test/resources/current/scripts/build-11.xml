@@ -3,8 +3,9 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
-    <xmltask source="11.xml" dest="11-out.xml" report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
-     <!-- set a text element to a value -->
+    <xmltask source="11.xml" dest="11-out.xml" report="true"
+             public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+      <!-- set a text element to a value -->
       <attr path="//a/b[@id='FROM']" attr="id" value="TO"/>
       <attr attr="id" value="2nd" path="//a/b[@id='TO']"/>
       <attr value="3rd" path="//a/b[@id='2nd']" attr="id"/>

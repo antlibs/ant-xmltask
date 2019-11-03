@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="multiple call test" default="test" basedir=".">
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
-<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-
-<target name="test">
-  <delete file="88-out.xml"/>
-  <xmltask todir="/tmp" >
-		<fileset dir=".">
-			<include name = "**/82*.xml"/>
-		</fileset>      
-  </xmltask>
-  <touch file="88-out.xml"/>
-</target>  
-
-
+  <target name="test">
+    <delete file="88-out.xml"/>
+    <xmltask todir="/tmp">
+      <fileset dir=".">
+        <include name="**/82*.xml"/>
+      </fileset>
+    </xmltask>
+    <touch file="88-out.xml"/>
+  </target>
 </project>

@@ -3,8 +3,9 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
-    <xmltask source="4.xml" dest="4-out.xml" report="true" system="http://www.oopsconsultancy.com/dtd/test.dtd">
-     <!-- set a text element to a value -->
+    <xmltask source="4.xml" dest="4-out.xml" report="true"
+             system="http://www.oopsconsultancy.com/dtd/test.dtd">
+      <!-- set a text element to a value -->
       <replace path="//a/b[@id='FROM']/text()" withText="TO"/>
     </xmltask>
   </target>

@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <project name="bufferInsert" basedir="." default="main">
-<!-- this test checks reading writing from buffers as sources
-     and destinations -->
-    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-    <target name="main">
-        <!-- copy from the input -->
-        <xmltask source="96.xml" report="true">
-            <copy path="/a/b" buffer="b"/>
-        </xmltask>
-        <xmltask sourcebuffer="b" destbuffer="c" report="true">
-          <insert path="/b" xml="&lt;d/&gt;"/>
-        </xmltask>
-        <xmltask preservetype="true" report="true" failWithoutMatch="true"
-            dest="96-out.xml">
-            <insert path="/" position="under" buffer="c"/>
-        </xmltask>
-    </target>
+  <!-- this test checks reading writing from buffers as sources
+       and destinations -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <target name="main">
+    <!-- copy from the input -->
+    <xmltask source="96.xml" report="true">
+      <copy path="/a/b" buffer="b"/>
+    </xmltask>
+    <xmltask sourcebuffer="b" destbuffer="c" report="true">
+      <insert path="/b" xml="&lt;d/&gt;"/>
+    </xmltask>
+    <xmltask preservetype="true" report="true" failWithoutMatch="true"
+             dest="96-out.xml">
+      <insert path="/" position="under" buffer="c"/>
+    </xmltask>
+  </target>
 </project>

@@ -5,10 +5,7 @@
   <!-- this tests insert and if/unless + properties -->
   <target name="main">
     <property name="yes" value="SET"/>
-    <xmltask 
-     source="107.xml" 
-     dest="107-out.xml" 
-     report="true">
+    <xmltask source="107.xml" dest="107-out.xml" report="true">
       <insert if="yes" path="//a/b[@id='1']" position="before" xml="&lt;FIRST/&gt;"/>
       <insert unless="no" path="//a/b[@id='3']" position="after" xml="&lt;LAST/&gt;"/>
       <insert unless="yes" path="//a/b[@id='1']" position="after" xml="&lt;SECOND/&gt;"/>

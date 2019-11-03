@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <project name="test" default="main" basedir=".">
-  <!-- $Id$ -->
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <!-- performs uncommenting actions -->

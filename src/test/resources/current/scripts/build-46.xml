@@ -29,7 +29,6 @@ TEST
         <c>TEST<d>NEW TEST</d></c>
         ]]>
       </insert>
-
     </xmltask>
   </target>
 </project>

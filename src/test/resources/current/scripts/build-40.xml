@@ -6,5 +6,4 @@
   <target name="main">
      <xmltask source="40.xml" dest="40-out.xml" report="true"/>
   </target>
-
 </project>

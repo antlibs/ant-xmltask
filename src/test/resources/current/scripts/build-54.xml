@@ -4,7 +4,8 @@
 
   <target name="main">
     <!-- tests custom output mechanisms -->
-    <xmltask source="54.xml" dest="54-out.xml" report="true" outputter="com.oopsconsultancy.xmltask.output.FormattedDataWriter">
+    <xmltask source="54.xml" dest="54-out.xml" report="true"
+             outputter="com.oopsconsultancy.xmltask.output.FormattedDataWriter">
       <insert path="/a">
         <![CDATA[
           <c>
@@ -30,7 +31,6 @@ TEST
         <c>TEST<d>NEW TEST</d></c>
         ]]>
       </insert>
-
     </xmltask>
   </target>
 </project>

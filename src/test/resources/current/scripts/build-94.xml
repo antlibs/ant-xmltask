@@ -2,13 +2,11 @@
 <project name="test" default="main" basedir=".">
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
-
-<!-- this tests a ZERO match in the fileset -->
-
+  <!-- this tests a ZERO match in the fileset -->
   <target name="main">
     <xmltask>
-    <fileset dir="." includes="*.nofiles"/>
-     <copy path="*" buffer="JUnit_Buffer" append="true"/>
+      <fileset dir="." includes="*.nofiles"/>
+      <copy path="*" buffer="JUnit_Buffer" append="true"/>
     </xmltask>
   </target>
 </project>

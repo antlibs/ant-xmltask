@@ -3,10 +3,8 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
-    <xmltask 
-     source="28.xml" 
-     dest="28-out.xml" 
-     report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+    <xmltask source="28.xml" dest="28-out.xml" report="true"
+             public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
 
       <!-- tests a non-well formed document -->
       <insert path="//a/b[@id='1']" xml="&lt;BE/&gt;&lt;FORE/&gt;" position="before" />

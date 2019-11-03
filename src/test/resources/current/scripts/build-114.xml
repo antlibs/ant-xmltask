@@ -6,10 +6,9 @@
   <target name="main">
     <xmltask source="114.xml" dest="114-out.xml" report="true">
        <insert path="/a"
-                    position="under"
-                    xml="&lt;!-- Inline comment --&gt;">
-            </insert>
-
+               position="under"
+               xml="&lt;!-- Inline comment --&gt;">
+       </insert>
     </xmltask>
   </target>
 </project>

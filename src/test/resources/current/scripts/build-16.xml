@@ -3,10 +3,8 @@
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
   <target name="main">
-    <xmltask 
-     source="16.xml" 
-     dest="16-out.xml" 
-     report="true" public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
+    <xmltask source="16.xml" dest="16-out.xml" report="true"
+             public="-//OOPS" system="http://www.oopsconsultancy.com/dtd/test.dtd">
       <insert path="//a/b[@id='1']" xml="&lt;FIRST/&gt;" position="before" />
       <insert position="after" path="//a/b[@id='3']" xml="&lt;LAST/&gt;"/>
       <!-- test an error condition -->
