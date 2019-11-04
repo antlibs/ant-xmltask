@@ -249,37 +249,34 @@ public class XMLWriter extends XMLFilterImpl {
     doneDeclTable = new Hashtable<String, String>();
   }
 
+  ////////////////////////////////////////////////////////////////////
+  // Public methods.
+  ////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////
-    // Public methods.
-    ////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Reset the writer.
-     *
-     * <p>This method is especially useful if the writer throws an
-     * exception before it is finished, and you want to reuse the
-     * writer for a new document.  It is usually a good idea to
-     * invoke {@link #flush flush} before resetting the writer,
-     * to make sure that no output is lost.</p>
-     *
-     * <p>This method is invoked automatically by the
-     * {@link #startDocument startDocument} method before writing
-     * a new document.</p>
-     *
-     * <p><strong>Note:</strong> this method will <em>not</em>
-     * clear the prefix or URI information in the writer or
-     * the selected output writer.</p>
-     *
-     * @see #flush
-     */
-    public void reset() {
-      elementLevel = 0;
-      prefixCounter = 0;
-      nsSupport.reset();
-    }
-
+  /**
+   * Reset the writer.
+   *
+   * <p>This method is especially useful if the writer throws an
+   * exception before it is finished, and you want to reuse the
+   * writer for a new document.  It is usually a good idea to
+   * invoke {@link #flush flush} before resetting the writer,
+   * to make sure that no output is lost.</p>
+   *
+   * <p>This method is invoked automatically by the
+   * {@link #startDocument startDocument} method before writing
+   * a new document.</p>
+   *
+   * <p><strong>Note:</strong> this method will <em>not</em>
+   * clear the prefix or URI information in the writer or
+   * the selected output writer.</p>
+   *
+   * @see #flush
+   */
+  public void reset() {
+    elementLevel = 0;
+    prefixCounter = 0;
+    nsSupport.reset();
+  }
 
   /**
    * Flush the output.

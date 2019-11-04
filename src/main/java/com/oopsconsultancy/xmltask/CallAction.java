@@ -50,7 +50,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
     callee.setTaskName(task.getTaskName());
     callee.setLocation(task.getLocation());
     callee.init();
-    }
+  }
 
   /**
    * reset the set of parameters. We only reset XPath settings

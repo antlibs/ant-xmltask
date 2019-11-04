@@ -25,7 +25,7 @@ public class PrintAction extends Action {
   private final Task task;
 
   private PrintAction(final Task task, final String path, final String buffer, final String ident) {
-  this.task = task;
+    this.task = task;
     // any of the below can be null (!)
     this.buffer = buffer;
     this.ident = ident;
