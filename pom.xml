@@ -6,7 +6,7 @@
   <version>1.17-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>ant-xmltask</name>
-  <description>A fork of the Ant XMLTask from OopsConsultancy</description>
+  <description>A fork of the Ant XMLTask from OOPS Consultancy Ltd</description>
   <url>https://github.com/antlib/ant-xmltask</url>
   <inceptionYear>2003</inceptionYear>
   <licenses>
