@@ -6,6 +6,7 @@
   <property name="build.dir" value="build"/>
   <property name="classes.dir" value="${build.dir}/classes"/>
   <property name="javadoc.dir" value="${build.dir}/javadoc"/>
+  <property name="tests.dir" value="${build.dir}/tests"/>
 
   <!-- Ivy: NB! 2.5+ requires Java 7 baseline -->
   <property name="ivy.version" value="2.4.0"/>
@@ -49,7 +50,7 @@
          excludes="**/test/**/*"/>
   </target>
 
-  <target name="javac.test" depends="javac" description="Java test source build">
+  <target name="init-test" depends="javac" description="Java test source build">
     <javac srcdir="${src.test.dir}" destdir="${classes.dir}" debug="on" nowarn="true"
            includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
       <include name="**/*.java"/>
@@ -58,24 +59,26 @@
         <path refid="test.classpath"/>
       </classpath>
     </javac>
+    <copy todir="${tests.dir}">
+      <fileset dir="src/test/resources" includes="current/**" excludes="**/*.pl"/>
+    </copy>
   </target>
 
-  <target name="test" depends="javac.test">
-    <junit haltonfailure="true" tempdir="${build.dir}">
+  <target name="test" depends="init-test">
+    <junit haltonfailure="true" dir="${tests.dir}" tempdir="${tests.dir}">
       <batchtest fork="yes" todir="${build.dir}">
         <fileset dir="${src.test.dir}">
           <include name="**/*Test*.java"/>
         </fileset>
       </batchtest>
       <classpath>
-        <pathelement location="src/test/resources"/>
         <pathelement path="${classes.dir}"/>
         <path refid="test.classpath"/>
       </classpath>
       <formatter type="plain" usefile="no"/>
       <formatter type="xml"/>
+      <sysproperty key="project.test.workingDirectory" value="."/>
     </junit>
-    <echo>Tests succeed!</echo>
   </target>
 
   <target name="main" depends="test,javadoc" description="Complete build/test"/>
@@ -98,7 +101,7 @@
   <target name="package" depends="jar,javadoc" description="Creates the appropriate archives">
     <jar destfile="${build.dir}/${ivy.module}-${ivy.revision}-javadoc.jar" basedir="${javadoc.dir}"/>
     <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}-sources.jar">
-      <fileset dir="${src.dir}" includes="**/*.java" excludes="**/com/sun/**,**/org/**"/>
+      <fileset dir="${src.dir}" includes="**/*.java"/>
     </jar>
     <tar tarfile="${build.dir}/${ivy.module}-${ivy.revision}.tar.gz" compression="gzip">
       <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.xml"/>
@@ -110,9 +113,6 @@
 
   <target name="clean" description="Clean build tree">
     <delete dir="${build.dir}"/>
-    <delete dir="temp"/>
-    <delete file="log4j.dtd"/>
-    <delete file="storedXml"/>
     <delete includeemptydirs="true">
       <fileset dir="src/test/resources" includes="**/scripts/*-out.xml"/>
       <fileset dir="src/test/resources" includes="**/scripts/to/**"/>

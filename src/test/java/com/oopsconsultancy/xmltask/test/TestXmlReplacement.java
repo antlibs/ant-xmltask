@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(Parameterized.class)
 public class TestXmlReplacement {
+    // Default is for running tests from IDE
     public static final String TEST_DIRECTORY = System.getProperty("project.test.workingDirectory",
             "src/test/resources") + "/current";
 

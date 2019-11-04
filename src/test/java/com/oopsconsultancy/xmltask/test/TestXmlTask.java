@@ -28,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnitParamsRunner.class)
 public class TestXmlTask {
+    // Default is for running tests from IDE
     public static final String TEST_DIRECTORY = System.getProperty("project.test.workingDirectory",
             "src/test/resources") + "/current/scripts/";
     public static final File TEMP_DIRECTORY = new File(System.getProperty("user.dir"), "temp");
