@@ -1,22 +1,23 @@
 #!/usr/bin/perl
-# $Id$
-
 #
 # tests for xmltask. This swaps tests in/out depending on the
 # VM being run. Plus some tests give no output, some fail etc.
 # The script below handles all of that, but should be re-written
 # as a data-set-driven test suite
 
-my $CP=$ENV{'CLASSPATH'};
+use strict;
+use warnings;
 
-my $cont=0;
-my @failures=();
+my $CP = $ENV{'CLASSPATH'};
+
+my $cont = 0;
+my @failures = ();
 
 my @tests = (1..130);
 if (@ARGV > 0) {
-  while ($ARGV[0]=~/^-/) {
+  while ($ARGV[0] =~ /^-/) {
     if ($ARGV[0] eq "-c") {
-      $cont=1;
+      $cont = 1;
       shift @ARGV;
     }
   }
@@ -25,12 +26,10 @@ if (@ARGV > 0) {
   }  
 }
 
-
-
 (my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
 print "Java version = $jv\n";
 
-foreach $i ( @tests ) {
+foreach my $i ( @tests ) {
   # clear the temp dir
   rmdir "temp";
   mkdir "temp";
@@ -48,22 +47,20 @@ foreach $i ( @tests ) {
   my $build = "build-$i.xml";
   if (`grep "JIS" $build` && ($jv =~ /1.3/ || $jv =~ /ibm_sdk50/)) {
     print "Skipping $build due to unsupported encoding in this JVM\n";
-  }
-  else {
+  } else {
     print "Running $build\n";
     if ($i == 106) {
       print "Modifying classpath!\n";
-      $ENV{'CLASSPATH'}="/home/brian/java/jakarta-ant/1.6.3//lib/ant.jar:/home/brian/java/jakarta-ant/1.6.3//lib/ant-commons-net.jar";
-    }
-    else {
-      $ENV{'CLASSPATH'}=$CP;
+      $ENV{'CLASSPATH'} = "/home/brian/java/jakarta-ant/1.6.3/lib/ant.jar:/home/brian/java/jakarta-ant/1.6.3/lib/ant-commons-net.jar";
+    } else {
+      $ENV{'CLASSPATH'} = $CP;
     }
     `ant -buildfile $build $args`;
-    my $res = $i."-out.xml";
-    my $cmp = "results/".$res;
-    if ($jv =~ /1\.[56]/ && -e "results/".$i."-1.5-out.xml") {
+    my $res = $i . "-out.xml";
+    my $cmp = "results/" . $res;
+    if ($jv =~ /1\.[56]/ && -e "results/" . $i . "-1.5-out.xml") {
       # swap in a 1.5/6 file if it exists
-      $cmp = "results/".$i."-1.5-out.xml";
+      $cmp = "results/" . $i . "-1.5-out.xml";
     }
     if (($? >> 8) == 0) {
       if (! -e $res) {
@@ -71,13 +68,10 @@ foreach $i ( @tests ) {
           print STDERR "ant -buildfile $build failed to create $res\n";
           exit(1) unless $cont;
           push @failures, $i;
-          
-        }
-        else {
+        } else {
           # no file produced, as expected
         }
-      }
-      else {
+      } else {
         print "Comparing $res vs $cmp\n";
         if (! -e $cmp) {
           print STDERR "Nothing to compare $res to\n";
@@ -89,26 +83,22 @@ foreach $i ( @tests ) {
           print STDERR "$res and $cmp differ!\n";
           exit(1) unless $cont;
           push @failures, $i;
-        }
-        else {
+        } else {
           unlink $res;
         }
       }
-    }
-    else {
-      print STDERR "ant -buildfile $build returned ".($? >> 8)."\n";
+    } else {
+      print STDERR "ant -buildfile $build returned " . ($? >> 8) . "\n";
       if ($nofile) {
         # check for no file produced
         if (-e $res) {
           print STDERR "Erroneously produced an output file. Unexpected for this test!\n";
           exit(1) unless $cont;
           push @failures, $i;
-        }
-        else {
+        } else {
           print "EXPECTED RESULT\n";
         }
-      }
-      else {
+      } else {
         exit(1) unless $cont;
         push @failures, $i;
       }  
@@ -116,13 +106,12 @@ foreach $i ( @tests ) {
   }
 }
 if ($#failures >= 0) {
-  print "------------------\n$failed TEST(S) FAILED\n";
-  foreach $f (@failures) {
+  print "------------------\n$#failures TEST(S) FAILED\n";
+  foreach my $f (@failures) {
     print "FAILED : $f\n";
   }
   exit(0);
-}
-else {
+} else {
   print "------------------\nSCRIPTED TESTS OK\n";
   exit(0);
 }
