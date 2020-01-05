@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="XmlTask" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-  <property name="java.baseline" value="1.5"/>
+  <property name="java.baseline" value="1.6"/>
   <property name="src.dir" value="src/main/java"/>
   <property name="src.test.dir" value="src/test/java"/>
   <property name="build.dir" value="build"/>
