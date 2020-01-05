@@ -28,7 +28,7 @@
       <call path="/a/b" target="ab" buffer="b_ab" inheritAll="true">
         <param name="1" path="text()"/>
         <param name="2" path="@attr"/>
-        <param name="3" value="${os.name}"/>
+        <param name="3" value="${ant.project.name}"/>
       </call>
       <call path="/a/b/text()" target="abt" buffer="b_abt" inheritAll="true"/>
     </xmltask>

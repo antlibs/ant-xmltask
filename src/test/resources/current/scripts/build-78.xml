@@ -28,7 +28,7 @@
       <call path="/a/b" target="ab" buffer="b_ab" inheritAll="true">
         <param name="1" path="text()"/>
         <param name="2" path="@attr"/>
-        <param name="3" value="${os.name}"/>
+        <param name="3" value="${ant.project.name}"/>
         <param name="4" path="@attr2"/>
         <param name="5" path="@attr2" default="missing attr"/>
       </call>

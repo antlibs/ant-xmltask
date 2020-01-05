@@ -32,7 +32,7 @@
       <call path="/a/b" inheritAll="true">
         <param name="1" path="text()"/>
         <param name="2" path="@attr"/>
-        <param name="3" value="${os.name}"/>
+        <param name="3" value="${ant.project.name}"/>
         <!--
           Note that missing values are not tolerated in this mode...
         <param name="4" path="@attr2"/>

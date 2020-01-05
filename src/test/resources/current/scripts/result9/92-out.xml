@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
-        [1 = Number 1][2 = n1][3 = Mac OS X][path = /a/b][fqpath = /a/b][1 = Number 2][2 = n2][3 = Mac OS X][path = /a/b][fqpath = /a/b]
+        [1 = Number 1][2 = n1][3 = test][path = /a/b][fqpath = /a/b][1 = Number 2][2 = n2][3 = test][path = /a/b][fqpath = /a/b]
     
     <abt>[path = /a/b][fqpath = /a/b][path = /a/b][fqpath = /a/b]</abt>
     
