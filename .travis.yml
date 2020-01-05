@@ -4,7 +4,7 @@ before_install:
   # ant-optional contains Ant JUnit tasks
   - sudo apt-get install ant-optional
 install: true
-script: ant test
+script: ant test-internal
 jdk:
   - openjdk8
   - openjdk9

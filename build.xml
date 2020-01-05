@@ -64,9 +64,11 @@
     </copy>
   </target>
 
-  <target name="test" depends="init-test">
-    <junit haltonfailure="true" dir="${tests.dir}" tempdir="${tests.dir}">
-      <batchtest fork="yes" todir="${build.dir}">
+  <target name="test-internal" depends="init-test">
+    <junit printsummary="yes" haltonerror="false" haltonfailure="false"
+           errorproperty="junit.error" failureproperty="junit.failure"
+           fork="true" dir="${tests.dir}" tempdir="${tests.dir}">
+      <batchtest todir="${build.dir}">
         <fileset dir="${src.test.dir}">
           <include name="**/*Test*.java"/>
         </fileset>
@@ -79,6 +81,22 @@
       <formatter type="xml"/>
       <sysproperty key="project.test.workingDirectory" value="."/>
     </junit>
+  </target>
+
+  <target name="test" depends="test-internal" description="Run JUnit tests">
+    <fail message="JUnit error (${junit.error}) encountered. See logs (in ${build.dir}}) for details (use the target test-report to run the test with a report)" if="junit.error"/>
+    <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${build.dir}) for details (use the target test-report to run the test with a report)" if="junit.failure"/>
+  </target>
+
+  <target name="test-report" depends="test-internal" description="Make report of JUnit tests">
+    <junitreport todir="${build.dir}">
+      <fileset dir="${build.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.dir}/test-report"/>
+    </junitreport>
+    <fail message="JUnit error (${junit.error}) encountered. See logs (in ${build.dir}) or report (in ${build.dir}/test-report)" if="junit.error"/>
+    <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${build.dir}) or report (in ${build.dir}/test-report)" if="junit.failure"/>
   </target>
 
   <target name="main" depends="test,javadoc" description="Complete build/test"/>
