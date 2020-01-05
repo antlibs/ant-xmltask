@@ -22,11 +22,16 @@ if (@ARGV > 0) {
     }
   }
   if ($#ARGV >= 0) {
-    @tests = @ARGV;
+    @tests = map { /\d+/ ? $_ : () } @ARGV;
   }  
 }
 
-(my $jv = $ENV{'JAVAHOME'}) =~ s{^/usr/java/(.*)[/]$}{$1};
+my %ap = map { chomp; (/\s+\:\s+\w+/) ? split /\s+\:\s+/ : () } `ant -diagnostics`;
+my $jv = $ap{'java.version'};
+if (exists($ap{'java.vm.version'})) {
+  $jv = $ap{'java.vm.version'};
+}
+
 print "Java version = $jv\n";
 
 foreach my $i ( @tests ) {
