@@ -186,9 +186,8 @@ public class XPathAnalyser15 implements XPathAnalyser {
     public String getNamespaceURI(String prefix) {
       if (prefix == null || prefix.equals(XMLConstants.DEFAULT_NS_PREFIX)) {
         return prefix2Uri.get(DEFAULT_NS);
-      } else {
-        return prefix2Uri.get(prefix);
       }
+      return prefix2Uri.get(prefix);
     }
 
     /**

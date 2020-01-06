@@ -44,36 +44,36 @@ public class UncommentAction extends Action {
    * @see com.oopsconsultancy.xmltask.Action#apply(org.w3c.dom.Node)
    */
   public boolean apply(final Node node) throws Exception {
-    if (node instanceof Comment) {
-      Comment comment = (Comment) node;
-      System.out.println("Uncommenting " + comment.getData());
-      Document commentDoc = readXml(comment.getData());
-
-      // and insert...
-      Node newnode = doc.importNode(commentDoc.getDocumentElement(), true);
-      if (!wellFormed) {
-        // I need to extract the nodes below the dummy root node
-        DocumentFragment frag = doc.createDocumentFragment();
-        NodeList children = newnode.getChildNodes();
-        for (int c = 0; c < children.getLength();) {
-          // we can do this as the appendChild is removing at the same time
-          frag.appendChild(children.item(c));
-        }
-        newnode = frag;
-      }
-
-      Node parent = node.getParentNode();
-      if (parent == null) {
-        System.err.println("Attempt to insert after root node");
-        return false;
-      }
-      // remove the comment node
-      parent.insertBefore(newnode, node.getNextSibling());
-      parent.removeChild(comment);
-      return true;
-    } else {
+    if (!(node instanceof Comment)) {
       throw new BuildException(node + " is not a comment");
     }
+
+    Comment comment = (Comment) node;
+    System.out.println("Uncommenting " + comment.getData());
+    Document commentDoc = readXml(comment.getData());
+
+    // and insert...
+    Node newnode = doc.importNode(commentDoc.getDocumentElement(), true);
+    if (!wellFormed) {
+      // I need to extract the nodes below the dummy root node
+      DocumentFragment frag = doc.createDocumentFragment();
+      NodeList children = newnode.getChildNodes();
+      for (int c = 0; c < children.getLength(); ) {
+        // we can do this as the appendChild is removing at the same time
+        frag.appendChild(children.item(c));
+      }
+      newnode = frag;
+    }
+
+    Node parent = node.getParentNode();
+    if (parent == null) {
+      System.err.println("Attempt to insert after root node");
+      return false;
+    }
+    // remove the comment node
+    parent.insertBefore(newnode, node.getNextSibling());
+    parent.removeChild(comment);
+    return true;
   }
 
   /**

@@ -110,32 +110,28 @@ public class RegexpAction extends Action {
       m.appendTail(sb);
 
       return sb.toString();
-    } else if (property != null) {
+    }
+    if (property != null) {
       Matcher m = pattern.matcher(str);
-      if (m.matches()) {
-        String value = getGroupedOrMatched(m);
-        task.log("Setting property " + property + "=" + value
-                + " using '" + pattern.pattern() + "'",
-            Project.MSG_VERBOSE);
-        task.getProject().setNewProperty(property, value);
-      } else {
-        throw new IllegalStateException(
-            "Failed to match property value in '" + str
-                + "' using '" + pattern.pattern() + "'");
+      if (!m.matches()) {
+        throw new IllegalStateException("Failed to match property value in '"
+                + str + "' using '" + pattern.pattern() + "'");
       }
+      String value = getGroupedOrMatched(m);
+      task.log("Setting property " + property + "=" + value + " using '"
+              + pattern.pattern() + "'", Project.MSG_VERBOSE);
+      task.getProject().setNewProperty(property, value);
     } else if (buffer != null) {
       Matcher m = pattern.matcher(str);
-      if (m.matches()) {
-        String value = getGroupedOrMatched(m);
-        task.log("Setting buffer " + buffer + "=" + value + " using '"
-            + pattern.pattern() + "'", Project.MSG_VERBOSE);
-        Text newnode = node.getOwnerDocument().createTextNode(value);
-        BufferStore.set(buffer, newnode, false, task);
-      } else {
-        throw new IllegalStateException(
-            "Failed to match buffer value in '" + str + "' using '"
-                + pattern.pattern() + "'");
+      if (!m.matches()) {
+        throw new IllegalStateException("Failed to match buffer value in '"
+                + str + "' using '" + pattern.pattern() + "'");
       }
+      String value = getGroupedOrMatched(m);
+      task.log("Setting buffer " + buffer + "=" + value + " using '"
+              + pattern.pattern() + "'", Project.MSG_VERBOSE);
+      Text newnode = node.getOwnerDocument().createTextNode(value);
+      BufferStore.set(buffer, newnode, false, task);
     }
     return null;
   }

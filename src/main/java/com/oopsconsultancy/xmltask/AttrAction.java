@@ -43,10 +43,9 @@ public class AttrAction extends Action {
         ((Element) node).setAttribute(attr, value);
       }
       return true;
-    } else {
-      log(node + " can't have any attributes", Project.MSG_WARN);
-      return false;
     }
+    log(node + " can't have any attributes", Project.MSG_WARN);
+    return false;
   }
 
   private void log(String msg, int level) {

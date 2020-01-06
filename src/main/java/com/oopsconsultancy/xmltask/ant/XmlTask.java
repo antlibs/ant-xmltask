@@ -276,20 +276,18 @@ public class XmlTask extends Task {
       Node[] nodes = BufferStore.get(getName(), XmlTask.this);
       if (nodes == null) {
         return createDocument();
-      } else {
-        if (nodes.length != 1) {
-          throw new BuildException("Cannot use multiple buffer nodes as an input source");
-        } else {
-          Document document = createDocument();
-          Node orig = nodes[0];
-          if (orig instanceof Document) {
-            orig = ((Document) orig).getDocumentElement();
-          }
-          Node newnode = document.importNode(orig, true);
-          document.appendChild(newnode);
-          return document;
-        }
       }
+      if (nodes.length != 1) {
+        throw new BuildException("Cannot use multiple buffer nodes as an input source");
+      }
+      Document document = createDocument();
+      Node orig = nodes[0];
+      if (orig instanceof Document) {
+        orig = ((Document) orig).getDocumentElement();
+      }
+      Node newnode = document.importNode(orig, true);
+      document.appendChild(newnode);
+      return document;
     }
   }
 
@@ -310,9 +308,8 @@ public class XmlTask extends Task {
       if (local != null) {
         if (local.equals("")) {
           return new InputSource(new StringReader(""));
-        } else {
-          return new InputSource(local);
         }
+        return new InputSource(local);
       }
 
       // default behaviour
@@ -687,13 +684,12 @@ public class XmlTask extends Task {
       String destfile = spec == null ? null : spec.getName();
 
       if (todir) {
-        if (spec instanceof InputFile) {
-          // we strip down to the original filename to write out
-          // to the destination (only if a dir)
-          destfile = destfile.substring(((InputFile) spec).getBase().length());
-        } else {
+        if (!(spec instanceof InputFile)) {
           throw new BuildException("Can't write to a directory with a non-file input");
         }
+        // we strip down to the original filename to write out
+        // to the destination (only if a dir)
+        destfile = destfile.substring(((InputFile) spec).getBase().length());
       }
       processDoc(document, destfile);
     }
@@ -874,9 +870,8 @@ public class XmlTask extends Task {
       log("Using output character encoding " + enc, Project.MSG_VERBOSE);
       serializer.setOutputProperty(OutputKeys.ENCODING, enc);
       return new OutputStreamWriter(new FileOutputStream(filename), enc);
-    } else {
-      return new FileWriter(filename);
     }
+    return new FileWriter(filename);
   }
 
   // create the task elements below

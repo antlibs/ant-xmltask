@@ -272,13 +272,12 @@ public class InsertAction extends Action {
       } else if (existingNode instanceof Attr) {
         // we can insert into an attribute node, but only
         // from a text node (e.g. something from a buffer)
-        if (newnode instanceof Text) {
-          Attr existingAttr = (Attr) existingNode;
-          existingAttr.setValue(newnode.getNodeValue());
-        } else {
+        if (!(newnode instanceof Text)) {
           System.err.println(newnode + " must be a text node to insert in an attribute");
           return false;
         }
+        Attr existingAttr = (Attr) existingNode;
+        existingAttr.setValue(newnode.getNodeValue());
       } else {
         System.err.println(existingNode + " not an element node");
         return false;
