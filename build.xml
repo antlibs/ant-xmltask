@@ -33,7 +33,7 @@
     <ivy:cachepath pathid="test.classpath" conf="test" type="jar"/>
     <!-- prepare dirs -->
     <mkdir dir="${classes.dir}"/>
-    <echo file="${classes.dir}/xmltask.properties" message="com.oopsconsultancy.xmltask.version = ${ivy.version}"/>
+    <echo file="${classes.dir}/xmltask.properties" message="com.oopsconsultancy.xmltask.version = ${ivy.revision}"/>
   </target>
 
   <target name="javac" depends="resolve" description="Java source build">
