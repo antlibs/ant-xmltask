@@ -4,6 +4,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileRule;
+import org.apache.tools.ant.taskdefs.condition.JavaVersion;
 import org.apache.tools.ant.util.JavaEnvUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static org.apache.tools.ant.FileUtilities.getFileContents;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
 @RunWith(JUnitParamsRunner.class)
 public class TestXmlTask {
@@ -72,6 +74,12 @@ public class TestXmlTask {
         buildRule.configureProject(TEST_DIRECTORY + testBuildfile);
         String message = null;
         switch (extractInt(testBuildfile)) {
+            case 99: {
+                requireMinumumJavaVersion("13",
+                        "See https://bugs.openjdk.java.net/browse/JDK-8206132");
+                buildRule.executeTarget("main");
+                break;
+            }
             case 88: {
                 buildRule.executeTarget("test");
                 buildRule.executeTarget("test");
@@ -134,4 +142,9 @@ public class TestXmlTask {
         return num.equals("") ? 0 : Integer.parseInt(num);
     }
 
+    private static void requireMinumumJavaVersion(String version, String message) {
+        final JavaVersion javaVersion = new JavaVersion();
+        javaVersion.setAtLeast(version);
+        assumeTrue(message, javaVersion.eval());
+    }
 }
