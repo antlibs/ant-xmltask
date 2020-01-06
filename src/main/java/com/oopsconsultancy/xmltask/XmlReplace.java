@@ -130,9 +130,8 @@ public class XmlReplace implements XPathAnalyserClient {
    *
    * @param n Node
    * @param callback Object
-   * @throws Exception if something goes wrong
    */
-  public void applyNode(final Node n, final Object callback) throws Exception {
+  public void applyNode(final Node n, final Object callback) {
     nodes.add(n);
   }
 
@@ -141,9 +140,8 @@ public class XmlReplace implements XPathAnalyserClient {
    *
    * @param str String
    * @param callback Object
-   * @throws Exception if something goes wrong
    */
-  public void applyNode(final String str, final Object callback) throws Exception {
+  public void applyNode(final String str, final Object callback) {
     nodes.add(action.getDocument().createTextNode(str));
   }
 

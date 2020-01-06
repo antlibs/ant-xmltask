@@ -46,9 +46,8 @@ public class CopyAction extends Action {
    * record the value as a text object if required
    *
    * @param node Node
-   * @throws Exception if something goes wrong
    */
-  protected void record(Node node) throws Exception {
+  protected void record(Node node) {
     if (node instanceof Attr && attrValue) {
       // this is only required for buffers...
       Document doc = node.getOwnerDocument();

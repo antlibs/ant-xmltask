@@ -74,11 +74,11 @@ public class Insert implements Instruction {
     }
   }
 
-  public void setXml(final String xml) throws Exception {
+  public void setXml(final String xml) {
     this.xml = xml;
   }
 
-  public void setFile(final File file) throws Exception {
+  public void setFile(final File file) {
     this.file = file;
   }
 
@@ -91,13 +91,12 @@ public class Insert implements Instruction {
    * element
    *
    * @param text String
-   * @throws Exception if something goes wrong
    */
-  public void addText(final String text) throws Exception {
+  public void addText(final String text) {
     this.text = text;
   }
 
-  public void setBuffer(final String buffer) throws Exception {
+  public void setBuffer(final String buffer) {
     this.buffer = buffer;
   }
 

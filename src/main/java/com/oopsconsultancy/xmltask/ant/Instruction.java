@@ -5,7 +5,7 @@ package com.oopsconsultancy.xmltask.ant;
  */
 public interface Instruction {
 
-  void process(XmlTask xmltask) throws Exception;
+  void process(XmlTask xmltask);
 
   /**
    * sets a property determining execution

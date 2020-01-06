@@ -53,11 +53,11 @@ public class Replace implements Instruction {
     this.path = path;
   }
 
-  public void setWithtext(final String to) throws Exception {
+  public void setWithtext(final String to) {
     action = new TextAction(to);
   }
 
-  public void setWithxml(final String xml) throws Exception {
+  public void setWithxml(final String xml) {
     this.xml = xml;
   }
 
@@ -70,17 +70,16 @@ public class Replace implements Instruction {
    * element
    *
    * @param text String
-   * @throws Exception if something goes wrong
    */
-  public void addText(final String text) throws Exception {
+  public void addText(final String text) {
     this.text = text;
   }
 
-  public void setWithfile(final File file) throws Exception {
+  public void setWithfile(final File file) {
     this.file = file;
   }
 
-  public void setWithBuffer(final String buffer) throws Exception {
+  public void setWithBuffer(final String buffer) {
     this.buffer = buffer;
   }
 

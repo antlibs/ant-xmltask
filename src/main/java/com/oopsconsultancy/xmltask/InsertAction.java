@@ -203,9 +203,8 @@ public class InsertAction extends Action {
    *
    * @param node Node
    * @return true on success
-   * @throws Exception if something goes wrong
    */
-  protected boolean insert(final Node node) throws Exception {
+  protected boolean insert(final Node node) {
     Node newnode = null;
     if (buffer != null) {
       Node[] n2 = BufferStore.get(buffer, task);

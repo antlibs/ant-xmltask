@@ -153,13 +153,12 @@ public class XmlTask extends Task {
    * records the source buffer
    *
    * @param buffer String
-   * @throws Exception if something goes wrong
    */
-  public void setSourceBuffer(final String buffer) throws Exception {
+  public void setSourceBuffer(final String buffer) {
     docs.add(new InputBuffer(buffer));
   }
 
-  public void setSourceProperty(final String prop) throws Exception {
+  public void setSourceProperty(final String prop) {
     docs.add(new InputProperty(prop));
   }
 
@@ -171,9 +170,8 @@ public class XmlTask extends Task {
    * records the source file(s). These can be wildcarded
    *
    * @param source String
-   * @throws Exception if something goes wrong
    */
-  public void setSource(final String source) throws Exception {
+  public void setSource(final String source) {
 
     if (source.contains("*")) {
       log("Wildcarded source now deprecated in favour of <fileset> usage", Project.MSG_WARN);
