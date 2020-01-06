@@ -60,8 +60,8 @@ public class XmlTask extends Task {
   private static final String FMT_NONE = "default";
   private static final String FMT_SIMPLE = "simple";
 
-  private boolean settingVersion = false;
-  private String xmlVersion = "1.0";
+  private final boolean settingVersion = false;
+  private final String xmlVersion = "1.0";
   private boolean settingStandalone = false;
   private boolean standalone = false;
   private boolean omitHeader = false;
@@ -72,7 +72,7 @@ public class XmlTask extends Task {
   private String doctype_public = null;
   private String doctype_system = null;
   private String dir = null;
-  private LocalEntityResolver resolver = new LocalEntityResolver();
+  private final LocalEntityResolver resolver = new LocalEntityResolver();
   private final XMLCatalog xmlCatalog = new XMLCatalog();
   private boolean normalize = true;
   private boolean indent = true;
@@ -113,7 +113,7 @@ public class XmlTask extends Task {
   /**
    * the list of replacements to build
    */
-  private List<XmlReplace> replacements = new ArrayList<XmlReplace>();
+  private final List<XmlReplace> replacements = new ArrayList<XmlReplace>();
 
   @Deprecated
   public void setFactory(final String p) {
@@ -296,7 +296,7 @@ public class XmlTask extends Task {
    */
   public static class LocalEntityResolver implements EntityResolver {
 
-    private Map<String, String> entities = new HashMap<String, String>();
+    private final Map<String, String> entities = new HashMap<String, String>();
 
     public InputSource resolveEntity(String publicId, String systemId) {
       String local = null;

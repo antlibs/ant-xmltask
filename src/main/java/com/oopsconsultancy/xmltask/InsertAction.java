@@ -59,7 +59,7 @@ public class InsertAction extends Action {
   }
 
   protected Document doc2 = null;
-  private DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
+  private final DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
   protected Position pos = Position.UNDER;
   protected boolean wellFormed = true;
   protected String buffer = null;

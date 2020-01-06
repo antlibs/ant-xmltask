@@ -22,7 +22,7 @@ public class RegexpAction extends Action {
   private final String replace;
   private final String property;
   private final String buffer;
-  private XmlTask task;
+  private final XmlTask task;
   private boolean caseInsensitive;
   private boolean unicodeCase;
 

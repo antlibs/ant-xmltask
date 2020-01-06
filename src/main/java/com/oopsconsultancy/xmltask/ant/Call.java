@@ -26,7 +26,7 @@ public class Call implements Instruction {
 
   private boolean inheritRefs = false;
 
-  private List<Param> params = new ArrayList<Param>();
+  private final List<Param> params = new ArrayList<Param>();
 
   private MacroDef macro;
 

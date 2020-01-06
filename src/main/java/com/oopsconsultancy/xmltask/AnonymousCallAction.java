@@ -21,7 +21,7 @@ public class AnonymousCallAction extends Action implements XPathAnalyserClient {
   private final String buffer;
   private final List<Param> params;
 
-  private MacroDef macro;
+  private final MacroDef macro;
 
   public AnonymousCallAction(final MacroDef macro, final XmlTask task,
                              final String buffer, final List<Param> params) {

@@ -22,7 +22,7 @@ import java.io.StringReader;
  */
 public class UncommentAction extends Action {
 
-  private DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
+  private final DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
   private boolean wellFormed = false;
 
