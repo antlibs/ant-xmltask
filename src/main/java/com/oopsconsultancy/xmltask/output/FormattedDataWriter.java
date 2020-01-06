@@ -38,7 +38,6 @@ import java.util.Stack;
  * optionally indented if an indent step is provided (by default, there
  * is no indentation).  If an element contains other elements, the end
  * tag will also appear on a new line with leading indentation.
- * @version $Id$
  */
 public class FormattedDataWriter extends XMLWriter implements LexicalHandler, Outputter {
 

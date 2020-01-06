@@ -7,7 +7,6 @@ import com.oopsconsultancy.xmltask.XmlReplace;
  * the Ant copy task. Note that Cut derives from this
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Copy implements Instruction {
 

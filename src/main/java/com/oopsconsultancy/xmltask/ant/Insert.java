@@ -12,7 +12,6 @@ import java.io.File;
  * the Ant insertion task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Insert implements Instruction {
 

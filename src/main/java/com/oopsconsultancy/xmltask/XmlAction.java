@@ -10,7 +10,6 @@ import java.io.File;
  * XML at that point
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class XmlAction extends InsertAction {
 

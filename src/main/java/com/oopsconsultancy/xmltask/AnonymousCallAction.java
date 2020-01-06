@@ -13,7 +13,6 @@ import java.util.List;
  * The defined macro is called for each matched node
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class AnonymousCallAction extends Action implements XPathAnalyserClient {
 

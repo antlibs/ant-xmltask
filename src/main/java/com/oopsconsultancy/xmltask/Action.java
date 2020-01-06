@@ -13,7 +13,6 @@ import java.util.List;
  * eg. text modification, xml insertion etc.
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public abstract class Action {
 

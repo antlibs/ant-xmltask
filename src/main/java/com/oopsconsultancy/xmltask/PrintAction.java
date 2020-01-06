@@ -15,7 +15,6 @@ import javax.xml.transform.stream.StreamResult;
  * performs diagnostic printing
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class PrintAction extends Action {
 

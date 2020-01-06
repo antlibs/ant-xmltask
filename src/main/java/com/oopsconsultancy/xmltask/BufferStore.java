@@ -22,7 +22,6 @@ import java.util.Map;
  * nodes once into a document)
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class BufferStore {
 

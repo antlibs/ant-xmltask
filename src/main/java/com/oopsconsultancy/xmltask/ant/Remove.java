@@ -7,7 +7,6 @@ import com.oopsconsultancy.xmltask.XmlReplace;
  * the Ant removal task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Remove implements Instruction {
 

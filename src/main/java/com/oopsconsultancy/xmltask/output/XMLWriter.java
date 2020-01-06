@@ -169,7 +169,6 @@ import java.util.Hashtable;
  * character data.</p>
  *
  * @author David Megginson, david@megginson.com
- * @version $Id$
  * @see org.xml.sax.XMLFilter
  * @see org.xml.sax.ContentHandler
  */

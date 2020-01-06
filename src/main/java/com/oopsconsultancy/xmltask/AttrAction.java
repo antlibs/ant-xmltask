@@ -10,7 +10,6 @@ import org.w3c.dom.Node;
  * selected nodes
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class AttrAction extends Action {
 

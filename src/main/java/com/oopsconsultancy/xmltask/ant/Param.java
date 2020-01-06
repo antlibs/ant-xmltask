@@ -6,7 +6,6 @@ package com.oopsconsultancy.xmltask.ant;
  * config. Defaults can be provided if the XPath doesn't match
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Param {
 

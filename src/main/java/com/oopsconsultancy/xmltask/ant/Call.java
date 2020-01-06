@@ -12,7 +12,6 @@ import java.util.List;
  * the Ant call task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Call implements Instruction {
 

@@ -1,4 +1,3 @@
-$Id$
 
 Delete fake XPathAPI, use javax.xml.xpath API instead.
 Add 'factory' attribute to set the XPath factory implementation

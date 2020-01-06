@@ -16,7 +16,6 @@ import java.util.List;
  * loops (see test #95)
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class XmlReplace implements XPathAnalyserClient {
 

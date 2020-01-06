@@ -13,8 +13,7 @@ import org.w3c.dom.Text;
  * node to a buffer or to a system property
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
- */
+  */
 public class CopyAction extends Action {
 
   protected final String propertyBufferName;

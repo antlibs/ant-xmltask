@@ -11,7 +11,6 @@ import org.w3c.dom.NodeList;
  * renames the given node (whether it's an attribute or an element)
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class RenameAction extends Action {
 

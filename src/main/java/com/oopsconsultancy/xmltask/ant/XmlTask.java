@@ -53,7 +53,6 @@ import java.util.StringTokenizer;
  * each one then removing the redundant nodes
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * $Id$
  */
 public class XmlTask extends Task {
 

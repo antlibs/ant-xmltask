@@ -7,7 +7,6 @@ import com.oopsconsultancy.xmltask.XmlReplace;
  * the Ant attribute modification task
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Attr implements Instruction {
 

@@ -7,7 +7,6 @@ import com.oopsconsultancy.xmltask.XmlReplace;
  * allows diagnostic printing of path matching, buffers etc.
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class Print {
 

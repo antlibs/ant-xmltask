@@ -20,7 +20,6 @@ import java.util.List;
  * diagnostics along the way
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class XmlReplacement {
 

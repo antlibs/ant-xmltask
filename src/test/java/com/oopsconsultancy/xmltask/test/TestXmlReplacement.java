@@ -34,7 +34,6 @@ import static org.junit.Assert.assertEquals;
  * JUnit tests
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 @RunWith(Parameterized.class)
 public class TestXmlReplacement {

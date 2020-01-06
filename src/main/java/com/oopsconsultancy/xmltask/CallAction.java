@@ -17,7 +17,6 @@ import java.util.List;
  * in the Ant source distribution
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class CallAction extends Action implements XPathAnalyserClient {
 

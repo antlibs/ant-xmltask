@@ -11,7 +11,6 @@ import org.w3c.dom.Node;
  * inserted in its place
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class TextAction extends Action {
 

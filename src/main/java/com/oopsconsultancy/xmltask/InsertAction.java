@@ -33,7 +33,6 @@ import java.io.StringReader;
  * task and both deserve refactoring
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class InsertAction extends Action {
 

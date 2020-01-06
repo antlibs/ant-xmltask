@@ -25,7 +25,6 @@ import java.util.Map;
  * to analyse XML docs
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class XPathAnalyser15 implements XPathAnalyser {
 

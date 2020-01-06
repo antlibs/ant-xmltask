@@ -6,7 +6,6 @@ import org.w3c.dom.Node;
  * pastes a buffer below the nominated node and its children
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class PasteAction extends Action {
 

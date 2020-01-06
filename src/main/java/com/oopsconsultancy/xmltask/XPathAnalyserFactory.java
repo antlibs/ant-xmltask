@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
  * builds a XPathAnalyser.
  *
  * @author <a href="mailto:brian@oopsconsultancy.com">Brian Agnew</a>
- * @version $Id$
  */
 public class XPathAnalyserFactory {
 
