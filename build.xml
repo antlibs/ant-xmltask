@@ -53,7 +53,11 @@
     </copy>
     <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}.jar" basedir="${classes.dir}"
          includes="com/oopsconsultancy/**/*.class,com/oopsconsultancy/**/*.xml,xmltask.properties"
-         excludes="**/test/**/*"/>
+         excludes="**/test/**/*" index="true">
+        <manifest>
+          <attribute name="Automatic-Module-Name" value="com.oopsconsultancy.xmltask"/>
+        </manifest>
+    </jar>
   </target>
 
   <target name="init-test" depends="javac" description="Java test source build">
