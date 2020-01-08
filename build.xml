@@ -2,6 +2,7 @@
 <project name="XmlTask" default="main" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
   <property name="java.baseline" value="1.6"/>
   <property name="src.dir" value="src/main/java"/>
+  <property name="res.dir" value="src/main/resources"/>
   <property name="src.test.dir" value="src/test/java"/>
   <property name="build.dir" value="build"/>
   <property name="classes.dir" value="${build.dir}/classes"/>
@@ -45,8 +46,11 @@
   </target>
 
   <target name="jar" depends="javac">
+    <copy todir="${classes.dir}">
+      <fileset dir="${res.dir}" includes="com/oopsconsultancy/**/*.xml"/>
+    </copy>
     <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}.jar" basedir="${classes.dir}"
-         includes="com/oopsconsultancy/**/*.class,xmltask.properties"
+         includes="com/oopsconsultancy/**/*.class,com/oopsconsultancy/**/*.xml,xmltask.properties"
          excludes="**/test/**/*"/>
   </target>
 
