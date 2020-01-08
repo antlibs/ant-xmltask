@@ -164,9 +164,10 @@
       <fileset dir="${src.dir}" includes="**/*.java"/>
     </jar>
     <tar tarfile="${build.dir}/${ivy.module}-${ivy.revision}.tar.gz" compression="gzip">
-      <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.xml"/>
+      <tarfileset dir="." includes="LICENSE,CREDITS,CHANGES,*.md,*.xml"/>
       <tarfileset dir="${classes.dir}" includes="xmltask.properties"/>
-      <tarfileset dir="src/site" prefix="doc" includes="*.html,*.css,*.gif,*.jpg"/>
+      <tarfileset dir="src/site/resources" prefix="doc" includes="**/*.css,**/*.gif,**/*.jpg"/>
+      <tarfileset dir="src/site/xhtml" prefix="doc" includes="**/*.xhtml"/>
     </tar>
     <echo>Created source and documentation archives</echo>
   </target>
