@@ -129,7 +129,7 @@ pre {
 input[type=checkbox] {
 	display: none;
 }
-header > ul > li > ul {
+label + ul {
 	display: none;
 }
 input[type=checkbox]:checked ~ ul {

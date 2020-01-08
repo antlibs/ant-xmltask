@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
   <head>
     <title>XML Manipulation using XMLTask | Java.net</title>
-    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
     <link href="design.css" rel="stylesheet" type="text/css"/>
   </head>
   <body class="not-front not-logged-in article-type-article one-sidebar sidebar-first section-pub page-node-219720">
-    <h1 id="page-title">XML Manipulation using XMLTask</h1>
+    <h2 id="page-title">XML Manipulation using XMLTask</h2>
     <div id="content">
       <div class="field date">
         <span class="date-display-single">November 1, 2006</span>
@@ -17,7 +17,7 @@
         <a href="http://today.java.net/pub/au/476">Brian Agnew</a>
       </div>
     </div> <!-- /content-field -->
-    <img style="float:right" src="xml-ant.gif"/>
+    <img style="float:right" alt="&#x1F41C;" src="xml-ant.gif"/>
     <h2>Contents</h2>
     <div class="jumpnav">
       <ul>
@@ -304,9 +304,9 @@
     &lt;servlet&gt;
     ....</pre>
     <p>and the default namespace is set to <code class="prettyprint">"http://java.sun.com/xml/ns/j2ee"</code>. Although the remainder of the <i>web.xml</i> looks perfectly normal, you need to modify your XPath specifications to take account of multiple namespaces, and specify XML elements appropriately. A full discussion of XPaths and namespaces is beyond the scope of this document--however, the solution is straightforward and simply requires us to specify the <i>local</i> name of the XML elements required.</p>
-    <pre class="prettyprint"> &lt;insert path="&lt;b&gt;/web-app/display-name&lt;/b&gt;" xml="New Application Name"/&gt;</pre>
+    <pre class="prettyprint">&lt;insert path="<b>/web-app/display-name</b>" xml="New Application Name"/&gt;</pre>
     <p>becomes:</p>
-    <pre class="prettyprint"> &lt;insert path="&lt;b&gt;/:web-app/:display-name&lt;/b&gt;" xml="New Application Name"/&gt;</pre>
+    <pre class="prettyprint">&lt;insert path="<b>/:web-app/:display-name</b>" xml="New Application Name"/&gt;</pre>
     <p>Scoping each XML element name with a preceding <code class="prettyprint">':'</code> is sufficient to tell the XPath mechanism that you're interested in the <i>local</i> name of the element.</p>
     <h3 id="driving-ant-builds-via-xmltask">Driving Ant Builds via XMLTask</h3>
     <p>XMLTask has the facility to read XML files during an Ant build and execute Ant targets according to the contents of these files. This facility makes it straightforward for you to drive an Ant build by using a configuration file, an XML file output from an earlier process or similar.</p>
