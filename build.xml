@@ -39,7 +39,7 @@
     <echo file="${classes.dir}/xmltask.properties" message="com.oopsconsultancy.xmltask.version = ${ivy.revision}"/>
   </target>
 
-  <target name="javac" depends="resolve" description="Java source build">
+  <target name="compile" depends="resolve" description="Java source build">
     <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" nowarn="true"
            includeantruntime="false" source="${java.baseline}" target="${java.baseline}"
            classpathref="compile.classpath">
@@ -47,7 +47,7 @@
     </javac>
   </target>
 
-  <target name="jar" depends="javac">
+  <target name="jar" depends="compile">
     <copy todir="${classes.dir}">
       <fileset dir="${res.dir}" includes="com/oopsconsultancy/**/*.xml"/>
     </copy>
@@ -60,7 +60,7 @@
     </jar>
   </target>
 
-  <target name="init-test" depends="javac" description="Java test source build">
+  <target name="compile-test" depends="compile" description="Java test source build">
     <javac srcdir="${src.test.dir}" destdir="${classes.dir}" debug="on" nowarn="true"
            includeantruntime="false" source="${java.baseline}" target="${java.baseline}">
       <include name="**/*.java"/>
@@ -74,7 +74,7 @@
     </copy>
   </target>
 
-  <target name="init-jacoco" depends="init-test">
+  <target name="init-jacoco" depends="compile-test">
     <ivy:cachepath organisation="org.jacoco" module="org.jacoco.ant" revision="${jacoco.version}"
                    inline="true" conf="default" pathid="jacoco.classpath" log="download-only"/>
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml"
@@ -106,12 +106,12 @@
     </jacoco:coverage>
   </target>
 
-  <target name="test" depends="test-internal" description="Run JUnit tests">
+  <target name="test" depends="test-internal" description="JUnit tests">
     <fail message="JUnit error (${junit.error}) encountered. See logs (in ${build.dir}}) for details (use the target test-report to run the test with a report)" if="junit.error"/>
     <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${build.dir}) for details (use the target test-report to run the test with a report)" if="junit.failure"/>
   </target>
 
-  <target name="test-report" depends="test-internal" description="Make report of JUnit tests">
+  <target name="test-report" depends="test-internal" description="Report of JUnit tests">
     <junitreport todir="${build.dir}">
       <fileset dir="${build.dir}">
         <include name="TEST-*.xml"/>
@@ -122,7 +122,7 @@
     <fail message="JUnit failure (${junit.failure}) encountered. See logs (in ${build.dir}) or report (in ${build.dir}/test-report)" if="junit.failure"/>
   </target>
 
-  <target name="coverage-report" depends="test-internal" description="Make coverage report of JUnit tests">
+  <target name="coverage-report" depends="test-internal" description="Coverage report of JUnit tests">
     <jacoco:report xmlns:jacoco="antlib:org.jacoco.ant">
       <executiondata>
         <file file="${jacoco.log}"/>
@@ -156,9 +156,9 @@
     </javadoc>
   </target>
 
-  <target name="main" depends="test,javadoc" description="Complete build/test"/>
+  <target name="main" depends="test,javadoc" description="Complete build and test"/>
 
-  <target name="package" depends="jar,javadoc" description="Creates the appropriate archives">
+  <target name="dist" depends="jar,javadoc" description="Build distribution archives">
     <jar destfile="${build.dir}/${ivy.module}-${ivy.revision}-javadoc.jar" basedir="${javadoc.dir}"/>
     <jar jarfile="${build.dir}/${ivy.module}-${ivy.revision}-sources.jar">
       <fileset dir="${src.dir}" includes="**/*.java"/>
