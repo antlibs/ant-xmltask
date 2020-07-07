@@ -75,7 +75,7 @@ public class TestXmlTask {
         String message = null;
         switch (extractInt(testBuildfile)) {
             case 99: {
-                requireMinumumJavaVersion("13",
+                requireMinimumJavaVersion("13",
                         "See https://bugs.openjdk.java.net/browse/JDK-8206132");
                 buildRule.executeTarget("main");
                 break;
@@ -142,7 +142,7 @@ public class TestXmlTask {
         return num.equals("") ? 0 : Integer.parseInt(num);
     }
 
-    private static void requireMinumumJavaVersion(String version, String message) {
+    private static void requireMinimumJavaVersion(String version, String message) {
         final JavaVersion javaVersion = new JavaVersion();
         javaVersion.setAtLeast(version);
         assumeTrue(message, javaVersion.eval());
