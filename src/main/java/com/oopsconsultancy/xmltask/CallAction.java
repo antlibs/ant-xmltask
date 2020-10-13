@@ -123,6 +123,7 @@ public class CallAction extends Action implements XPathAnalyserClient {
     p.setValue(fqnodeStr);
 
 
+    assert task != null;
     callee.setAntfile(task.getProject().getProperty("ant.file"));
     callee.setTarget(target);
     callee.setInheritAll(inheritAll);
