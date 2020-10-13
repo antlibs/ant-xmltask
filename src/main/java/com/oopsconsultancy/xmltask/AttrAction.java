@@ -13,10 +13,10 @@ import org.w3c.dom.Node;
  */
 public class AttrAction extends Action {
 
-  private String attr = null;
-  private String value = null;
-  private Boolean remove = null;
-  private Task task = null;
+  private String attr;
+  private String value;
+  private Boolean remove;
+  private Task task;
 
   public AttrAction(String attr, String value, Boolean remove, Task task) {
     this.attr = attr;

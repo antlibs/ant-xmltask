@@ -2,7 +2,7 @@ package com.oopsconsultancy.xmltask.ant;
 
 public class Entity {
 
-  private XmlTask task = null;
+  private XmlTask task;
   private String remote = null;
   private String local = null;
 

@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
  */
 public class PasteAction extends Action {
 
-  private String buffer = null;
+  private String buffer;
 
   public PasteAction(String buffer) {
     this.buffer = buffer;

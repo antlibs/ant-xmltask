@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
  */
 public class TextAction extends Action {
 
-  private String str = null;
+  private String str;
 
   public TextAction(String str) {
     if (str == null) {

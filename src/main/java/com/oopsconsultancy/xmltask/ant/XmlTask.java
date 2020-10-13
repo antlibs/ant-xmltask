@@ -174,9 +174,9 @@ public class XmlTask extends Task {
 
     if (source.contains("*")) {
       log("Wildcarded source now deprecated in favour of <fileset> usage", Project.MSG_WARN);
-      String basedir = null;
+      String basedir;
       DirectoryScanner ds = new DirectoryScanner();
-      String includes = null;
+      String includes;
       if ((new File(source)).isAbsolute()) {
         int wildcard = source.indexOf("*");
         basedir = source.substring(0, source.lastIndexOf(File.separator, wildcard));
@@ -213,7 +213,7 @@ public class XmlTask extends Task {
    * defines the source input
    */
   public abstract class InputSpec {
-    protected String name = null;
+    protected String name;
     public InputSpec(final String name) {
       this.name = name;
     }
@@ -624,7 +624,7 @@ public class XmlTask extends Task {
       }
       Iterator<FileSet> iter = filesets.iterator();
       int count = 0;
-      FileSet fs = null;
+      FileSet fs;
       while (iter.hasNext()) {
         fs = iter.next();
         DirectoryScanner ds = fs.getDirectoryScanner(getProject());
@@ -670,7 +670,7 @@ public class XmlTask extends Task {
     for (InputSpec spec : docs) {
       log("Processing " + (spec == null ? "" : spec.getName()) + (dest == null ? " [no output document]" : (" into " + dest)), Project.MSG_VERBOSE);
 
-      Document document = null;
+      Document document;
       try {
         document = spec == null ? createDocument() : spec.getDocument();
       } catch (Exception e) {
@@ -785,7 +785,7 @@ public class XmlTask extends Task {
           }
 
           // write to a file or directory
-          Writer w = null;
+          Writer w;
           if (!todir) {
             w = getWriter(dest, serializer);
           } else {
@@ -800,7 +800,7 @@ public class XmlTask extends Task {
             w = getWriter(destname, serializer);
           }
 
-          Result res = null;
+          Result res;
           if (FMT_NONE.equals(outputter)) {
             res = new StreamResult(w);
           } else if (outputter.startsWith(FMT_SIMPLE)) {

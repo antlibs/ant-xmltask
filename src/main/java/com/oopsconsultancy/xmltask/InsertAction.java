@@ -204,7 +204,7 @@ public class InsertAction extends Action {
    * @return true on success
    */
   protected boolean insert(final Node node) {
-    Node newnode = null;
+    Node newnode;
     if (buffer != null) {
       Node[] n2 = BufferStore.get(buffer, task);
       if (n2 != null) {

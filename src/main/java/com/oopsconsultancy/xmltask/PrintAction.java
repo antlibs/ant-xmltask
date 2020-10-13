@@ -61,8 +61,8 @@ public class PrintAction extends Action {
    * @throws Exception if something goes wrong
    */
   public boolean apply(final Node node) throws Exception {
-    Node[] nodes = null;
-    String id = null;
+    Node[] nodes;
+    String id;
     if (node == null) {
       // then find the buffer. We won't be called with a null
       // node unless we have a buffer (I think)
