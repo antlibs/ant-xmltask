@@ -10,7 +10,7 @@
   <property name="tests.dir" value="${build.dir}/tests"/>
   <property name="jacoco.log" value="${build.dir}/jacoco.data"/>
 
-  <property name="jacoco.version" value="0.8.5"/>
+  <property name="jacoco.version" value="0.8.6"/>
   <!-- Ivy: NB! 2.5+ requires Java 7 runtime -->
   <property name="ivy.version" value="2.5.0"/>
   <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
